@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CardAI CRM - Companies</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "error-container": "#ffdad6",
+          "secondary": "#712ae2",
+          "on-primary-fixed": "#131b2e",
+          "primary-fixed-dim": "#bec6e0",
+          "on-secondary": "#ffffff",
+          "inverse-surface": "#213145",
+          "primary-container": "#131b2e",
+          "surface": "#f8f9ff",
+          "on-primary": "#ffffff",
+          "on-primary-fixed-variant": "#3f465c",
+          "primary": "#000000",
+          "on-background": "#0b1c30",
+          "on-primary-container": "#7c839b",
+          "inverse-primary": "#bec6e0",
+          "surface-container-lowest": "#ffffff",
+          "surface-tint": "#565e74",
+          "on-secondary-fixed": "#25005a",
+          "on-secondary-fixed-variant": "#5a00c6",
+          "error": "#ba1a1a",
+          "inverse-on-surface": "#eaf1ff",
+          "surface-dim": "#cbdbf5",
+          "secondary-fixed-dim": "#d2bbff",
+          "tertiary-fixed-dim": "#c4c7c9",
+          "on-secondary-container": "#fffbff",
+          "surface-bright": "#f8f9ff",
+          "surface-container-highest": "#d3e4fe",
+          "on-tertiary-container": "#818486",
+          "on-surface": "#0b1c30",
+          "secondary-container": "#8a4cfc",
+          "surface-container-low": "#eff4ff",
+          "background": "#f8f9ff",
+          "on-tertiary-fixed": "#191c1e",
+          "tertiary-fixed": "#e0e3e5",
+          "on-error-container": "#93000a",
+          "outline": "#76777d",
+          "on-tertiary": "#ffffff",
+          "on-error": "#ffffff",
+          "surface-container-high": "#dce9ff",
+          "primary-fixed": "#dae2fd",
+          "secondary-fixed": "#eaddff",
+          "on-tertiary-fixed-variant": "#444749",
+          "surface-container": "#e5eeff",
+          "tertiary": "#000000",
+          "outline-variant": "#c6c6cd",
+          "surface-variant": "#d3e4fe",
+          "on-surface-variant": "#45464d",
+          "tertiary-container": "#191c1e"
+        },
+        "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        "spacing": { "sm": "12px", "lg": "40px", "md": "24px", "margin": "32px", "base": "8px", "xs": "4px", "gutter": "24px", "xl": "64px" },
+        "fontFamily": {
+          "headline-lg-mobile": ["Geist"], "headline-md": ["Geist"], "headline-lg": ["Geist"],
+          "label-sm": ["Geist"], "label-md": ["Geist"], "display": ["Geist"],
+          "body-lg": ["Geist"], "body-md": ["Geist"]
+        },
+        "fontSize": {
+          "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+          "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+          "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+          "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+          "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}],
+          "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+          "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  .glass-card {
+    background: rgba(248, 249, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(211, 228, 254, 0.5);
+  }
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .active-pill {
+    background: linear-gradient(135deg, #712ae2, #8a4cfc);
+    color: white;
+  }
+  body { min-height: max(884px, 100dvh); }
+</style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-surface-container-highest/30 shadow-sm flex items-center px-margin h-16 md:left-72 md:w-[calc(100%-18rem)]">
+  <div class="flex items-center gap-2 ml-auto">
+    <button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full">
+      <span class="material-symbols-outlined" data-icon="search">search</span>
+    </button>
+    <button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full relative">
+      <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+      <span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+    </button>
+    <div class="w-8 h-8 rounded-full bg-secondary-container overflow-hidden border border-outline-variant flex items-center justify-center">
+      <span class="material-symbols-outlined text-secondary text-[18px]">person</span>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="pt-24 pb-32 px-4 md:px-margin max-w-5xl mx-auto md:ml-72 md:mr-4 md:max-w-[calc(100%-20rem)]">
+
+  <!-- Page Title + Search -->
+  <section class="mb-lg space-y-md">
+    <div class="flex items-center justify-between">
+      <h1 class="font-headline-lg text-headline-md text-on-surface">Companies</h1>
+      <span id="total-label" class="text-label-sm text-on-surface-variant bg-surface-container px-3 py-1 rounded-full"></span>
+    </div>
+    <div class="relative">
+      <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+      <input id="search-input" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly')" class="w-full pl-12 pr-4 py-4 rounded-xl border-none bg-surface-container-low focus:ring-2 focus:ring-secondary/50 text-body-md shadow-sm transition-all" placeholder="Search companies..." type="text"/>
+    </div>
+  </section>
+
+  <!-- Companies Grid -->
+  <section id="companies-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md">
+    <p class="text-on-surface-variant col-span-full">Loading companies...</p>
+  </section>
+
+  <!-- Pagination -->
+  <nav id="pagination-nav" class="mt-xl flex items-center justify-center gap-sm"></nav>
+
+</main>
+
+<!-- FAB: Add Company -->
+<button id="fab-add" class="fixed bottom-24 right-6 w-16 h-16 rounded-full bg-secondary shadow-xl shadow-secondary/30 flex items-center justify-center text-white active:scale-95 transition-all z-40">
+  <span class="material-symbols-outlined text-[28px]">domain_add</span>
+</button>
+
+<!-- Sidebar Nav -->
+<nav class="fixed left-0 top-0 h-full w-72 rounded-r-xl bg-surface/80 backdrop-blur-2xl border-r border-surface-container-highest/20 shadow-xl hidden md:flex flex-col py-md z-[60]">
+  <div class="px-margin mb-md">
+    <span class="font-display text-headline-md font-bold text-secondary cursor-pointer" id="sidebar-logo">CardAI</span>
+  </div>
+  <div class="px-margin mb-md">
+    <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+      <div id="sidebar-avatar" class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center font-bold text-secondary text-[13px] flex-shrink-0">…</div>
+      <div class="min-w-0">
+        <p class="font-label-md text-label-md text-on-surface font-semibold truncate" id="sidebar-username">Loading…</p>
+        <p class="text-[11px] text-secondary font-semibold truncate" id="sidebar-role">—</p>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1 space-y-1">
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="nav-dashboard">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="font-label-md text-label-md">Dashboard</span>
+    </a>
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="nav-scan">
+      <span class="material-symbols-outlined">document_scanner</span>
+      <span class="font-label-md text-label-md">Scan Card</span>
+    </a>
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="nav-contacts">
+      <span class="material-symbols-outlined">person_search</span>
+      <span class="font-label-md text-label-md">Contacts</span>
+    </a>
+    <a class="bg-secondary-container/30 text-secondary rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-all duration-200" id="nav-companies">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">domain</span>
+      <span class="font-label-md text-label-md">Companies</span>
+    </a>
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="nav-reports">
+      <span class="material-symbols-outlined">insights</span>
+      <span class="font-label-md text-label-md">AI Reports</span>
+    </a>
+    <a class="hidden text-secondary mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-secondary/10 transition-all cursor-pointer rounded-lg" id="admin-panel-link">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">shield_person</span>
+      <span class="font-label-md text-label-md">Admin Panel</span>
+    </a>
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="settings-btn-sidebar">
+      <span class="material-symbols-outlined">settings</span>
+      <span class="font-label-md text-label-md">Settings</span>
+    </a>
+    <a class="text-error mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-error/10 transition-all cursor-pointer rounded-lg" id="logout-btn-sidebar">
+      <span class="material-symbols-outlined">logout</span>
+      <span class="font-label-md text-label-md">Logout</span>
+    </a>
+  </div>
+</nav>
+
+<!-- Footer Signature -->
+<div class="hidden md:flex fixed bottom-0 left-72 right-0 h-8 z-30 items-center justify-center bg-surface/60 backdrop-blur-sm border-t border-surface-container-highest/20">
+  <p class="text-[11px] text-on-surface-variant/60 tracking-wide">Powered &amp; Developed by <span class="font-semibold text-secondary/70">Pushpendra Sachan</span> &nbsp;·&nbsp; &copy; 2026 CardAI. All rights reserved.</p>
+</div>
+<!-- Bottom Nav (Mobile) -->
+<footer class="fixed bottom-0 left-0 right-0 h-16 bg-surface/70 backdrop-blur-xl md:hidden flex justify-around items-center border-t border-surface-container-highest/20 z-50">
+  <button class="flex flex-col items-center gap-1 text-on-surface-variant" id="mob-dashboard">
+    <span class="material-symbols-outlined">dashboard</span>
+    <span class="text-[10px] font-label-sm">Home</span>
+  </button>
+  <button class="flex flex-col items-center gap-1 text-on-surface-variant" id="mob-contacts">
+    <span class="material-symbols-outlined">person_search</span>
+    <span class="text-[10px] font-label-sm">Contacts</span>
+  </button>
+  <button class="flex flex-col items-center gap-1 text-secondary" id="mob-companies">
+    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">domain</span>
+    <span class="text-[10px] font-label-sm font-bold">Companies</span>
+  </button>
+  <button class="flex flex-col items-center gap-1 text-on-surface-variant" id="mob-scan">
+    <span class="material-symbols-outlined">document_scanner</span>
+    <span class="text-[10px] font-label-sm">Scan</span>
+  </button>
+  <button class="flex flex-col items-center gap-1 text-on-surface-variant" id="settings-btn-mobile">
+    <span class="material-symbols-outlined">settings</span>
+    <span class="text-[10px] font-label-sm">Settings</span>
+  </button>
+</footer>
+
+<!-- Add Company Modal -->
+<div id="add-modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
+  <div class="bg-surface w-full max-w-md rounded-2xl shadow-2xl border border-surface-container-highest/30 overflow-hidden">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-surface-container-highest/20">
+      <h2 class="font-headline-md text-on-surface flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary">domain_add</span> Add Company
+      </h2>
+      <button id="add-close" class="w-9 h-9 rounded-full hover:bg-surface-container flex items-center justify-center transition-colors">
+        <span class="material-symbols-outlined text-on-surface-variant">close</span>
+      </button>
+    </div>
+    <div class="px-6 py-5 space-y-3">
+      <div>
+        <label class="text-label-sm text-on-surface-variant">Company Name <span class="text-error">*</span></label>
+        <input id="add-name" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="e.g. Acme Corp"/>
+      </div>
+      <div>
+        <label class="text-label-sm text-on-surface-variant">Website</label>
+        <input id="add-website" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="https://example.com"/>
+      </div>
+      <div>
+        <label class="text-label-sm text-on-surface-variant">Phone</label>
+        <input id="add-phone" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="+91 98765 43210"/>
+      </div>
+      <div>
+        <label class="text-label-sm text-on-surface-variant">Address</label>
+        <textarea id="add-address" rows="2" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md resize-none" placeholder="Company address"></textarea>
+      </div>
+      <p id="add-error" class="text-sm text-error hidden"></p>
+    </div>
+    <div class="px-6 pb-5">
+      <button id="add-save" class="w-full py-3 rounded-xl bg-secondary text-on-secondary font-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined">save</span> Save Company
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Company Modal -->
+<div id="edit-modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
+  <div class="bg-surface w-full max-w-md rounded-2xl shadow-2xl border border-surface-container-highest/30 overflow-hidden">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-surface-container-highest/20">
+      <h2 class="font-headline-md text-on-surface flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary">edit</span> Edit Company
+      </h2>
+      <button id="edit-close" class="w-9 h-9 rounded-full hover:bg-surface-container flex items-center justify-center transition-colors">
+        <span class="material-symbols-outlined text-on-surface-variant">close</span>
+      </button>
+    </div>
+    <div class="px-6 py-5 space-y-3">
+      <input type="hidden" id="edit-id"/>
+      <div>
+        <label class="text-label-sm text-on-surface-variant">Company Name <span class="text-error">*</span></label>
+        <input id="edit-name" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="e.g. Acme Corp"/>
+      </div>
+      <div>
+        <label class="text-label-sm text-on-surface-variant">Website</label>
+        <input id="edit-website" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="https://example.com"/>
+      </div>
+      <div>
+        <label class="text-label-sm text-on-surface-variant">Phone</label>
+        <input id="edit-phone" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="+91 98765 43210"/>
+      </div>
+      <div>
+        <label class="text-label-sm text-on-surface-variant">Address</label>
+        <textarea id="edit-address" rows="2" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md resize-none" placeholder="Company address"></textarea>
+      </div>
+      <p id="edit-error" class="text-sm text-error hidden"></p>
+    </div>
+    <div class="px-6 pb-5">
+      <button id="edit-save" class="w-full py-3 rounded-xl bg-secondary text-on-secondary font-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined">save</span> Update Company
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div id="delete-modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
+  <div class="bg-surface w-full max-w-sm rounded-2xl shadow-2xl border border-surface-container-highest/30 overflow-hidden">
+    <div class="px-6 py-6 text-center space-y-4">
+      <div class="w-16 h-16 rounded-full bg-error/10 flex items-center justify-center mx-auto">
+        <span class="material-symbols-outlined text-error text-[36px]">delete_forever</span>
+      </div>
+      <div>
+        <h2 class="font-headline-md text-on-surface mb-1">Delete Company?</h2>
+        <p class="text-body-md text-on-surface-variant">Are you sure you want to delete <strong id="delete-name-label" class="text-on-surface"></strong>? This action cannot be undone.</p>
+      </div>
+      <input type="hidden" id="delete-id"/>
+      <p id="delete-error" class="text-sm text-error hidden"></p>
+      <div class="flex gap-3 pt-2">
+        <button id="delete-cancel" class="flex-1 py-3 rounded-xl border border-surface-container-highest text-on-surface-variant font-label-md hover:bg-surface-container transition-colors">Cancel</button>
+        <button id="delete-confirm" class="flex-1 py-3 rounded-xl bg-error text-on-error font-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-[18px]">delete</span> Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Company Contacts Panel (slide-in from right) -->
+<div id="contacts-panel" class="fixed inset-0 z-[250] hidden">
+  <!-- Backdrop -->
+  <div id="contacts-panel-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+  <!-- Panel -->
+  <div class="absolute right-0 top-0 h-full w-full max-w-2xl bg-surface shadow-2xl flex flex-col">
+    <!-- Panel Header -->
+    <div class="flex items-center justify-between px-6 py-4 border-b border-surface-container-highest/20 flex-shrink-0">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center">
+          <span class="material-symbols-outlined text-secondary">domain</span>
+        </div>
+        <div>
+          <h2 class="font-headline-md text-on-surface text-[18px] font-semibold" id="panel-company-name">Company</h2>
+          <p class="text-label-sm text-on-surface-variant" id="panel-total-label">Loading...</p>
+        </div>
+      </div>
+      <button id="contacts-panel-close" class="w-9 h-9 rounded-full hover:bg-surface-container flex items-center justify-center transition-colors">
+        <span class="material-symbols-outlined text-on-surface-variant">close</span>
+      </button>
+    </div>
+
+    <!-- Table Area -->
+    <div class="flex-1 overflow-y-auto">
+      <div id="panel-loading" class="flex items-center justify-center py-20 hidden">
+        <span class="material-symbols-outlined animate-spin text-secondary text-[40px]">progress_activity</span>
+      </div>
+      <div id="panel-empty" class="flex flex-col items-center justify-center py-20 hidden">
+        <span class="material-symbols-outlined text-[64px] text-on-surface-variant/30">person_off</span>
+        <p class="text-on-surface-variant mt-4 text-body-md">No contacts for this company yet.</p>
+        <p class="text-label-sm text-on-surface-variant/60 mt-1">Scan a business card to add contacts.</p>
+      </div>
+      <div id="panel-error" class="text-error text-center py-10 px-6 hidden"></div>
+
+      <table id="panel-table" class="w-full hidden">
+        <thead class="sticky top-0 bg-surface/95 backdrop-blur-sm">
+          <tr class="border-b border-surface-container-highest/30">
+            <th class="text-left px-6 py-3 text-label-sm text-on-surface-variant font-semibold uppercase tracking-wider">#</th>
+            <th class="text-left px-6 py-3 text-label-sm text-on-surface-variant font-semibold uppercase tracking-wider">Name</th>
+            <th class="text-left px-6 py-3 text-label-sm text-on-surface-variant font-semibold uppercase tracking-wider hidden sm:table-cell">Email</th>
+            <th class="text-left px-6 py-3 text-label-sm text-on-surface-variant font-semibold uppercase tracking-wider hidden sm:table-cell">Phone</th>
+            <th class="text-left px-6 py-3 text-label-sm text-on-surface-variant font-semibold uppercase tracking-wider hidden md:table-cell">Designation</th>
+            <th class="text-left px-6 py-3 text-label-sm text-on-surface-variant font-semibold uppercase tracking-wider">Remark</th>
+          </tr>
+        </thead>
+        <tbody id="panel-tbody" class="divide-y divide-surface-container-highest/20"></tbody>
+      </table>
+
+      <!-- Panel Pagination -->
+      <nav id="panel-pagination" class="flex items-center justify-center gap-sm py-4 border-t border-surface-container-highest/10"></nav>
+    </div>
+  </div>
+</div>
+
+<!-- Remark / Conversation View Modal -->
+<div id="remark-modal" class="fixed inset-0 z-[350] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
+  <div class="bg-surface w-full max-w-md rounded-2xl shadow-2xl border border-surface-container-highest/30 overflow-hidden">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-surface-container-highest/20">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-secondary/10 flex items-center justify-center">
+          <span class="material-symbols-outlined text-secondary text-[20px]">forum</span>
+        </div>
+        <div>
+          <h2 class="font-semibold text-on-surface text-[16px]" id="remark-modal-name">Conversation</h2>
+          <p class="text-label-sm text-on-surface-variant" id="remark-modal-count"></p>
+        </div>
+      </div>
+      <button id="remark-modal-close" class="w-8 h-8 rounded-full hover:bg-surface-container flex items-center justify-center transition-colors">
+        <span class="material-symbols-outlined text-on-surface-variant text-[20px]">close</span>
+      </button>
+    </div>
+    <div id="remark-modal-body" class="px-6 py-4 max-h-[65vh] overflow-y-auto space-y-3"></div>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div id="settings-modal" class="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
+  <div class="bg-surface w-full max-w-md rounded-2xl shadow-2xl border border-surface-container-highest/30 overflow-hidden">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-surface-container-highest/20">
+      <h2 class="font-headline-md text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-secondary">settings</span> Settings</h2>
+      <button id="settings-close" class="w-9 h-9 rounded-full hover:bg-surface-container flex items-center justify-center transition-colors"><span class="material-symbols-outlined text-on-surface-variant">close</span></button>
+    </div>
+    <div class="px-6 py-5 space-y-5 max-h-[70vh] overflow-y-auto">
+      <section>
+        <p class="text-label-sm text-secondary uppercase tracking-wider mb-3">Account</p>
+        <div class="space-y-3">
+          <div><label class="text-label-sm text-on-surface-variant">Full Name</label><input id="s-name" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="Your Name"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">Email</label><input id="s-email" class="mt-1 w-full rounded-xl bg-surface-container/50 px-4 py-3 text-on-surface-variant outline outline-1 outline-surface-container-highest text-body-md cursor-not-allowed" readonly/></div>
+          <button id="s-save-profile" class="w-full py-3 rounded-xl bg-secondary text-on-secondary font-label-md hover:opacity-90 transition-opacity">Save Profile</button>
+          <p id="s-profile-msg" class="text-sm text-center hidden"></p>
+        </div>
+      </section>
+      <section>
+        <p class="text-label-sm text-secondary uppercase tracking-wider mb-3">Change Password</p>
+        <div class="space-y-3">
+          <div><label class="text-label-sm text-on-surface-variant">Current Password</label><input id="s-cur-pass" type="password" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="••••••••"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">New Password</label><input id="s-new-pass" type="password" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="Min 8 characters"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">Confirm New Password</label><input id="s-conf-pass" type="password" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="Repeat new password"/></div>
+          <button id="s-save-pass" class="w-full py-3 rounded-xl bg-secondary text-on-secondary font-label-md hover:opacity-90 transition-opacity">Change Password</button>
+          <p id="s-pass-msg" class="text-sm text-center hidden"></p>
+        </div>
+      </section>
+      <section>
+        <p class="text-label-sm text-secondary uppercase tracking-wider mb-3">Application</p>
+        <div class="bg-surface-container rounded-xl px-4 py-3 space-y-2 text-body-md text-on-surface-variant">
+          <div class="flex justify-between"><span>Version</span><span class="text-on-surface font-bold">v2.1.0</span></div>
+          <div class="flex justify-between"><span>Plan</span><span class="text-secondary font-bold">Enterprise</span></div>
+          <div class="flex justify-between"><span>API</span><span class="text-on-surface font-bold text-sm truncate max-w-[180px]" id="s-api-url"></span></div>
+        </div>
+      </section>
+    </div>
+    <div class="px-6 py-4 border-t border-surface-container-highest/20">
+      <button id="s-logout-btn" class="w-full py-3 rounded-xl border border-error text-error font-label-md hover:bg-error/10 transition-colors flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined">logout</span> Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/api.js"></script>
+<script>
+if (!CardAI.requireAuth()) { /* redirected */ } else {
+  const grid = document.getElementById("companies-grid");
+  const searchInput = document.getElementById("search-input");
+  const paginationNav = document.getElementById("pagination-nav");
+  const totalLabel = document.getElementById("total-label");
+  let currentPage = 1;
+  let totalPages = 1;
+  const pageSize = 9;
+  let allCompanies = []; // cache for client-side search
+
+  // ── Company card renderer ────────────────────────────────────────────────
+  function companyCard(c) {
+    const initials = (c.name || "?").slice(0, 2).toUpperCase();
+    const colors = ["bg-secondary/10 text-secondary", "bg-purple-100 text-purple-700", "bg-blue-100 text-blue-700",
+                    "bg-green-100 text-green-700", "bg-amber-100 text-amber-700"];
+    const color = colors[c.name.charCodeAt(0) % colors.length];
+    const safeName = (c.name||"").replace(/"/g,"&quot;");
+    const safeWebsite = (c.website||"").replace(/"/g,"&quot;");
+    const safePhone = (c.phone||"").replace(/"/g,"&quot;");
+    const safeAddress = (c.address||"").replace(/"/g,"&quot;");
+    return `
+      <div class="glass-card rounded-xl p-md flex flex-col gap-md shadow-sm border border-surface-container-highest/20 hover:shadow-xl transition-all company-card" data-id="${c.id}" data-name="${safeName}" data-website="${safeWebsite}" data-phone="${safePhone}" data-address="${safeAddress}">
+        <div class="flex items-start gap-md">
+          <div class="w-14 h-14 rounded-xl flex items-center justify-center font-bold text-lg flex-shrink-0 ${color}">
+            ${initials}
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="font-headline-md text-headline-md text-on-surface truncate">${c.name}</h3>
+            ${c.website ? `<a href="${c.website}" target="_blank" rel="noopener noreferrer" class="text-secondary text-label-sm hover:underline truncate block" onclick="event.stopPropagation()">${c.website.replace(/^https?:\/\//, '')}</a>` : `<span class="text-on-surface-variant text-label-sm">No website</span>`}
+          </div>
+          <div class="flex gap-1 flex-shrink-0">
+            <button class="edit-company-btn w-8 h-8 rounded-lg hover:bg-secondary/10 flex items-center justify-center transition-colors text-secondary" title="Edit">
+              <span class="material-symbols-outlined text-[18px]">edit</span>
+            </button>
+            <button class="delete-company-btn w-8 h-8 rounded-lg hover:bg-error/10 flex items-center justify-center transition-colors text-error" title="Delete">
+              <span class="material-symbols-outlined text-[18px]">delete</span>
+            </button>
+          </div>
+        </div>
+        <div class="space-y-1 text-body-md text-on-surface-variant">
+          ${c.phone ? `<p class="flex items-center gap-2 text-label-md"><span class="material-symbols-outlined text-[16px]">call</span>${c.phone}</p>` : ""}
+          ${c.address ? `<p class="flex items-start gap-2 text-label-md line-clamp-2"><span class="material-symbols-outlined text-[16px] mt-0.5">location_on</span>${c.address}</p>` : ""}
+          ${!c.phone && !c.address ? `<p class="text-label-sm text-on-surface-variant/60 italic">No contact details</p>` : ""}
+        </div>
+        <button class="view-contacts-btn mt-auto w-full py-2.5 rounded-xl bg-secondary/10 text-secondary font-label-md hover:bg-secondary/20 transition-colors flex items-center justify-center gap-2 text-label-md" data-name="${safeName}">
+          <span class="material-symbols-outlined text-[18px]">person_search</span> View Contacts
+        </button>
+      </div>`;
+  }
+
+  function renderPagination() {
+    if (totalPages <= 1) { paginationNav.innerHTML = ""; return; }
+    paginationNav.innerHTML = `
+      <button id="prev-btn" class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors ${currentPage <= 1 ? "opacity-40 pointer-events-none" : ""}">
+        <span class="material-symbols-outlined">chevron_left</span>
+      </button>
+      <div class="px-3 py-2 rounded-lg bg-surface-container text-on-surface-variant text-label-md">Page ${currentPage} of ${totalPages}</div>
+      <button id="next-btn" class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors ${currentPage >= totalPages ? "opacity-40 pointer-events-none" : ""}">
+        <span class="material-symbols-outlined">chevron_right</span>
+      </button>`;
+    document.getElementById("prev-btn")?.addEventListener("click", () => loadCompanies(currentPage - 1));
+    document.getElementById("next-btn")?.addEventListener("click", () => loadCompanies(currentPage + 1));
+  }
+
+  async function loadCompanies(page = 1) {
+    grid.innerHTML = '<p class="text-on-surface-variant col-span-full">Loading...</p>';
+    try {
+      const res = await CardAI.companies.list({ page, page_size: pageSize, sort_by: "created_at", sort_order: "desc" });
+      const items = res.data.items || [];
+      const total = res.data.total || 0;
+      currentPage = page;
+      totalPages = Math.max(1, Math.ceil(total / pageSize));
+      totalLabel.textContent = `${total} compan${total === 1 ? "y" : "ies"}`;
+      if (items.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-16">
+          <span class="material-symbols-outlined text-[64px] text-on-surface-variant/30">domain</span>
+          <p class="text-on-surface-variant mt-4 text-body-md">No companies yet.</p>
+          <p class="text-label-sm text-on-surface-variant/60 mt-1">Click the + button to add your first company.</p>
+        </div>`;
+      } else {
+        grid.innerHTML = items.map(companyCard).join("");
+      }
+      renderPagination();
+    } catch (err) {
+      grid.innerHTML = `<p class="text-error col-span-full">${err.message || "Failed to load companies"}</p>`;
+    }
+  }
+
+  // Client-side search (filter rendered cards)
+  let searchTimer;
+  searchInput.addEventListener("input", () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      const q = searchInput.value.trim().toLowerCase();
+      document.querySelectorAll(".company-card").forEach((card) => {
+        const name = (card.dataset.name || "").toLowerCase();
+        card.style.display = name.includes(q) ? "" : "none";
+      });
+    }, 200);
+  });
+
+  // Click: View Contacts → open panel; Edit/Delete
+  grid.addEventListener("click", (e) => {
+    const viewBtn = e.target.closest(".view-contacts-btn");
+    if (viewBtn) {
+      e.stopPropagation();
+      const card = viewBtn.closest(".company-card");
+      openContactsPanel(card.dataset.id, card.dataset.name);
+      return;
+    }
+    const editBtn = e.target.closest(".edit-company-btn");
+    if (editBtn) {
+      e.stopPropagation();
+      const card = editBtn.closest(".company-card");
+      openEditModal(card.dataset.id, card.dataset.name, card.dataset.website, card.dataset.phone, card.dataset.address);
+      return;
+    }
+    const delBtn = e.target.closest(".delete-company-btn");
+    if (delBtn) {
+      e.stopPropagation();
+      const card = delBtn.closest(".company-card");
+      openDeleteModal(card.dataset.id, card.dataset.name);
+      return;
+    }
+  });
+
+  // ── Company Contacts Panel ───────────────────────────────────────────────
+  const contactsPanel = document.getElementById("contacts-panel");
+  const panelTable = document.getElementById("panel-table");
+  const panelTbody = document.getElementById("panel-tbody");
+  const panelLoading = document.getElementById("panel-loading");
+  const panelEmpty = document.getElementById("panel-empty");
+  const panelError = document.getElementById("panel-error");
+  const panelPagination = document.getElementById("panel-pagination");
+  let panelCompanyId = null;
+  let panelPage = 1;
+  const panelPageSize = 15;
+
+  function openContactsPanel(companyId, companyName) {
+    panelCompanyId = companyId;
+    panelPage = 1;
+    document.getElementById("panel-company-name").textContent = companyName;
+    document.getElementById("panel-total-label").textContent = "Loading...";
+    contactsPanel.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+    loadPanelContacts(1);
+  }
+
+  function closeContactsPanel() {
+    contactsPanel.classList.add("hidden");
+    document.body.style.overflow = "";
+    panelCompanyId = null;
+  }
+
+  document.getElementById("contacts-panel-close").addEventListener("click", closeContactsPanel);
+  document.getElementById("contacts-panel-backdrop").addEventListener("click", closeContactsPanel);
+
+  // ── Remark Conversation Modal ────────────────────────────────────────────
+  const remarkModal = document.getElementById("remark-modal");
+  document.getElementById("remark-modal-close").addEventListener("click", () => remarkModal.classList.add("hidden"));
+  remarkModal.addEventListener("click", (e) => { if (e.target === remarkModal) remarkModal.classList.add("hidden"); });
+
+  function openRemarkModal(rawNotes, contactName) {
+    function parseNotes(raw) {
+      if (!raw) return [];
+      try { const p = JSON.parse(raw); if (Array.isArray(p)) return p; } catch(_) {}
+      return [{ date: "", text: raw }];
+    }
+    const entries = parseNotes(rawNotes);
+    const reversed = [...entries].reverse();
+    document.getElementById("remark-modal-name").textContent = contactName || "Conversation";
+    document.getElementById("remark-modal-count").textContent = `${entries.length} entr${entries.length === 1 ? "y" : "ies"}`;
+    const body = document.getElementById("remark-modal-body");
+    if (!reversed.length) {
+      body.innerHTML = `<p class="text-on-surface-variant text-sm text-center py-6">No conversation entries yet.</p>`;
+    } else {
+      body.innerHTML = reversed.map(e => {
+        const dateHtml = e.date ? `<div class="text-[11px] font-semibold text-secondary mb-1">${e.date}</div>` : "";
+        const safeText = (e.text || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>");
+        return `<div class="bg-surface-container rounded-xl px-4 py-3">${dateHtml}<p class="text-[13px] text-on-surface leading-relaxed">${safeText}</p></div>`;
+      }).join("");
+    }
+    remarkModal.classList.remove("hidden");
+  }
+
+  // Event delegation — clicks on remark preview cells
+  panelTbody.addEventListener("click", (e) => {
+    // Remark cell click → open conversation modal
+    const cell = e.target.closest(".remark-cell");
+    if (cell) {
+      const raw = decodeURIComponent(cell.dataset.notes || "");
+      const cname = decodeURIComponent(cell.dataset.cname || "");
+      openRemarkModal(raw, cname);
+      return;
+    }
+    // Name link click → navigate to contacts page and highlight that contact
+    const nameBtn = e.target.closest(".contact-name-link");
+    if (nameBtn) {
+      localStorage.setItem("cardai_highlight_id", nameBtn.dataset.cid);
+      localStorage.setItem("cardai_contact_search", nameBtn.dataset.cname);
+      CardAI.page("/contacts");
+    }
+  });
+
+  function contactRow(c, index, offset) {
+    const name = c.name || "—";
+    const email = c.email || "—";
+    const phone = c.mobile || c.alternate_mobile || "—";
+    const designation = c.designation || "—";
+
+    // notes can be JSON array [{date,text},...] or plain text
+    function parseNotes(raw) {
+      if (!raw) return [];
+      try { const p = JSON.parse(raw); if (Array.isArray(p)) return p; } catch(_) {}
+      return [{ date: "", text: raw }];
+    }
+    const entries = parseNotes(c.notes);
+
+    // Preview: show first 4 words then "..." — table never stretches
+    let remarkHtml;
+    if (!entries.length) {
+      remarkHtml = `<span class="text-on-surface-variant/40 text-[13px]">—</span>`;
+    } else {
+      const latest = entries[entries.length - 1];
+      const raw = latest.text || "";
+      const words = raw.trim().split(/\s+/);
+      const preview = words.length > 4 ? words.slice(0, 4).join(" ") + "…" : raw;
+      const safePreview = preview.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+      const notesEncoded = encodeURIComponent(c.notes || "");
+      const nameEncoded = encodeURIComponent(name);
+      remarkHtml = `<div class="remark-cell cursor-pointer group inline-flex items-center gap-1 max-w-[140px]" data-notes="${notesEncoded}" data-cname="${nameEncoded}">
+        <span class="text-[12px] text-on-surface group-hover:text-secondary transition-colors whitespace-nowrap overflow-hidden text-ellipsis">${safePreview}</span>
+        <span class="material-symbols-outlined text-[13px] text-on-surface-variant/40 group-hover:text-secondary transition-colors flex-shrink-0">open_in_full</span>
+      </div>`;
+    }
+
+    const initials = name.slice(0, 2).toUpperCase();
+    return `<tr class="hover:bg-surface-container/50 transition-colors">
+      <td class="px-6 py-3 text-label-sm text-on-surface-variant">${offset + index + 1}</td>
+      <td class="px-6 py-3">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-secondary/10 text-secondary flex items-center justify-center font-bold text-[11px] flex-shrink-0">${initials}</div>
+          <button class="contact-name-link text-label-md text-on-surface font-medium hover:text-secondary hover:underline transition-colors text-left" data-cid="${c.id}" data-cname="${name}">${name}</button>
+        </div>
+      </td>
+      <td class="px-6 py-3 text-label-md text-on-surface-variant hidden sm:table-cell">${email}</td>
+      <td class="px-6 py-3 text-label-md text-on-surface-variant hidden sm:table-cell">${phone}</td>
+      <td class="px-6 py-3 text-label-md text-on-surface-variant hidden md:table-cell">${designation}</td>
+      <td class="px-6 py-3 text-label-md text-on-surface-variant w-[160px] max-w-[160px]">${remarkHtml}</td>
+    </tr>`;
+  }
+
+  async function loadPanelContacts(page = 1) {
+    panelPage = page;
+    panelLoading.classList.remove("hidden");
+    panelTable.classList.add("hidden");
+    panelEmpty.classList.add("hidden");
+    panelError.classList.add("hidden");
+    panelPagination.innerHTML = "";
+    try {
+      const res = await CardAI.contacts.list({ company_id: panelCompanyId, page, page_size: panelPageSize, sort_by: "created_at", sort_order: "asc" });
+      const items = res.data.items || [];
+      const total = res.data.total || 0;
+      const totalPages = Math.max(1, Math.ceil(total / panelPageSize));
+      document.getElementById("panel-total-label").textContent = `${total} contact${total !== 1 ? "s" : ""}`;
+      panelLoading.classList.add("hidden");
+      if (items.length === 0) {
+        panelEmpty.classList.remove("hidden");
+        return;
+      }
+      const offset = (page - 1) * panelPageSize;
+      panelTbody.innerHTML = items.map((c, i) => contactRow(c, i, offset)).join("");
+      panelTable.classList.remove("hidden");
+
+      // Pagination
+      if (totalPages > 1) {
+        panelPagination.innerHTML = `
+          <button id="panel-prev" class="w-9 h-9 flex items-center justify-center rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors ${page <= 1 ? "opacity-40 pointer-events-none" : ""}">
+            <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+          </button>
+          <span class="px-3 py-2 text-label-md text-on-surface-variant">Page ${page} / ${totalPages}</span>
+          <button id="panel-next" class="w-9 h-9 flex items-center justify-center rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors ${page >= totalPages ? "opacity-40 pointer-events-none" : ""}">
+            <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+          </button>`;
+        document.getElementById("panel-prev")?.addEventListener("click", () => loadPanelContacts(page - 1));
+        document.getElementById("panel-next")?.addEventListener("click", () => loadPanelContacts(page + 1));
+      }
+    } catch (err) {
+      panelLoading.classList.add("hidden");
+      panelError.textContent = err.message || "Failed to load contacts.";
+      panelError.classList.remove("hidden");
+    }
+  }
+
+  // ── Add Company Modal ────────────────────────────────────────────────────
+  const addModal = document.getElementById("add-modal");
+  document.getElementById("fab-add").addEventListener("click", () => {
+    ["add-name","add-website","add-phone","add-address"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+    document.getElementById("add-error").classList.add("hidden");
+    document.getElementById("add-save").disabled = false;
+    document.getElementById("add-save").innerHTML = '<span class="material-symbols-outlined">save</span> Save Company';
+    addModal.classList.remove("hidden");
+    document.getElementById("add-name").focus();
+  });
+  document.getElementById("add-close").addEventListener("click", () => addModal.classList.add("hidden"));
+  addModal.addEventListener("click", (e) => { if (e.target === addModal) addModal.classList.add("hidden"); });
+
+  document.getElementById("add-save").addEventListener("click", async () => {
+    const name = document.getElementById("add-name").value.trim();
+    const errEl = document.getElementById("add-error");
+    const btn = document.getElementById("add-save");
+    if (!name) {
+      errEl.textContent = "Company name is required.";
+      errEl.classList.remove("hidden");
+      return;
+    }
+    const payload = {
+      name,
+      website: document.getElementById("add-website").value.trim() || null,
+      phone: document.getElementById("add-phone").value.trim() || null,
+      address: document.getElementById("add-address").value.trim() || null,
+    };
+    try {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Saving...';
+      await CardAI.companies.create(payload);
+      addModal.classList.add("hidden");
+      loadCompanies(1);
+    } catch (err) {
+      errEl.textContent = err.message || "Failed to create company.";
+      errEl.classList.remove("hidden");
+      btn.disabled = false;
+      btn.innerHTML = '<span class="material-symbols-outlined">save</span> Save Company';
+    }
+  });
+
+  // ── Edit Company Modal ───────────────────────────────────────────────────
+  const editModal = document.getElementById("edit-modal");
+  function openEditModal(id, name, website, phone, address) {
+    document.getElementById("edit-id").value = id;
+    document.getElementById("edit-name").value = name || "";
+    document.getElementById("edit-website").value = website || "";
+    document.getElementById("edit-phone").value = phone || "";
+    document.getElementById("edit-address").value = address || "";
+    document.getElementById("edit-error").classList.add("hidden");
+    const btn = document.getElementById("edit-save");
+    btn.disabled = false;
+    btn.innerHTML = '<span class="material-symbols-outlined">save</span> Update Company';
+    editModal.classList.remove("hidden");
+    document.getElementById("edit-name").focus();
+  }
+  window.openEditModal = openEditModal;
+  document.getElementById("edit-close").addEventListener("click", () => editModal.classList.add("hidden"));
+  editModal.addEventListener("click", (e) => { if (e.target === editModal) editModal.classList.add("hidden"); });
+  document.getElementById("edit-save").addEventListener("click", async () => {
+    const id = document.getElementById("edit-id").value;
+    const name = document.getElementById("edit-name").value.trim();
+    const errEl = document.getElementById("edit-error");
+    const btn = document.getElementById("edit-save");
+    if (!name) { errEl.textContent = "Company name is required."; errEl.classList.remove("hidden"); return; }
+    const payload = {
+      name,
+      website: document.getElementById("edit-website").value.trim() || null,
+      phone: document.getElementById("edit-phone").value.trim() || null,
+      address: document.getElementById("edit-address").value.trim() || null,
+    };
+    try {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Saving...';
+      await CardAI.companies.update(id, payload);
+      editModal.classList.add("hidden");
+      loadCompanies(currentPage);
+    } catch (err) {
+      errEl.textContent = err.message || "Failed to update company.";
+      errEl.classList.remove("hidden");
+      btn.disabled = false;
+      btn.innerHTML = '<span class="material-symbols-outlined">save</span> Update Company';
+    }
+  });
+
+  // ── Delete Company Modal ─────────────────────────────────────────────────
+  const deleteModal = document.getElementById("delete-modal");
+  function openDeleteModal(id, name) {
+    document.getElementById("delete-id").value = id;
+    document.getElementById("delete-name-label").textContent = name;
+    document.getElementById("delete-error").classList.add("hidden");
+    const btn = document.getElementById("delete-confirm");
+    btn.disabled = false;
+    btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">delete</span> Delete';
+    deleteModal.classList.remove("hidden");
+  }
+  window.openDeleteModal = openDeleteModal;
+  document.getElementById("delete-cancel").addEventListener("click", () => deleteModal.classList.add("hidden"));
+  deleteModal.addEventListener("click", (e) => { if (e.target === deleteModal) deleteModal.classList.add("hidden"); });
+  document.getElementById("delete-confirm").addEventListener("click", async () => {
+    const id = document.getElementById("delete-id").value;
+    const errEl = document.getElementById("delete-error");
+    const btn = document.getElementById("delete-confirm");
+    try {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Deleting...';
+      await CardAI.companies.remove(id);
+      deleteModal.classList.add("hidden");
+      loadCompanies(currentPage);
+    } catch (err) {
+      errEl.textContent = err.message || "Failed to delete company.";
+      errEl.classList.remove("hidden");
+      btn.disabled = false;
+      btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">delete</span> Delete';
+    }
+  });
+
+  // ── Navigation ───────────────────────────────────────────────────────────
+  async function doLogout() { await CardAI.auth.logout(); CardAI.page("/login"); }
+  document.getElementById("sidebar-logo").addEventListener("click", () => CardAI.page("/dashboard"));
+  document.getElementById("nav-dashboard").addEventListener("click", () => CardAI.page("/dashboard"));
+  document.getElementById("nav-scan").addEventListener("click", () => CardAI.page("/scan"));
+  document.getElementById("nav-contacts").addEventListener("click", () => CardAI.page("/contacts"));
+  document.getElementById("nav-reports").addEventListener("click", () => CardAI.page("/reports"));
+  document.getElementById("mob-dashboard").addEventListener("click", () => CardAI.page("/dashboard"));
+  document.getElementById("mob-contacts").addEventListener("click", () => CardAI.page("/contacts"));
+  document.getElementById("mob-scan").addEventListener("click", () => CardAI.page("/scan"));
+  document.getElementById("logout-btn-sidebar").addEventListener("click", (e) => { e.preventDefault(); doLogout(); });
+  document.getElementById("settings-btn-sidebar").addEventListener("click", (e) => { e.preventDefault(); openSettingsModal(); });
+  document.getElementById("settings-btn-mobile").addEventListener("click", (e) => { e.preventDefault(); openSettingsModal(); });
+
+  // ── Profile ──────────────────────────────────────────────────────────────
+  CardAI.auth.me().then(res => {
+    const name = res.data.full_name || res.data.email || "User";
+    const role = res.data.role || "User";
+    const initials = name.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
+    const el = document.getElementById("sidebar-username"); if (el) el.textContent = name;
+    const rl = document.getElementById("sidebar-role"); if (rl) rl.textContent = role;
+    const av = document.getElementById("sidebar-avatar"); if (av) av.textContent = initials;
+    if (role === "SuperAdmin") {
+      const ap = document.getElementById("admin-panel-link");
+      if (ap) { ap.classList.remove("hidden"); ap.addEventListener("click", () => CardAI.page("/admin")); }
+    }
+  }).catch(() => {});
+
+  loadCompanies(1);
+}
+
+// ── Settings Modal ───────────────────────────────────────────────────────
+(function() {
+  function openSettingsModal() {
+    document.getElementById("settings-modal").classList.remove("hidden");
+    document.getElementById("s-api-url").textContent = CardAI.API_BASE_URL;
+    CardAI.auth.me().then((res) => {
+      document.getElementById("s-name").value = res.data.full_name || "";
+      document.getElementById("s-email").value = res.data.email || "";
+    }).catch(() => {});
+  }
+  window.openSettingsModal = openSettingsModal;
+  document.getElementById("settings-close").addEventListener("click", () => document.getElementById("settings-modal").classList.add("hidden"));
+  document.getElementById("settings-modal").addEventListener("click", (e) => { if (e.target === document.getElementById("settings-modal")) document.getElementById("settings-modal").classList.add("hidden"); });
+  document.getElementById("s-save-profile").addEventListener("click", async () => {
+    const btn = document.getElementById("s-save-profile"), msg = document.getElementById("s-profile-msg");
+    const name = document.getElementById("s-name").value.trim();
+    if (!name) { msg.textContent = "Name cannot be empty."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    try { btn.disabled = true; btn.textContent = "Saving…"; await CardAI.auth.updateProfile({ full_name: name }); msg.textContent = "Profile updated!"; msg.className = "text-sm text-center text-green-600"; msg.classList.remove("hidden"); }
+    catch (err) { msg.textContent = err.message || "Update failed."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); }
+    finally { btn.disabled = false; btn.textContent = "Save Profile"; }
+  });
+  document.getElementById("s-save-pass").addEventListener("click", async () => {
+    const btn = document.getElementById("s-save-pass"), msg = document.getElementById("s-pass-msg");
+    const cur = document.getElementById("s-cur-pass").value, nw = document.getElementById("s-new-pass").value, conf = document.getElementById("s-conf-pass").value;
+    if (!cur || !nw || !conf) { msg.textContent = "Fill all password fields."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    if (nw !== conf) { msg.textContent = "Passwords do not match."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    if (nw.length < 8) { msg.textContent = "Min 8 characters required."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    try { btn.disabled = true; btn.textContent = "Changing…"; await CardAI.auth.updateProfile({ current_password: cur, new_password: nw }); msg.textContent = "Password changed!"; msg.className = "text-sm text-center text-green-600"; msg.classList.remove("hidden"); ["s-cur-pass","s-new-pass","s-conf-pass"].forEach(id => document.getElementById(id).value = ""); }
+    catch (err) { msg.textContent = err.message || "Failed."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); }
+    finally { btn.disabled = false; btn.textContent = "Change Password"; }
+  });
+  document.getElementById("s-logout-btn").addEventListener("click", async () => { await CardAI.auth.logout(); CardAI.page("/login"); });
+})();
+</script>
+</body>
+</html>

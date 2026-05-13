@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CardAI CRM - AI Reports</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "error-container": "#ffdad6",
+          "secondary": "#712ae2",
+          "on-primary-fixed": "#131b2e",
+          "primary-fixed-dim": "#bec6e0",
+          "on-secondary": "#ffffff",
+          "inverse-surface": "#213145",
+          "primary-container": "#131b2e",
+          "surface": "#f8f9ff",
+          "on-primary": "#ffffff",
+          "on-primary-fixed-variant": "#3f465c",
+          "primary": "#000000",
+          "on-background": "#0b1c30",
+          "on-primary-container": "#7c839b",
+          "inverse-primary": "#bec6e0",
+          "surface-container-lowest": "#ffffff",
+          "surface-tint": "#565e74",
+          "on-secondary-fixed": "#25005a",
+          "on-secondary-fixed-variant": "#5a00c6",
+          "error": "#ba1a1a",
+          "inverse-on-surface": "#eaf1ff",
+          "surface-dim": "#cbdbf5",
+          "secondary-fixed-dim": "#d2bbff",
+          "tertiary-fixed-dim": "#c4c7c9",
+          "on-secondary-container": "#fffbff",
+          "surface-bright": "#f8f9ff",
+          "surface-container-highest": "#d3e4fe",
+          "on-tertiary-container": "#818486",
+          "on-surface": "#0b1c30",
+          "secondary-container": "#8a4cfc",
+          "surface-container-low": "#eff4ff",
+          "background": "#f8f9ff",
+          "on-tertiary-fixed": "#191c1e",
+          "tertiary-fixed": "#e0e3e5",
+          "on-error-container": "#93000a",
+          "outline": "#76777d",
+          "on-tertiary": "#ffffff",
+          "on-error": "#ffffff",
+          "surface-container-high": "#dce9ff",
+          "primary-fixed": "#dae2fd",
+          "secondary-fixed": "#eaddff",
+          "on-tertiary-fixed-variant": "#444749",
+          "surface-container": "#e5eeff",
+          "tertiary": "#000000",
+          "outline-variant": "#c6c6cd",
+          "surface-variant": "#d3e4fe",
+          "on-surface-variant": "#45464d",
+          "tertiary-container": "#191c1e"
+        },
+        "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        "spacing": { "sm": "12px", "lg": "40px", "md": "24px", "margin": "32px", "base": "8px", "xs": "4px", "gutter": "24px", "xl": "64px" },
+        "fontFamily": {
+          "headline-lg-mobile": ["Geist"],
+          "headline-md": ["Geist"],
+          "headline-lg": ["Geist"],
+          "label-sm": ["Geist"],
+          "label-md": ["Geist"],
+          "display": ["Geist"],
+          "body-lg": ["Geist"],
+          "body-md": ["Geist"]
+        },
+        "fontSize": {
+          "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+          "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+          "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+          "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+          "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}],
+          "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+          "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+        }
+      }
+    }
+  };
+</script>
+<style>
+  .glass-card {
+    background: rgba(248, 249, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(211, 228, 254, 0.5);
+  }
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .bar-fill { transition: width 0.8s cubic-bezier(.4,0,.2,1); }
+  body { min-height: max(884px, 100dvh); }
+</style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-surface-container-highest/30 shadow-sm flex items-center px-margin h-16 md:left-72 md:w-[calc(100%-18rem)]">
+  <div class="flex items-center gap-2 ml-auto">
+    <button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full">
+      <span class="material-symbols-outlined" data-icon="search">search</span>
+    </button>
+    <button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full relative">
+      <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+      <span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+    </button>
+    <button id="refresh-btn" class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full" title="Refresh">
+      <span class="material-symbols-outlined text-secondary">refresh</span>
+    </button>
+    <div class="w-8 h-8 rounded-full bg-secondary-container overflow-hidden border border-outline-variant flex items-center justify-center">
+      <span class="material-symbols-outlined text-secondary text-[18px]">person</span>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="pt-24 pb-32 px-4 md:px-margin max-w-5xl mx-auto md:ml-72 md:mr-4 md:max-w-[calc(100%-20rem)]">
+
+  <!-- Page Title -->
+  <section class="mb-lg">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-headline-md font-bold text-on-surface flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary" style="font-variation-settings:'FILL' 1;">insights</span>
+          AI Reports
+        </h1>
+        <p class="text-label-md text-on-surface-variant mt-1" id="generated-at">Loading report data...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview Stats -->
+  <section class="mb-lg grid grid-cols-2 lg:grid-cols-4 gap-md" id="stats-grid">
+    <div class="glass-card rounded-xl p-md flex flex-col gap-xs animate-pulse">
+      <div class="h-3 bg-surface-container rounded w-2/3"></div>
+      <div class="h-8 bg-surface-container rounded w-1/2 mt-2"></div>
+    </div>
+    <div class="glass-card rounded-xl p-md flex flex-col gap-xs animate-pulse">
+      <div class="h-3 bg-surface-container rounded w-2/3"></div>
+      <div class="h-8 bg-surface-container rounded w-1/2 mt-2"></div>
+    </div>
+    <div class="glass-card rounded-xl p-md flex flex-col gap-xs animate-pulse">
+      <div class="h-3 bg-surface-container rounded w-2/3"></div>
+      <div class="h-8 bg-surface-container rounded w-1/2 mt-2"></div>
+    </div>
+    <div class="glass-card rounded-xl p-md flex flex-col gap-xs animate-pulse">
+      <div class="h-3 bg-surface-container rounded w-2/3"></div>
+      <div class="h-8 bg-surface-container rounded w-1/2 mt-2"></div>
+    </div>
+  </section>
+
+  <!-- AI Insight Banner -->
+  <section class="mb-lg" id="insight-section">
+    <div class="glass-card rounded-xl p-md flex items-start gap-md animate-pulse">
+      <div class="h-12 w-12 bg-surface-container rounded-xl flex-shrink-0"></div>
+      <div class="flex-1 space-y-2">
+        <div class="h-3 bg-surface-container rounded w-1/4"></div>
+        <div class="h-4 bg-surface-container rounded w-full"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-lg mb-lg">
+
+    <!-- Top Companies -->
+    <section>
+      <h2 class="text-label-sm text-secondary uppercase tracking-wider mb-md flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">domain</span> Top Companies by Scan Count
+      </h2>
+      <div class="glass-card rounded-xl p-md space-y-3" id="companies-chart">
+        <div class="animate-pulse space-y-3">
+          <div class="h-8 bg-surface-container rounded-lg"></div>
+          <div class="h-8 bg-surface-container rounded-lg"></div>
+          <div class="h-8 bg-surface-container rounded-lg"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Processing Status -->
+    <section>
+      <h2 class="text-label-sm text-secondary uppercase tracking-wider mb-md flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">task_alt</span> Processing Pipeline
+      </h2>
+      <div class="glass-card rounded-xl p-md space-y-4" id="pipeline-section">
+        <div class="animate-pulse space-y-4">
+          <div class="h-8 bg-surface-container rounded-lg"></div>
+          <div class="h-8 bg-surface-container rounded-lg"></div>
+          <div class="h-8 bg-surface-container rounded-lg"></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Recent Scans -->
+  <section class="mb-lg">
+    <h2 class="text-label-sm text-secondary uppercase tracking-wider mb-md flex items-center gap-2">
+      <span class="material-symbols-outlined text-[18px]">history</span> Recent Scans
+    </h2>
+    <div class="glass-card rounded-xl overflow-hidden" id="recent-scans">
+      <div class="animate-pulse p-md space-y-3">
+        <div class="h-10 bg-surface-container rounded-lg"></div>
+        <div class="h-10 bg-surface-container rounded-lg"></div>
+        <div class="h-10 bg-surface-container rounded-lg"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Sidebar Nav -->
+<nav class="fixed left-0 top-0 h-full w-72 rounded-r-xl bg-surface/80 backdrop-blur-2xl border-r border-surface-container-highest/20 shadow-xl hidden md:flex flex-col py-md z-[60]">
+  <div class="px-margin mb-md">
+    <span class="font-bold text-headline-md text-secondary cursor-pointer" id="sidebar-logo">CardAI</span>
+  </div>
+  <div class="px-margin mb-md">
+    <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+      <div id="sidebar-avatar" class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center font-bold text-secondary text-[13px] flex-shrink-0">…</div>
+      <div class="min-w-0">
+        <p class="text-label-md text-on-surface font-semibold truncate" id="sidebar-username">Loading…</p>
+        <p class="text-[11px] text-secondary font-semibold truncate" id="sidebar-role">—</p>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1 space-y-1">
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="nav-dashboard">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="text-label-md">Dashboard</span>
+    </a>
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="nav-scan">
+      <span class="material-symbols-outlined">document_scanner</span>
+      <span class="text-label-md">Scan Card</span>
+    </a>
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="nav-contacts">
+      <span class="material-symbols-outlined">person_search</span>
+      <span class="text-label-md">Contacts</span>
+    </a>
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="nav-companies">
+      <span class="material-symbols-outlined">domain</span>
+      <span class="text-label-md">Companies</span>
+    </a>
+    <a class="bg-secondary-container/30 text-secondary rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-all duration-200" id="nav-reports">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">insights</span>
+      <span class="text-label-md">AI Reports</span>
+    </a>
+    <a class="hidden text-secondary mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-secondary/10 transition-all cursor-pointer rounded-lg" id="admin-panel-link">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">shield_person</span>
+      <span class="text-label-md">Admin Panel</span>
+    </a>
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="settings-btn-sidebar">
+      <span class="material-symbols-outlined">settings</span>
+      <span class="text-label-md">Settings</span>
+    </a>
+    <a class="text-error mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-error/10 transition-all cursor-pointer rounded-lg" id="logout-btn-sidebar">
+      <span class="material-symbols-outlined">logout</span>
+      <span class="text-label-md">Logout</span>
+    </a>
+  </div>
+</nav>
+
+<!-- Footer Signature -->
+<div class="hidden md:flex fixed bottom-0 left-72 right-0 h-8 z-30 items-center justify-center bg-surface/60 backdrop-blur-sm border-t border-surface-container-highest/20">
+  <p class="text-[11px] text-on-surface-variant/60 tracking-wide">Powered &amp; Developed by <span class="font-semibold text-secondary/70">Pushpendra Sachan</span> &nbsp;·&nbsp; &copy; 2026 CardAI. All rights reserved.</p>
+</div>
+
+<!-- Bottom Nav (Mobile) -->
+<footer class="fixed bottom-0 left-0 right-0 h-16 bg-surface/70 backdrop-blur-xl md:hidden flex justify-around items-center border-t border-surface-container-highest/20 z-50">
+  <button class="flex flex-col items-center gap-1 text-on-surface-variant" id="mob-dashboard">
+    <span class="material-symbols-outlined">dashboard</span>
+    <span class="text-[10px] font-bold">Home</span>
+  </button>
+  <button class="flex flex-col items-center gap-1 text-on-surface-variant" id="mob-contacts">
+    <span class="material-symbols-outlined">person_search</span>
+    <span class="text-[10px] font-bold">Contacts</span>
+  </button>
+  <button class="flex flex-col items-center gap-1 text-on-surface-variant" id="mob-companies">
+    <span class="material-symbols-outlined">domain</span>
+    <span class="text-[10px] font-bold">Companies</span>
+  </button>
+  <button class="flex flex-col items-center gap-1 text-secondary" id="mob-reports">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">insights</span>
+    <span class="text-[10px] font-bold">Reports</span>
+  </button>
+  <button class="flex flex-col items-center gap-1 text-on-surface-variant" id="settings-btn-mobile">
+    <span class="material-symbols-outlined">settings</span>
+    <span class="text-[10px] font-bold">Settings</span>
+  </button>
+</footer>
+
+<!-- Settings Modal -->
+<div id="settings-modal" class="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
+  <div class="bg-surface w-full max-w-md rounded-2xl shadow-2xl border border-surface-container-highest/30 overflow-hidden">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-surface-container-highest/20">
+      <h2 class="text-headline-md text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-secondary">settings</span> Settings</h2>
+      <button id="settings-close" class="w-9 h-9 rounded-full hover:bg-surface-container flex items-center justify-center transition-colors"><span class="material-symbols-outlined text-on-surface-variant">close</span></button>
+    </div>
+    <div class="px-6 py-5 space-y-5 max-h-[70vh] overflow-y-auto">
+      <section>
+        <p class="text-label-sm text-secondary uppercase tracking-wider mb-3">Account</p>
+        <div class="space-y-3">
+          <div><label class="text-label-sm text-on-surface-variant">Full Name</label><input id="s-name" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="Your Name"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">Email</label><input id="s-email" class="mt-1 w-full rounded-xl bg-surface-container/50 px-4 py-3 text-on-surface-variant outline outline-1 outline-surface-container-highest text-body-md cursor-not-allowed" readonly/></div>
+          <button id="s-save-profile" class="w-full py-3 rounded-xl bg-secondary text-on-secondary text-label-md hover:opacity-90 transition-opacity">Save Profile</button>
+          <p id="s-profile-msg" class="text-sm text-center hidden"></p>
+        </div>
+      </section>
+      <section>
+        <p class="text-label-sm text-secondary uppercase tracking-wider mb-3">Change Password</p>
+        <div class="space-y-3">
+          <div><label class="text-label-sm text-on-surface-variant">Current Password</label><input id="s-cur-pass" type="password" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="••••••••"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">New Password</label><input id="s-new-pass" type="password" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="Min 8 characters"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">Confirm New Password</label><input id="s-conf-pass" type="password" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="Repeat new password"/></div>
+          <button id="s-save-pass" class="w-full py-3 rounded-xl bg-secondary text-on-secondary text-label-md hover:opacity-90 transition-opacity">Change Password</button>
+          <p id="s-pass-msg" class="text-sm text-center hidden"></p>
+        </div>
+      </section>
+      <section>
+        <p class="text-label-sm text-secondary uppercase tracking-wider mb-3">Application</p>
+        <div class="bg-surface-container rounded-xl px-4 py-3 space-y-2 text-body-md text-on-surface-variant">
+          <div class="flex justify-between"><span>Version</span><span class="text-on-surface font-bold">v2.1.0</span></div>
+          <div class="flex justify-between"><span>Plan</span><span class="text-secondary font-bold">Enterprise</span></div>
+          <div class="flex justify-between"><span>API</span><span class="text-on-surface font-bold text-sm truncate max-w-[180px]" id="s-api-url"></span></div>
+        </div>
+      </section>
+    </div>
+    <div class="px-6 py-4 border-t border-surface-container-highest/20">
+      <button id="s-logout-btn" class="w-full py-3 rounded-xl border border-error text-error text-label-md hover:bg-error/10 transition-colors flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined">logout</span> Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/api.js"></script>
+<script>
+if (!CardAI.requireAuth()) { /* redirected */ } else {
+
+  // ── Navigation ───────────────────────────────────────────────────────────
+  async function doLogout() { await CardAI.auth.logout(); CardAI.page("/login"); }
+  document.getElementById("sidebar-logo").addEventListener("click", () => CardAI.page("/dashboard"));
+  document.getElementById("nav-dashboard").addEventListener("click", () => CardAI.page("/dashboard"));
+  document.getElementById("nav-scan").addEventListener("click", () => CardAI.page("/scan"));
+  document.getElementById("nav-contacts").addEventListener("click", () => CardAI.page("/contacts"));
+  document.getElementById("nav-companies").addEventListener("click", () => CardAI.page("/companies"));
+  document.getElementById("mob-dashboard").addEventListener("click", () => CardAI.page("/dashboard"));
+  document.getElementById("mob-contacts").addEventListener("click", () => CardAI.page("/contacts"));
+  document.getElementById("mob-companies").addEventListener("click", () => CardAI.page("/companies"));
+  document.getElementById("mob-reports").addEventListener("click", () => CardAI.page("/reports"));
+  document.getElementById("logout-btn-sidebar").addEventListener("click", (e) => { e.preventDefault(); doLogout(); });
+  document.getElementById("settings-btn-sidebar").addEventListener("click", (e) => { e.preventDefault(); openSettingsModal(); });
+  document.getElementById("settings-btn-mobile").addEventListener("click", (e) => { e.preventDefault(); openSettingsModal(); });
+  document.getElementById("refresh-btn").addEventListener("click", () => loadAll());
+
+  // ── Profile ──────────────────────────────────────────────────────────────
+  CardAI.auth.me().then(res => {
+    const name = res.data.full_name || res.data.email || "User";
+    const role = res.data.role || "User";
+    const initials = name.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
+    const av = document.getElementById("sidebar-avatar"); if (av) av.textContent = initials;
+    const el = document.getElementById("sidebar-username"); if (el) el.textContent = name;
+    const rl = document.getElementById("sidebar-role"); if (rl) rl.textContent = role;
+    if (role === "SuperAdmin") {
+      const ap = document.getElementById("admin-panel-link");
+      if (ap) { ap.classList.remove("hidden"); ap.addEventListener("click", () => CardAI.page("/admin")); }
+    }
+  }).catch(() => {});
+
+  // ── Helpers ──────────────────────────────────────────────────────────────
+  function fmtDate(iso) {
+    if (!iso) return "—";
+    const d = new Date(iso);
+    return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+  }
+  function fmtTime(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    return d.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
+  }
+  function statusChip(status) {
+    const map = {
+      completed: "bg-green-100 text-green-700",
+      failed: "bg-red-100 text-red-700",
+      queued: "bg-amber-100 text-amber-700",
+      processing: "bg-blue-100 text-blue-700",
+      in_progress: "bg-blue-100 text-blue-700",
+    };
+    const cls = map[status] || "bg-surface-container text-on-surface-variant";
+    return `<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold ${cls}">${status}</span>`;
+  }
+
+  // ── Stats ─────────────────────────────────────────────────────────────────
+  function renderStats(ov) {
+    const stats = [
+      { label: "Total Scans", value: ov.total_scans, icon: "document_scanner", color: "text-secondary" },
+      { label: "Contacts", value: ov.contacts, icon: "person_search", color: "text-blue-600" },
+      { label: "Companies", value: ov.companies, icon: "domain", color: "text-purple-600" },
+      { label: "Success Rate", value: `${ov.scan_success_rate}%`, icon: "verified", color: "text-green-600" },
+    ];
+    document.getElementById("stats-grid").innerHTML = stats.map(s => `
+      <div class="glass-card rounded-xl p-md flex flex-col gap-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-label-sm text-on-surface-variant">${s.label}</span>
+          <span class="material-symbols-outlined ${s.color} text-[20px]" style="font-variation-settings:'FILL' 1;">${s.icon}</span>
+        </div>
+        <p class="text-[28px] font-bold text-on-surface">${s.value}</p>
+        ${s.label === "Success Rate" ? `<p class="text-label-sm text-on-surface-variant">OCR Accuracy: ${ov.ocr_accuracy}%</p>` : ""}
+      </div>`).join("");
+  }
+
+  // ── AI Insight ────────────────────────────────────────────────────────────
+  function renderInsight(insight) {
+    document.getElementById("insight-section").innerHTML = `
+      <div class="glass-card rounded-xl p-md flex items-start gap-md border border-secondary/20">
+        <div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-secondary text-[24px]" style="font-variation-settings:'FILL' 1;">auto_awesome</span>
+        </div>
+        <div>
+          <p class="text-label-sm text-secondary uppercase tracking-wider mb-1">${insight.title || "AI Insight"}</p>
+          <p class="text-body-md text-on-surface">${insight.message || "—"}</p>
+        </div>
+      </div>`;
+  }
+
+  // ── Companies Chart ───────────────────────────────────────────────────────
+  function renderCompaniesChart(companies) {
+    if (!companies || companies.length === 0) {
+      document.getElementById("companies-chart").innerHTML = `
+        <p class="text-label-md text-on-surface-variant/60 text-center py-8">No company data yet. Scan some business cards.</p>`;
+      return;
+    }
+    const max = Math.max(...companies.map(c => c.count), 1);
+    document.getElementById("companies-chart").innerHTML = companies.map(c => {
+      const pct = Math.round((c.count / max) * 100);
+      const initials = (c.company || "?").slice(0, 2).toUpperCase();
+      return `
+        <div class="flex items-center gap-sm">
+          <div class="w-8 h-8 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center text-[11px] font-bold flex-shrink-0">${initials}</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-label-md text-on-surface truncate">${c.company}</span>
+              <span class="text-label-sm text-on-surface-variant ml-2 flex-shrink-0">${c.count} scan${c.count !== 1 ? "s" : ""}</span>
+            </div>
+            <div class="h-2 rounded-full bg-surface-container overflow-hidden">
+              <div class="h-full rounded-full bg-gradient-to-r from-secondary to-secondary-container bar-fill" style="width:${pct}%"></div>
+            </div>
+          </div>
+        </div>`;
+    }).join("");
+  }
+
+  // ── Pipeline ──────────────────────────────────────────────────────────────
+  function renderPipeline(ps) {
+    const stages = [
+      { label: "OCR Extraction", pct: ps.stages?.ocr_extraction ?? 0, icon: "document_scanner" },
+      { label: "Entity Enrichment", pct: ps.stages?.entity_enrichment ?? 0, icon: "auto_awesome" },
+      { label: "CRM Sync", pct: ps.stages?.crm_sync ?? 0, icon: "sync" },
+    ];
+    const summary = `
+      <div class="flex gap-md flex-wrap mb-4">
+        <div class="flex items-center gap-xs"><span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span><span class="text-label-sm text-on-surface-variant">${ps.completed_jobs} completed</span></div>
+        <div class="flex items-center gap-xs"><span class="w-2 h-2 rounded-full bg-red-500 inline-block"></span><span class="text-label-sm text-on-surface-variant">${ps.failed_jobs} failed</span></div>
+        <div class="flex items-center gap-xs"><span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span><span class="text-label-sm text-on-surface-variant">${ps.queued_jobs} queued</span></div>
+      </div>`;
+    const bars = stages.map(s => `
+      <div>
+        <div class="flex justify-between items-center mb-1">
+          <div class="flex items-center gap-xs"><span class="material-symbols-outlined text-secondary text-[16px]">${s.icon}</span><span class="text-label-md text-on-surface">${s.label}</span></div>
+          <span class="text-label-sm text-on-surface-variant">${s.pct}%</span>
+        </div>
+        <div class="h-2 rounded-full bg-surface-container overflow-hidden">
+          <div class="h-full rounded-full bg-gradient-to-r from-secondary to-secondary-container bar-fill" style="width:${s.pct}%"></div>
+        </div>
+      </div>`).join("");
+    document.getElementById("pipeline-section").innerHTML = summary + `<div class="space-y-3">${bars}</div>`;
+  }
+
+  // ── Recent Scans ──────────────────────────────────────────────────────────
+  function renderRecentScans(scans) {
+    if (!scans || scans.length === 0) {
+      document.getElementById("recent-scans").innerHTML = `
+        <p class="text-label-md text-on-surface-variant/60 text-center py-10">No scans yet. Go to Scan Card to scan your first business card.</p>`;
+      return;
+    }
+    document.getElementById("recent-scans").innerHTML = `
+      <div class="divide-y divide-surface-container-highest/30">
+        ${scans.map(s => `
+          <div class="flex items-center gap-md px-md py-3 hover:bg-surface-container/30 transition-colors">
+            <div class="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-secondary text-[18px]">contact_page</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-label-md text-on-surface font-semibold truncate">${s.name || "Unknown"}</p>
+              <p class="text-label-sm text-on-surface-variant truncate">${s.company || "—"}</p>
+            </div>
+            <div class="text-right flex-shrink-0">
+              ${statusChip(s.status)}
+              <p class="text-[11px] text-on-surface-variant/60 mt-1">${fmtDate(s.scanned_at)}</p>
+            </div>
+          </div>`).join("")}
+      </div>`;
+  }
+
+  // ── Load All ──────────────────────────────────────────────────────────────
+  async function loadAll() {
+    try {
+      const [dashRes, insightRes] = await Promise.all([
+        CardAI.reports.dashboard(),
+        CardAI.reports.insights(),
+      ]);
+      const d = dashRes.data;
+      const generatedAt = d.generated_at ? new Date(d.generated_at) : new Date();
+      document.getElementById("generated-at").textContent =
+        `Generated ${fmtDate(generatedAt.toISOString())} at ${fmtTime(generatedAt.toISOString())}`;
+
+      renderStats(d.overview);
+      renderInsight(insightRes.data);
+      renderCompaniesChart(d.companies);
+      renderPipeline(d.processing_status);
+      renderRecentScans(d.recent_scans);
+    } catch (err) {
+      document.getElementById("generated-at").textContent = err.message || "Failed to load report data";
+    }
+  }
+
+  loadAll();
+}
+
+// ── Settings Modal ────────────────────────────────────────────────────────
+(function() {
+  function openSettingsModal() {
+    document.getElementById("settings-modal").classList.remove("hidden");
+    document.getElementById("s-api-url").textContent = CardAI.API_BASE_URL;
+    CardAI.auth.me().then((res) => {
+      document.getElementById("s-name").value = res.data.full_name || "";
+      document.getElementById("s-email").value = res.data.email || "";
+    }).catch(() => {});
+  }
+  window.openSettingsModal = openSettingsModal;
+  document.getElementById("settings-close").addEventListener("click", () => document.getElementById("settings-modal").classList.add("hidden"));
+  document.getElementById("settings-modal").addEventListener("click", (e) => { if (e.target === document.getElementById("settings-modal")) document.getElementById("settings-modal").classList.add("hidden"); });
+  document.getElementById("s-save-profile").addEventListener("click", async () => {
+    const btn = document.getElementById("s-save-profile"), msg = document.getElementById("s-profile-msg");
+    const name = document.getElementById("s-name").value.trim();
+    if (!name) { msg.textContent = "Name cannot be empty."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    try { btn.disabled = true; btn.textContent = "Saving…"; await CardAI.auth.updateProfile({ full_name: name }); msg.textContent = "Profile updated!"; msg.className = "text-sm text-center text-green-600"; msg.classList.remove("hidden"); }
+    catch (err) { msg.textContent = err.message || "Update failed."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); }
+    finally { btn.disabled = false; btn.textContent = "Save Profile"; }
+  });
+  document.getElementById("s-save-pass").addEventListener("click", async () => {
+    const btn = document.getElementById("s-save-pass"), msg = document.getElementById("s-pass-msg");
+    const cur = document.getElementById("s-cur-pass").value;
+    const nw = document.getElementById("s-new-pass").value;
+    const conf = document.getElementById("s-conf-pass").value;
+    if (!cur || !nw || !conf) { msg.textContent = "All fields required."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    if (nw !== conf) { msg.textContent = "Passwords do not match."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    if (nw.length < 8) { msg.textContent = "Min 8 characters."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    try { btn.disabled = true; btn.textContent = "Changing…"; await CardAI.auth.updateProfile({ current_password: cur, new_password: nw }); msg.textContent = "Password changed!"; msg.className = "text-sm text-center text-green-600"; msg.classList.remove("hidden"); ["s-cur-pass","s-new-pass","s-conf-pass"].forEach(id => document.getElementById(id).value = ""); }
+    catch (err) { msg.textContent = err.message || "Change failed."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); }
+    finally { btn.disabled = false; btn.textContent = "Change Password"; }
+  });
+  document.getElementById("s-logout-btn").addEventListener("click", async () => { await CardAI.auth.logout(); CardAI.page("/login"); });
+})();
+</script>
+</body>
+</html>

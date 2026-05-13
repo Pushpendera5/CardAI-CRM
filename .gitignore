@@ -1,0 +1,155 @@
+# ============================================================
+#  CardAI CRM — .gitignore
+#  Prevents secrets, user data, and local artifacts from leaking
+# ============================================================
+
+# ---------------------------
+# Environment / Secrets
+# ---------------------------
+.env
+.env.local
+.env.*.local
+# Keep .env.example (template without real values)
+!.env.example
+
+# ---------------------------
+# Database scripts (sensitive schema / init SQL)
+# ---------------------------
+backend/database/
+backend/docker/mssql-init.sql
+*.sql
+
+# ---------------------------
+# User-uploaded files (personal business card images)
+# ---------------------------
+uploads/
+backend/uploads/*
+# Keep the placeholder so the folder exists in git
+!backend/uploads/.gitkeep
+
+# Root-level uploads folder
+/uploads/
+
+# Root-level sample card image (could be personal)
+sample-card.jpg
+
+# Screenshots / preview images that may contain personal contact data
+**/screen.png
+**/screenshot.png
+**/preview.png
+**/screen.jpg
+Frontend/**/*.png
+Frontend/**/*.jpg
+Frontend/**/*.webp
+Frontend/**/*.jpeg
+
+# ---------------------------
+# Training datasets (may contain personal contact data)
+# ---------------------------
+backend/datasets/
+datasets/
+
+# ---------------------------
+# Trained ML models (large binary files)
+# ---------------------------
+trained_models/*
+!trained_models/.gitkeep
+backend/trained_models/*
+!backend/trained_models/.gitkeep
+*.pkl
+*.pt
+*.pth
+*.h5
+*.onnx
+*.joblib
+
+# ---------------------------
+# Python artifacts
+# ---------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.env/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# pytest / coverage
+.pytest_cache/
+.cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+nosetests.xml
+
+# mypy / pyright
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyright/
+
+# ---------------------------
+# Log files
+# ---------------------------
+*.log
+backend/app/logs/*.log
+logs/
+
+# ---------------------------
+# Temporary / scratch files
+# ---------------------------
+tmp_*.py
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# ---------------------------
+# OS files
+# ---------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# ---------------------------
+# VS Code workspace settings
+# (keep extensions/settings if you want to share them, else ignore)
+# ---------------------------
+.vscode/settings.json
+.vscode/launch.json
+.vscode/*.code-workspace
+
+# ---------------------------
+# Docker volumes / local data
+# ---------------------------
+docker-data/
+mssql-data/
+
+# ---------------------------
+# Node / Frontend (if any build tools added later)
+# ---------------------------
+node_modules/
+dist/
+.npm/

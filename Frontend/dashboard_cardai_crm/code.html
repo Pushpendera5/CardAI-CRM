@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CardAI CRM - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "secondary": "#712ae2",
+                        "on-primary-fixed": "#131b2e",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "primary-container": "#131b2e",
+                        "surface": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "primary": "#000000",
+                        "on-background": "#0b1c30",
+                        "on-primary-container": "#7c839b",
+                        "inverse-primary": "#bec6e0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#565e74",
+                        "on-secondary-fixed": "#25005a",
+                        "on-secondary-fixed-variant": "#5a00c6",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-dim": "#cbdbf5",
+                        "secondary-fixed-dim": "#d2bbff",
+                        "tertiary-fixed-dim": "#c4c7c9",
+                        "on-secondary-container": "#fffbff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary-container": "#818486",
+                        "on-surface": "#0b1c30",
+                        "secondary-container": "#8a4cfc",
+                        "surface-container-low": "#eff4ff",
+                        "background": "#f8f9ff",
+                        "on-tertiary-fixed": "#191c1e",
+                        "tertiary-fixed": "#e0e3e5",
+                        "on-error-container": "#93000a",
+                        "outline": "#76777d",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#dce9ff",
+                        "primary-fixed": "#dae2fd",
+                        "secondary-fixed": "#eaddff",
+                        "on-tertiary-fixed-variant": "#444749",
+                        "surface-container": "#e5eeff",
+                        "tertiary": "#000000",
+                        "outline-variant": "#c6c6cd",
+                        "surface-variant": "#d3e4fe",
+                        "on-surface-variant": "#45464d",
+                        "tertiary-container": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "12px",
+                        "lg": "40px",
+                        "md": "24px",
+                        "margin": "32px",
+                        "base": "8px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "xl": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "label-sm": ["Geist"],
+                        "label-md": ["Geist"],
+                        "display": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "body-md": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .dark .glass-card {
+            background: rgba(19, 27, 46, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body-md text-on-surface min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-surface-container-highest/30 shadow-sm flex items-center px-margin h-16 w-full md:left-72 md:w-[calc(100%-18rem)]">
+<div class="flex items-center gap-3 ml-auto">
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<div class="w-8 h-8 rounded-full bg-secondary-container overflow-hidden border border-outline-variant">
+<img alt="User" data-alt="A professional headshot of a corporate executive for a modern CRM application, set against a clean, soft-lit studio background with purple and blue ambient lighting. The style is high-fidelity and minimalist, reflecting a premium enterprise aesthetic with clear focus and natural skin tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyH99PiEB5eTWyiGsDsb0WokWpOpD5xZ6-AMT48axSG1erY5Kwu-sc27wRSwxMyNP1HbZepSfnt9Te81XXQWqx8NZhEtzKEaiqTe_8WNjiFcnXXMLXN0WPeIhX16Piv36CvtE9fDbnHlFWTiqyTJrio8dK_ZpOPI7-nOf2M1UQSjn2pY7GfqavwExbRT9bUncdx9EhqYoo8ppVa32RNZxWM9B4w-xIdDwDhtByVk-2JcO8fo6gAHuv8hLAli78x6ODfAQ0I-F6fF3g"/>
+</div>
+</div>
+</header>
+<!-- NavigationDrawer (Hidden by default, simulated as if open for structure or just the mobile shell logic) -->
+<!-- On mobile it would be a modal, but here we prioritize the main dashboard content as requested -->
+<main class="pt-20 pb-24 px-4 md:px-margin max-w-7xl mx-auto md:ml-72 md:mr-4 md:max-w-[calc(100%-20rem)]">
+<!-- Welcome Section -->
+<section class="mb-lg">
+<h2 class="font-headline-md text-headline-md text-primary mb-xs">Dashboard</h2>
+<p class="font-body-md text-on-surface-variant">Welcome back, Alex Sterling</p>
+</section>
+<!-- Key Stats Bento Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-lg">
+<!-- Total Scanned -->
+<div class="glass-card p-4 rounded-xl flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary" data-icon="document_scanner">document_scanner</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">+12%</span>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant">Total Scanned</p>
+<p class="text-headline-md font-headline-md text-primary">1,284</p>
+</div>
+</div>
+<!-- Total Contacts -->
+<div class="glass-card p-4 rounded-xl flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary" data-icon="person_search">person_search</span>
+<div class="w-12 h-4 shimmer rounded-full opacity-30"></div>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant">Contacts</p>
+<p class="text-headline-md font-headline-md text-primary">892</p>
+</div>
+</div>
+<!-- Companies -->
+<div class="glass-card p-4 rounded-xl flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary" data-icon="domain">domain</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Active</span>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant">Companies</p>
+<p class="text-headline-md font-headline-md text-primary">412</p>
+</div>
+</div>
+<!-- AI Accuracy -->
+<div class="glass-card p-4 rounded-xl flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary" data-icon="insights">insights</span>
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="trending_up">trending_up</span>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant">AI Accuracy</p>
+<p class="text-headline-md font-headline-md text-primary">99.4%</p>
+</div>
+</div>
+</div>
+<!-- AI Processing Status Widget -->
+<section class="mb-lg">
+<div class="glass-card p-md rounded-xl">
+<div class="flex justify-between items-center mb-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="memory">memory</span>
+<h3 class="font-headline-md text-label-md font-bold uppercase tracking-wider text-on-surface">AI Processing Status</h3>
+</div>
+<span class="text-label-sm font-label-sm bg-secondary-container/20 text-secondary px-2 py-1 rounded-full">3 Tasks Active</span>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-label-sm font-label-sm mb-1">
+<span class="text-on-surface-variant">OCR Text Extraction</span>
+<span class="text-secondary font-bold">85%</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-gradient-to-r from-secondary to-secondary-container h-full rounded-full w-[85%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-label-sm font-label-sm mb-1">
+<span class="text-on-surface-variant">Entity Enrichment</span>
+<span class="text-on-surface-variant">40%</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-secondary/40 h-full rounded-full w-[40%]"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Scanned Cards Widget -->
+<section class="mb-lg">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-headline-md text-headline-md text-primary">Recent Scans</h3>
+<button class="text-secondary font-label-md">View All</button>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+<!-- Card Item 1 -->
+<div class="min-w-[160px] glass-card p-3 rounded-xl border border-surface-container-highest/50">
+<div class="w-full aspect-[1.6/1] bg-surface-container-high rounded-lg mb-3 overflow-hidden">
+<img alt="Business Card" class="w-full h-full object-cover" data-alt="A close-up photograph of a minimalist business card held by a person. The card is textured white paper with elegant dark typography. The background is a soft-focus office environment with warm, low-key lighting that emphasizes the high-quality paper texture and the sophisticated branding of a tech company." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2g7G319HxBK1ELevingfzIEi-yZh-3edVC-p_mr5OKUY_xrLMSUOwkrfbHV9a43WaQyT9yERzHtTzMLS7Kt9DcMRG6ztWZ4vfk3x4_sT0b-ct-67V6nM8d33vAYKsjHfjcDWS7jWVUmUaWXy1yJaxM94sFbSKf6wO1bGjh06YVP0FsSUCv3utd-zL0OqG9DxUMuoochKViNdh1G9MvfrqRdnO3qFT3iZ0jTquvVDk8kVMO1s3_pu38hO0nHhCkAB5CfUwz5I0vXn7"/>
+</div>
+<p class="font-label-md text-on-surface truncate">Sarah Jenkins</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant truncate">Lead Designer</p>
+</div>
+<!-- Card Item 2 (Skeleton Loader) -->
+<div class="min-w-[160px] glass-card p-3 rounded-xl border border-surface-container-highest/50">
+<div class="w-full aspect-[1.6/1] shimmer bg-surface-container-high rounded-lg mb-3"></div>
+<div class="h-4 w-3/4 shimmer rounded mb-2"></div>
+<div class="h-3 w-1/2 shimmer rounded"></div>
+</div>
+<!-- Card Item 3 -->
+<div class="min-w-[160px] glass-card p-3 rounded-xl border border-surface-container-highest/50">
+<div class="w-full aspect-[1.6/1] bg-surface-container-high rounded-lg mb-3 overflow-hidden">
+<img alt="Business Card" class="w-full h-full object-cover" data-alt="A stylish black business card with silver foil accents lying on a dark wooden surface. The lighting is dramatic and directional, highlighting the metallic sheen of the foil and the premium matte finish of the card stock. The image conveys a sense of high-end corporate identity and modern professional networking." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvjv7oT2NDSMylBrVCSclm_b7ATq573Ii8QOss_kqanc0s888srdnxQ6kw57--QYVUnj6XO04OowWCfUAlRDiCr1bGbwA1mT8xfqRjrPJ_T7qq-lWSfEReRQKn63sN0wlBgvPzY2JlwrayZvZuW2F338uyo63ODMKR-wnximZUPY0TxduN4tg9eugw57aGgUTBf1SImTjEhdxnsyXktsg4uzw3TyqX1CzawApsweGu8DUYo2LS0AoBzFxCJB8DOLefqVGkhYCDhIQo"/>
+</div>
+<p class="font-label-md text-on-surface truncate">Marcus Vane</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant truncate">CEO, Vane Capital</p>
+</div>
+<!-- Card Item 4 (Skeleton) -->
+<div class="min-width-[160px] glass-card p-3 rounded-xl border border-surface-container-highest/50">
+<div class="w-full aspect-[1.6/1] shimmer bg-surface-container-high rounded-lg mb-3"></div>
+<div class="h-4 w-2/3 shimmer rounded mb-2"></div>
+<div class="h-3 w-1/3 shimmer rounded"></div>
+</div>
+</div>
+</section>
+<!-- AI Insight Banner -->
+<div class="mb-lg bg-gradient-to-r from-secondary/10 to-transparent border border-secondary/20 rounded-2xl p-md flex items-start gap-4 backdrop-blur-md">
+<span class="material-symbols-outlined text-secondary mt-1" data-icon="auto_awesome">auto_awesome</span>
+<div>
+<p class="font-label-md text-secondary font-bold mb-1">AI Insight</p>
+<p class="font-body-md text-on-surface-variant">You have 4 new leads from yesterday's conference. AI suggests reaching out to <span class="text-on-surface font-bold">Marcus Vane</span> first based on high conversion potential.</p>
+</div>
+</div>
+</main>
+<!-- Footer Signature -->
+<div class="hidden md:flex fixed bottom-0 left-72 right-0 h-8 z-30 items-center justify-center bg-surface/60 backdrop-blur-sm border-t border-surface-container-highest/20">
+  <p class="text-[11px] text-on-surface-variant/60 tracking-wide">Powered &amp; Developed by <span class="font-semibold text-secondary/70">Pushpendra Sachan</span> &nbsp;·&nbsp; &copy; 2026 CardAI. All rights reserved.</p>
+</div>
+<!-- Bottom Navigation Bar (Mobile) -->
+<nav class="fixed bottom-0 w-full h-16 bg-surface/80 backdrop-blur-2xl md:hidden flex justify-around items-center px-4 z-50">
+<button class="flex flex-col items-center justify-center text-secondary font-bold">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-label-sm font-label-sm">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+<span class="text-label-sm font-label-sm">Contacts</span>
+</button>
+<div class="relative -top-6">
+<button class="w-14 h-14 bg-gradient-to-br from-secondary to-secondary-container text-white rounded-full shadow-[0_8px_24px_rgba(138,76,252,0.4)] flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[32px]" data-icon="document_scanner">document_scanner</span>
+</button>
+</div>
+<button class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="text-label-sm font-label-sm">Reports</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant" id="settings-btn-mobile">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-sm font-label-sm">Settings</span>
+</button>
+</nav>
+<!-- Desktop Sidebar (Hidden on mobile) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-72 bg-surface/80 backdrop-blur-2xl border-r border-surface-container-highest/20 shadow-xl flex-col py-md z-40">
+<div class="px-margin mb-md">
+<span class="font-display text-headline-md font-bold text-secondary cursor-pointer" id="sidebar-logo">CardAI</span>
+</div>
+<div class="px-margin mb-lg">
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+<div id="sidebar-avatar" class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center font-bold text-secondary text-[13px] flex-shrink-0">…</div>
+<div class="min-w-0">
+<p class="font-label-md text-on-surface font-semibold truncate" id="sidebar-username">Loading…</p>
+<p class="text-[11px] text-secondary font-semibold truncate" id="sidebar-role">—</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="bg-secondary-container/30 text-secondary font-bold mx-2 px-4 py-3 flex items-center gap-3 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container transition-all mx-2 px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="document_scanner">document_scanner</span>
+<span class="font-label-md">Scan Card</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container transition-all mx-2 px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+<span class="font-label-md">Contacts</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container transition-all mx-2 px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+<span class="font-label-md">Companies</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container transition-all mx-2 px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="font-label-md">AI Reports</span>
+</a>
+<a class="hidden text-secondary hover:bg-secondary/10 transition-all mx-2 px-4 py-3 flex items-center gap-3 rounded-lg cursor-pointer" id="admin-panel-link">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">shield_person</span>
+<span class="font-label-md">Admin Panel</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container transition-all mx-2 px-4 py-3 flex items-center gap-3 mt-auto" href="#" id="settings-btn-sidebar">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+<a class="text-error hover:bg-error/10 transition-all mx-2 px-4 py-3 flex items-center gap-3" href="#" id="logout-btn-sidebar">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md">Logout</span>
+</a>
+</nav>
+<div class="px-margin pt-md border-t border-surface-container-highest/20">
+<p class="text-label-sm text-on-surface-variant/50">v2.1.0</p>
+</div>
+</aside>
+<script src="../shared/api.js"></script>
+<script>
+  if (CardAI.requireAuth()) {
+    const labels = Array.from(document.querySelectorAll("p"));
+    const recentScansContainer = document.querySelector(".flex.gap-4.overflow-x-auto.pb-4.scrollbar-hide");
+    const processingCard = Array.from(document.querySelectorAll(".glass-card")).find((node) => node.textContent.includes("AI Processing Status"));
+    const insightBanner = document.querySelector(".mb-lg.bg-gradient-to-r");
+
+    function setStat(labelText, value) {
+      const label = labels.find((item) => item.textContent.trim() === labelText);
+      const number = label && label.parentElement ? label.parentElement.querySelector(".text-headline-md") : null;
+      if (number) number.textContent = value;
+    }
+
+    function applyProcessingStatus(processing) {
+      if (!processingCard || !processing) return;
+      const badge = processingCard.querySelector("span.text-label-sm");
+      if (badge) badge.textContent = `${processing.active_jobs ?? 0} Tasks Active`;
+
+      const rows = processingCard.querySelectorAll("div.flex.justify-between.text-label-sm.font-label-sm.mb-1");
+      if (rows[0]) {
+        const valueNode = rows[0].querySelector("span:last-child");
+        if (valueNode) valueNode.textContent = `${processing.stages?.ocr_extraction ?? 0}%`;
+      }
+      if (rows[1]) {
+        const valueNode = rows[1].querySelector("span:last-child");
+        if (valueNode) valueNode.textContent = `${processing.stages?.entity_enrichment ?? 0}%`;
+      }
+
+      const bars = processingCard.querySelectorAll("div[class*='h-1.5'][class*='overflow-hidden'] > div");
+      if (bars[0]) bars[0].style.width = `${processing.stages?.ocr_extraction ?? 0}%`;
+      if (bars[1]) bars[1].style.width = `${processing.stages?.entity_enrichment ?? 0}%`;
+    }
+
+    function renderRecentScans(items) {
+      if (!recentScansContainer) return;
+      if (!items || !items.length) {
+        recentScansContainer.innerHTML = '<div class="glass-card p-4 rounded-xl min-w-[220px]"><p class="text-on-surface-variant">No scans yet. Use Scan Card to start.</p></div>';
+        return;
+      }
+      recentScansContainer.innerHTML = items
+        .map((item) => {
+          const statusClass = item.status === "failed" ? "text-error" : "text-secondary";
+          return `
+            <div class="min-w-[220px] glass-card p-4 rounded-xl border border-surface-container-highest/40">
+              <div class="flex items-center justify-between mb-2">
+                <p class="font-label-md text-on-surface truncate">${item.name || "Unknown Contact"}</p>
+                <span class="text-label-sm ${statusClass}">${item.status || "completed"}</span>
+              </div>
+              <p class="text-label-sm text-on-surface-variant truncate">${item.company || "No company"}</p>
+              <p class="text-label-sm text-on-surface-variant mt-2 truncate">${item.raw_text_preview || ""}</p>
+              <p class="text-label-sm text-secondary mt-3">Confidence: ${item.confidence_score ?? 0}%</p>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    function applyInsight(insight) {
+      if (!insightBanner || !insight) return;
+      const titleNode = insightBanner.querySelector("p.font-label-md");
+      const messageNode = insightBanner.querySelector("p.font-body-md");
+      if (titleNode) titleNode.textContent = insight.title || "AI Insight";
+      if (messageNode) messageNode.textContent = insight.message || "No insight available yet.";
+    }
+
+    async function loadDashboard() {
+      try {
+        const [dashboardResponse, meResponse] = await Promise.all([CardAI.reports.dashboard(), CardAI.auth.me()]);
+        const dashboard = dashboardResponse.data || {};
+        const overview = dashboard.overview || {};
+
+        setStat("Total Scanned", overview.total_scans ?? 0);
+        setStat("Contacts", overview.contacts ?? 0);
+        setStat("Companies", overview.companies ?? 0);
+        setStat("AI Accuracy", `${overview.ai_confidence_average ?? 0}%`);
+
+        const name = meResponse.data.full_name || meResponse.data.email || "User";
+        const role = meResponse.data.role || "User";
+        const initials = name.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
+        document.querySelectorAll("p").forEach((node) => {
+          if (node.textContent.includes("Alex Sterling")) node.textContent = name;
+        });
+        const av = document.getElementById("sidebar-avatar"); if (av) av.textContent = initials;
+        const un = document.getElementById("sidebar-username"); if (un) un.textContent = name;
+        const rl = document.getElementById("sidebar-role"); if (rl) rl.textContent = role;
+
+        if (role === "SuperAdmin") {
+          const ap = document.getElementById("admin-panel-link");
+          if (ap) { ap.classList.remove("hidden"); ap.addEventListener("click", () => CardAI.page("/admin")); }
+        }
+
+        applyProcessingStatus(dashboard.processing_status || {});
+        renderRecentScans(dashboard.recent_scans || []);
+        applyInsight(dashboard.insight || {});
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    // Sidebar logo
+    const sidebarLogo = document.getElementById("sidebar-logo");
+    if (sidebarLogo) { sidebarLogo.style.cursor = "pointer"; sidebarLogo.addEventListener("click", () => CardAI.page("/dashboard")); }
+
+    document.querySelectorAll("a, button").forEach((element) => {
+      const text = element.textContent.trim();
+      if (text.includes("Scan Card") || text.includes("Scan") || text.includes("document_scanner")) element.addEventListener("click", () => CardAI.page("/scan"));
+      if (text.includes("Contacts")) element.addEventListener("click", () => CardAI.page("/contacts"));
+      if (text.includes("Companies") && !element.closest(".stats-grid")) element.addEventListener("click", () => CardAI.page("/companies"));
+      if (text.includes("Dashboard") || text.includes("Home")) element.addEventListener("click", () => CardAI.page("/dashboard"));
+      if (text.includes("AI Reports") || text.includes("Reports")) element.addEventListener("click", () => CardAI.page("/reports"));
+    });
+
+    // Settings modal open
+    document.getElementById("settings-btn-sidebar")?.addEventListener("click", (e) => { e.preventDefault(); openSettingsModal(); });
+    document.getElementById("settings-btn-mobile")?.addEventListener("click", (e) => { e.preventDefault(); openSettingsModal(); });
+    // Logout buttons
+    async function doLogout() { await CardAI.auth.logout(); CardAI.page("/login"); }
+    document.getElementById("logout-btn-sidebar")?.addEventListener("click", (e) => { e.preventDefault(); doLogout(); });
+    document.getElementById("logout-btn-mobile")?.addEventListener("click", (e) => { e.preventDefault(); doLogout(); });
+
+    loadDashboard();
+  }
+</script>
+
+<!-- ══════════════  SETTINGS MODAL  ══════════════ -->
+<div id="settings-modal" class="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
+  <div class="bg-surface w-full max-w-md rounded-2xl shadow-2xl border border-surface-container-highest/30 overflow-hidden">
+    <!-- Header -->
+    <div class="flex items-center justify-between px-6 py-4 border-b border-surface-container-highest/20">
+      <h2 class="font-headline-md text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-secondary">settings</span> Settings</h2>
+      <button id="settings-close" class="w-9 h-9 rounded-full hover:bg-surface-container flex items-center justify-center transition-colors"><span class="material-symbols-outlined text-on-surface-variant">close</span></button>
+    </div>
+    <!-- Body -->
+    <div class="px-6 py-5 space-y-5 max-h-[70vh] overflow-y-auto">
+
+      <!-- Profile section -->
+      <section>
+        <p class="text-label-sm text-secondary uppercase tracking-wider mb-3">Account</p>
+        <div class="space-y-3">
+          <div><label class="text-label-sm text-on-surface-variant">Full Name</label>
+            <input id="s-name" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="Your Name"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">Email</label>
+            <input id="s-email" class="mt-1 w-full rounded-xl bg-surface-container/50 px-4 py-3 text-on-surface-variant outline outline-1 outline-surface-container-highest text-body-md cursor-not-allowed" readonly/></div>
+          <button id="s-save-profile" class="w-full py-3 rounded-xl bg-secondary text-on-secondary font-label-md hover:opacity-90 transition-opacity">Save Profile</button>
+          <p id="s-profile-msg" class="text-sm text-center hidden"></p>
+        </div>
+      </section>
+
+      <!-- Change Password -->
+      <section>
+        <p class="text-label-sm text-secondary uppercase tracking-wider mb-3">Change Password</p>
+        <div class="space-y-3">
+          <div><label class="text-label-sm text-on-surface-variant">Current Password</label>
+            <input id="s-cur-pass" type="password" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="••••••••"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">New Password</label>
+            <input id="s-new-pass" type="password" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="Min 8 characters"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">Confirm New Password</label>
+            <input id="s-conf-pass" type="password" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="Repeat new password"/></div>
+          <button id="s-save-pass" class="w-full py-3 rounded-xl bg-secondary text-on-secondary font-label-md hover:opacity-90 transition-opacity">Change Password</button>
+          <p id="s-pass-msg" class="text-sm text-center hidden"></p>
+        </div>
+      </section>
+
+      <!-- App info -->
+      <section>
+        <p class="text-label-sm text-secondary uppercase tracking-wider mb-3">Application</p>
+        <div class="bg-surface-container rounded-xl px-4 py-3 space-y-2 text-body-md text-on-surface-variant">
+          <div class="flex justify-between"><span>Version</span><span class="text-on-surface font-bold">v2.1.0</span></div>
+          <div class="flex justify-between"><span>Plan</span><span class="text-secondary font-bold">Enterprise</span></div>
+          <div class="flex justify-between"><span>API</span><span class="text-on-surface font-bold text-sm truncate max-w-[180px]" id="s-api-url"></span></div>
+        </div>
+      </section>
+
+    </div>
+    <!-- Footer logout -->
+    <div class="px-6 py-4 border-t border-surface-container-highest/20">
+      <button id="s-logout-btn" class="w-full py-3 rounded-xl border border-error text-error font-label-md hover:bg-error/10 transition-colors flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined">logout</span> Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  function openSettingsModal() {
+    document.getElementById("settings-modal").classList.remove("hidden");
+    document.getElementById("s-api-url").textContent = CardAI.API_BASE_URL;
+    // Load profile
+    CardAI.auth.me().then((res) => {
+      document.getElementById("s-name").value = res.data.full_name || "";
+      document.getElementById("s-email").value = res.data.email || "";
+    }).catch(() => {});
+  }
+  window.openSettingsModal = openSettingsModal;
+
+  document.getElementById("settings-close").addEventListener("click", () => {
+    document.getElementById("settings-modal").classList.add("hidden");
+  });
+  document.getElementById("settings-modal").addEventListener("click", (e) => {
+    if (e.target === document.getElementById("settings-modal")) document.getElementById("settings-modal").classList.add("hidden");
+  });
+
+  // Save profile
+  document.getElementById("s-save-profile").addEventListener("click", async () => {
+    const btn = document.getElementById("s-save-profile");
+    const msg = document.getElementById("s-profile-msg");
+    const name = document.getElementById("s-name").value.trim();
+    if (!name) { msg.textContent = "Name cannot be empty."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    try {
+      btn.disabled = true; btn.textContent = "Saving…";
+      await CardAI.auth.updateProfile({ full_name: name });
+      msg.textContent = "Profile updated successfully!";
+      msg.className = "text-sm text-center text-green-600";
+      msg.classList.remove("hidden");
+    } catch (err) {
+      msg.textContent = err.message || "Update failed.";
+      msg.className = "text-sm text-center text-error";
+      msg.classList.remove("hidden");
+    } finally {
+      btn.disabled = false; btn.textContent = "Save Profile";
+    }
+  });
+
+  // Change password
+  document.getElementById("s-save-pass").addEventListener("click", async () => {
+    const btn = document.getElementById("s-save-pass");
+    const msg = document.getElementById("s-pass-msg");
+    const cur = document.getElementById("s-cur-pass").value;
+    const nw = document.getElementById("s-new-pass").value;
+    const conf = document.getElementById("s-conf-pass").value;
+    if (!cur || !nw || !conf) { msg.textContent = "Fill all password fields."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    if (nw !== conf) { msg.textContent = "New passwords do not match."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    if (nw.length < 8) { msg.textContent = "Password must be at least 8 characters."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    try {
+      btn.disabled = true; btn.textContent = "Changing…";
+      await CardAI.auth.updateProfile({ current_password: cur, new_password: nw });
+      msg.textContent = "Password changed!";
+      msg.className = "text-sm text-center text-green-600";
+      msg.classList.remove("hidden");
+      document.getElementById("s-cur-pass").value = "";
+      document.getElementById("s-new-pass").value = "";
+      document.getElementById("s-conf-pass").value = "";
+    } catch (err) {
+      msg.textContent = err.message || "Password change failed.";
+      msg.className = "text-sm text-center text-error";
+      msg.classList.remove("hidden");
+    } finally {
+      btn.disabled = false; btn.textContent = "Change Password";
+    }
+  });
+
+  // Logout from modal
+  document.getElementById("s-logout-btn").addEventListener("click", async () => {
+    await CardAI.auth.logout();
+    CardAI.page("/login");
+  });
+})();
+</script>
+</body></html>

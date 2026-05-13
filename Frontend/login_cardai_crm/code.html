@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CardAI | Enterprise Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Glassmorphism utility not fully covered by standard Tailwind */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .bg-gradient-mesh {
+            background-color: #f8f9ff;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(263, 76%, 52%, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(210, 100%, 23%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, hsla(263, 76%, 52%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, hsla(210, 100%, 23%, 0.05) 0px, transparent 50%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error-container": "#ffdad6",
+                      "secondary": "#712ae2",
+                      "on-primary-fixed": "#131b2e",
+                      "primary-fixed-dim": "#bec6e0",
+                      "on-secondary": "#ffffff",
+                      "inverse-surface": "#213145",
+                      "primary-container": "#131b2e",
+                      "surface": "#f8f9ff",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "primary": "#000000",
+                      "on-background": "#0b1c30",
+                      "on-primary-container": "#7c839b",
+                      "inverse-primary": "#bec6e0",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-tint": "#565e74",
+                      "on-secondary-fixed": "#25005a",
+                      "on-secondary-fixed-variant": "#5a00c6",
+                      "error": "#ba1a1a",
+                      "inverse-on-surface": "#eaf1ff",
+                      "surface-dim": "#cbdbf5",
+                      "secondary-fixed-dim": "#d2bbff",
+                      "tertiary-fixed-dim": "#c4c7c9",
+                      "on-secondary-container": "#fffbff",
+                      "surface-bright": "#f8f9ff",
+                      "surface-container-highest": "#d3e4fe",
+                      "on-tertiary-container": "#818486",
+                      "on-surface": "#0b1c30",
+                      "secondary-container": "#8a4cfc",
+                      "surface-container-low": "#eff4ff",
+                      "background": "#f8f9ff",
+                      "on-tertiary-fixed": "#191c1e",
+                      "tertiary-fixed": "#e0e3e5",
+                      "on-error-container": "#93000a",
+                      "outline": "#76777d",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "surface-container-high": "#dce9ff",
+                      "primary-fixed": "#dae2fd",
+                      "secondary-fixed": "#eaddff",
+                      "on-tertiary-fixed-variant": "#444749",
+                      "surface-container": "#e5eeff",
+                      "tertiary": "#000000",
+                      "outline-variant": "#c6c6cd",
+                      "surface-variant": "#d3e4fe",
+                      "on-surface-variant": "#45464d",
+                      "tertiary-container": "#191c1e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sm": "12px",
+                      "lg": "40px",
+                      "md": "24px",
+                      "margin": "32px",
+                      "base": "8px",
+                      "xs": "4px",
+                      "gutter": "24px",
+                      "xl": "64px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Geist"],
+                      "headline-md": ["Geist"],
+                      "headline-lg": ["Geist"],
+                      "label-sm": ["Geist"],
+                      "label-md": ["Geist"],
+                      "display": ["Geist"],
+                      "body-lg": ["Geist"],
+                      "body-md": ["Geist"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-gradient-mesh min-h-screen flex items-center justify-center p-md overflow-x-hidden">
+<!-- Background Decorative Elements -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
+<div class="absolute top-1/4 -left-20 w-96 h-96 bg-secondary/10 rounded-full blur-[100px]"></div>
+<div class="absolute bottom-1/4 -right-20 w-80 h-80 bg-primary-container/5 rounded-full blur-[80px]"></div>
+</div>
+<!-- Login Container -->
+<main class="relative z-10 w-full max-w-[480px]">
+<!-- Brand Identity -->
+<div class="flex flex-col items-center mb-lg">
+<div class="w-16 h-16 bg-primary-container rounded-2xl flex items-center justify-center mb-md shadow-xl border border-white/20">
+<span class="material-symbols-outlined text-on-primary text-[40px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">document_scanner</span>
+</div>
+<h1 class="font-display text-display bg-gradient-to-br from-primary via-secondary to-primary-container bg-clip-text text-transparent">CardAI</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Enterprise CRM &amp; Intelligence</p>
+</div>
+<!-- Glass Login Card -->
+<div class="glass-panel rounded-xl p-lg shadow-2xl border border-white/40">
+<div class="space-y-md">
+<!-- Welcome Text -->
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Welcome back</h2>
+<p class="font-label-md text-label-md text-on-surface-variant">Please enter your details to sign in.</p>
+</div>
+<!-- Auth Form -->
+<form class="space-y-md" onsubmit="return false">
+<!-- Email Field -->
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface" for="email">Email address</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-secondary transition-colors">mail</span>
+<input class="w-full pl-xl pr-md py-sm bg-white/50 border-b-2 border-outline-variant focus:border-secondary focus:ring-0 outline-none transition-all font-body-md text-body-md text-on-surface placeholder:text-outline rounded-t-lg" id="email" placeholder="alex@sterling.com" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-secondary transition-colors">lock</span>
+<input class="w-full pl-xl pr-xl py-sm bg-white/50 border-b-2 border-outline-variant focus:border-secondary focus:ring-0 outline-none transition-all font-body-md text-body-md text-on-surface placeholder:text-outline rounded-t-lg" id="password" type="password" placeholder="Enter your password"/>
+<button class="absolute right-sm top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-secondary" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Actions Row -->
+<div class="flex items-center justify-between">
+<label class="flex items-center gap-xs cursor-pointer group">
+<div class="relative flex items-center">
+<input class="peer h-5 w-5 rounded border-outline-variant text-secondary focus:ring-secondary/20 transition-all cursor-pointer" type="checkbox"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant group-hover:text-on-surface transition-colors">Remember me</span>
+</label>
+<a class="font-label-md text-label-md text-secondary hover:text-secondary-container transition-colors" href="#">Forgot password?</a>
+</div>
+<!-- Submit Button -->
+<button id="login-submit-button" type="button" onclick="event.preventDefault(); handleLogin();" class="w-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-label-md text-label-md py-sm rounded-lg shadow-[0_4px_20px_-4px_rgba(113,42,226,0.4)] hover:shadow-[0_8px_30px_-4px_rgba(113,42,226,0.6)] hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-sm">
+<span>Sign in to Workspace</span>
+<!-- Loading spinner state (hidden initially) -->
+<div class="w-5 h-5 border-2 border-on-secondary/30 border-t-on-secondary rounded-full animate-spin hidden"></div>
+</button>
+</form>
+<!-- Divider -->
+<div class="relative py-sm flex items-center">
+<div class="flex-grow border-t border-surface-container-highest"></div>
+<span class="px-sm font-label-sm text-label-sm text-outline uppercase tracking-widest">or continue with</span>
+<div class="flex-grow border-t border-surface-container-highest"></div>
+</div>
+<!-- Social Logins -->
+<div class="grid grid-cols-2 gap-md">
+<button class="flex items-center justify-center gap-sm py-sm px-md border border-outline-variant rounded-lg hover:bg-surface-container-low transition-all bg-white/30">
+<img alt="Google" class="w-5 h-5 grayscale opacity-70 group-hover:grayscale-0" data-alt="A clean, minimalist close-up shot of a high-resolution Google logo on a pristine white background. The lighting is bright and professional, highlighting the classic four-color palette. The overall mood is focused and corporate, reflecting a modern tech-driven design aesthetic with soft, diffused shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjZP3upxEB2O0enWq_HRd-6kL3Opr59cqbQsEB-nJLzSm1Amkd5uT-a8PClJTTIcLufbFdYRLljbfFA9pZApsnJK4LRvzCjNXRre4znoxxxKrOld7MaKvyMon1yt-6p5d83G8K4uWSAbyLdmM9U_70drzxuRzQhL-Wl8TjdTBE4mP3lz2ZS_i1KJHq77TQeuVvjsXymBdp6ySZCGlParG2KsYwSxdKmv_US38hMK_3I93nyH5jA7rUyk3RxifnuOEdylnmT3TSfwoc"/>
+<span class="font-label-md text-label-md text-on-surface">Google</span>
+</button>
+<button class="flex items-center justify-center gap-sm py-sm px-md border border-outline-variant rounded-lg hover:bg-surface-container-low transition-all bg-white/30">
+<img alt="Microsoft" class="w-5 h-5 grayscale opacity-70" data-alt="A sophisticated close-up of the Microsoft logo, emphasizing geometric precision and clean lines. The image is bathed in bright, even studio lighting that creates a high-fidelity, light-mode feel. The color palette is composed of soft whites and corporate grays, embodying a sense of reliability and enterprise-level power." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhSA6BEaTvqbnZtlSMHh6Sg7V-fDdjEv5NWhQQPpdXywJWACJdrJ6ggFGCo3GJ4--LaPznIeJb--8RwHvXpcrMkDAYyGXdmKgOImkBewN9wchHIUxBq8QjlIqGuYbAIFGjfZg2Pl_U0mZiSeY0KquuLACrMbnvzpE-BBItpYOOpNa7FrCzw3gU_D186XIdwdysK4ukYNYW7wV5zYhoBYUEzKTkHh1PaErw95VTt-lrCN2gmBrhTT4eLRfTS6rCUfHdoCdMY0O2oFq7"/>
+<span class="font-label-md text-label-md text-on-surface">Microsoft</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer Links -->
+<div class="mt-lg text-center space-y-sm">
+<p class="font-label-md text-label-md text-on-surface-variant">
+                Don't have an account? <a class="text-secondary font-bold hover:underline" href="#">Request Access</a>
+</p>
+<div class="flex items-center justify-center gap-md">
+<a class="font-label-sm text-label-sm text-outline hover:text-on-surface-variant transition-colors" href="#">Privacy Policy</a>
+<span class="w-1 h-1 bg-outline rounded-full"></span>
+<a class="font-label-sm text-label-sm text-outline hover:text-on-surface-variant transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</main>
+<!-- Contextual Insight Banner (Floating) -->
+<div class="fixed bottom-margin right-margin hidden lg:block max-w-xs">
+<div class="glass-panel p-md rounded-xl border border-secondary/20 shadow-lg flex gap-sm">
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-secondary">AI Optimization Active</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-xs leading-relaxed">Login security is being monitored by CardAI’s real-time risk engine for your protection.</p>
+</div>
+</div>
+</div>
+<script src="../shared/api.js"></script>
+<script>
+  const loginForm = document.querySelector("form");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const loginButton = document.getElementById("login-submit-button");
+  const requestAccessLink = Array.from(document.querySelectorAll("a")).find((link) => link.textContent.trim() === "Request Access");
+  const authMessage = document.createElement("p");
+  authMessage.className = "hidden rounded-lg px-sm py-xs text-label-md";
+  if (loginForm) {
+    loginForm.appendChild(authMessage);
+  }
+
+  function showAuthMessage(message, isError = true) {
+    authMessage.textContent = message;
+    authMessage.className = `rounded-lg px-sm py-xs text-label-md ${isError ? "bg-error-container text-error" : "bg-secondary/10 text-secondary"}`;
+  }
+
+  async function handleLogin() {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) {
+      showAuthMessage("Email and password are required");
+      return;
+    }
+    loginButton.disabled = true;
+    const label = loginButton.querySelector("span");
+    const oldLabel = label ? label.textContent : "";
+    if (label) label.textContent = "Signing in...";
+    try {
+      const response = await CardAI.auth.login(email, password);
+      CardAI.setTokens(response.data);
+      // navigate to mounted dashboard route
+      window.location.href = "/dashboard";
+    } catch (error) {
+      showAuthMessage(error.message || "Login failed");
+    } finally {
+      loginButton.disabled = false;
+      if (label) label.textContent = oldLabel;
+    }
+  }
+
+  window.handleLogin = handleLogin;
+
+  if (loginForm) {
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      handleLogin();
+    });
+  }
+
+  if (requestAccessLink) {
+    requestAccessLink.addEventListener("click", async (event) => {
+      event.preventDefault();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value || "Password123!";
+      if (!email) {
+        showAuthMessage("Enter an email first");
+        return;
+      }
+      try {
+        await CardAI.auth.register(email, email.split("@")[0] || "CardAI User", password);
+        showAuthMessage("Account created. You can sign in now.", false);
+      } catch (error) {
+        showAuthMessage(error.message || "Registration failed");
+      }
+    });
+  }
+</script>
+<!-- Footer Signature -->
+<footer class="fixed bottom-0 left-0 right-0 h-8 flex items-center justify-center bg-surface/60 backdrop-blur-sm border-t border-surface-container-highest/20 z-10">
+  <p class="text-[11px] text-on-surface-variant/60 tracking-wide">Powered &amp; Developed by <span class="font-semibold text-secondary/70">Pushpendra Sachan</span> &nbsp;·&nbsp; © 2026 CardAI. All rights reserved.</p>
+</footer>
+</body></html>

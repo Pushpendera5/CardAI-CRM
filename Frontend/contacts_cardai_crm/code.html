@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#ffdad6",
+                    "secondary": "#712ae2",
+                    "on-primary-fixed": "#131b2e",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#213145",
+                    "primary-container": "#131b2e",
+                    "surface": "#f8f9ff",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "primary": "#000000",
+                    "on-background": "#0b1c30",
+                    "on-primary-container": "#7c839b",
+                    "inverse-primary": "#bec6e0",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-tint": "#565e74",
+                    "on-secondary-fixed": "#25005a",
+                    "on-secondary-fixed-variant": "#5a00c6",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-dim": "#cbdbf5",
+                    "secondary-fixed-dim": "#d2bbff",
+                    "tertiary-fixed-dim": "#c4c7c9",
+                    "on-secondary-container": "#fffbff",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-tertiary-container": "#818486",
+                    "on-surface": "#0b1c30",
+                    "secondary-container": "#8a4cfc",
+                    "surface-container-low": "#eff4ff",
+                    "background": "#f8f9ff",
+                    "on-tertiary-fixed": "#191c1e",
+                    "tertiary-fixed": "#e0e3e5",
+                    "on-error-container": "#93000a",
+                    "outline": "#76777d",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "surface-container-high": "#dce9ff",
+                    "primary-fixed": "#dae2fd",
+                    "secondary-fixed": "#eaddff",
+                    "on-tertiary-fixed-variant": "#444749",
+                    "surface-container": "#e5eeff",
+                    "tertiary": "#000000",
+                    "outline-variant": "#c6c6cd",
+                    "surface-variant": "#d3e4fe",
+                    "on-surface-variant": "#45464d",
+                    "tertiary-container": "#191c1e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "lg": "40px",
+                    "md": "24px",
+                    "margin": "32px",
+                    "base": "8px",
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "xl": "64px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "headline-lg": ["Geist"],
+                    "label-sm": ["Geist"],
+                    "label-md": ["Geist"],
+                    "display": ["Geist"],
+                    "body-lg": ["Geist"],
+                    "body-md": ["Geist"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(248, 249, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(211, 228, 254, 0.5);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-pill {
+            background: linear-gradient(135deg, #712ae2, #8a4cfc);
+            color: white;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-surface-container-highest/30 shadow-sm flex items-center px-margin h-16 md:left-72 md:w-[calc(100%-18rem)]">
+<div class="flex items-center gap-2 ml-auto">
+  <button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full">
+    <span class="material-symbols-outlined" data-icon="search">search</span>
+  </button>
+  <button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full relative">
+    <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+    <span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+  </button>
+  <div class="w-8 h-8 rounded-full bg-secondary-container overflow-hidden border border-outline-variant flex items-center justify-center">
+    <span class="material-symbols-outlined text-secondary text-[18px]">person</span>
+  </div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-32 px-4 md:px-margin max-w-5xl mx-auto md:ml-72 md:mr-4 md:max-w-[calc(100%-20rem)]">
+<!-- Filter Cluster -->
+<section class="mb-lg space-y-md">
+<div class="flex gap-sm overflow-x-auto pb-2 no-scrollbar">
+<button class="active-pill px-5 py-2 rounded-full font-label-md text-label-md whitespace-nowrap shadow-md">All Contacts</button>
+<button id="filters-btn" class="bg-surface-container text-on-surface-variant px-5 py-2 rounded-full font-label-md text-label-md whitespace-nowrap hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px] align-middle mr-1" data-icon="filter_list">filter_list</span>Filters
+                </button>
+</div>
+
+<!-- Filter Panel -->
+<div id="filter-panel" class="hidden bg-surface border border-surface-container-highest/30 rounded-xl shadow-lg px-4 py-3">
+  <div class="flex items-center gap-2 flex-wrap">
+    <span class="font-label-sm text-secondary font-semibold flex items-center gap-1 flex-shrink-0">
+      <span class="material-symbols-outlined text-[15px]">filter_list</span>Filters
+    </span>
+    <input id="filter-search" autocomplete="off" class="flex-1 min-w-[160px] rounded-lg bg-surface-container px-2.5 py-1.5 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-[13px]" placeholder="Name / company..."/>
+    <select id="filter-tag" class="rounded-lg bg-surface-container px-2.5 py-1.5 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-[13px]">
+      <option value="">All Categories</option>
+      <option value="Follow-up">Follow-up</option>
+      <option value="High Priority">High Priority</option>
+      <option value="Enterprise">Enterprise</option>
+      <option value="New Lead">New Lead</option>
+      <option value="Partner">Partner</option>
+      <option value="Investor">Investor</option>
+    </select>
+    <input id="filter-date-from" type="date" class="rounded-lg bg-surface-container px-2.5 py-1.5 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-[13px]" title="From date"/>
+    <span class="text-on-surface-variant text-[12px] flex-shrink-0">to</span>
+    <input id="filter-date-to" type="date" class="rounded-lg bg-surface-container px-2.5 py-1.5 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-[13px]" title="To date"/>
+    <button id="filter-apply" class="px-3 py-1.5 rounded-lg bg-secondary text-on-secondary hover:opacity-90 transition-opacity flex items-center gap-1 text-[13px]">
+      <span class="material-symbols-outlined text-[14px]">search</span> Apply
+    </button>
+    <button id="filter-reset" class="px-3 py-1.5 rounded-lg border border-surface-container-highest text-on-surface-variant hover:bg-surface-container transition-colors text-[13px]">Reset</button>
+    <button id="filter-close" class="w-7 h-7 rounded-full hover:bg-surface-container flex items-center justify-center transition-colors flex-shrink-0">
+      <span class="material-symbols-outlined text-on-surface-variant text-[15px]">close</span>
+    </button>
+  </div>
+</div>
+</section>
+<!-- Contacts Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md">
+<!-- Contact Card 1 -->
+<div class="glass-card rounded-xl p-md flex flex-col gap-md shadow-sm border border-surface-container-highest/20 hover:shadow-xl transition-all active:scale-[0.98] cursor-pointer">
+<div class="flex items-start justify-between">
+<div class="w-16 h-16 rounded-xl overflow-hidden border border-surface-container-highest">
+<img alt="Contact profile" class="w-full h-full object-cover" data-alt="Detailed professional portrait of a tech executive in a bright, modern studio. The lighting is crisp and sophisticated, highlighting professional attire. The overall aesthetic is minimalist and high-fidelity, perfectly aligned with the CardAI enterprise CRM look, featuring a clean white and soft blue atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOZoihN14undrIUDr7V2GXr4DFdk7DYYybyZDly705dsYMapLCGfc4hhJaYIEgYdyeiVQ-YLkoGieVPK1ochZ45wV5oytUtNP7sm4PwMhndXvD3yAIwK4WKAK1xV8jXgdBX8ukmdcF6lpO63eLOi9pOd6i4GV2AGXKiHI13_hPRjcKXHdEjsybtXDBYkdl7HVpydP3AuX_DSc7RbwgZZdzWWrkNxCke5vBKsI3xJw9nAjAxGPt6WcPG5WrpdL_OB7IlPoLRlQliWqk"/>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="more_vert">more_vert</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Elena Rodriguez</h3>
+<p class="text-on-surface-variant font-label-md text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="domain">domain</span> 
+                        Stellar Dynamics Inc.
+                    </p>
+</div>
+<div class="flex flex-wrap gap-xs">
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-label-sm font-label-sm">Enterprise</span>
+<span class="bg-surface-container-highest text-on-surface-variant px-3 py-1 rounded-full text-label-sm font-label-sm">Follow-up</span>
+</div>
+</div>
+<!-- Contact Card 2 -->
+<div class="glass-card rounded-xl p-md flex flex-col gap-md shadow-sm border border-surface-container-highest/20 hover:shadow-xl transition-all cursor-pointer">
+<div class="flex items-start justify-between">
+<div class="w-16 h-16 rounded-xl overflow-hidden border border-surface-container-highest">
+<img alt="Contact profile" class="w-full h-full object-cover" data-alt="Portrait of a senior management professional in a high-tech corporate setting. The background shows blurred structural elements of a modern glass building. Lighting is professional with high-key accents, maintaining a consistent minimalist and premium visual identity with subtle purple and white tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhNQsqUvOsSEd6mChU1jGg-_S4XLAHDrwK8FQIN-S07CS3f4dVRov4UdwdzLY5aPd0ELnD_3kk8VYRIfa6tppm3zFt5uvBgUL2Ow99TNvukAD7ZDhAHueVozVM3Q1QPqddvbGO1qfB-mgJLRTjpKddEOonYaYpPnwzqRtEdEg8tCXFZwfZe1kAa3OThNqHj3zXb_SzDH1LdcguHqpuiidcoX6rMim_j-fKXeZfW0V37NV6WWWwRH9m1R8GruaFo7oLeQgK5bi73QrA"/>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Marcus Thorne</h3>
+<p class="text-on-surface-variant font-label-md text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="domain">domain</span> 
+                        Vanguard Solutions
+                    </p>
+</div>
+<div class="flex flex-wrap gap-xs">
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-label-sm font-label-sm">New Lead</span>
+<span class="bg-surface-container-highest text-on-surface-variant px-3 py-1 rounded-full text-label-sm font-label-sm">AI Scan</span>
+</div>
+</div>
+<!-- Contact Card 3 -->
+<div class="glass-card rounded-xl p-md flex flex-col gap-md shadow-sm border border-surface-container-highest/20 hover:shadow-xl transition-all cursor-pointer">
+<div class="flex items-start justify-between">
+<div class="w-16 h-16 rounded-xl overflow-hidden border border-surface-container-highest">
+<img alt="Contact profile" class="w-full h-full object-cover" data-alt="Professional studio portrait of a woman in a creative leadership role. The lighting is soft and even, highlighting a confident expression. The backdrop is a clean, neutral gradient that fits the modern minimalist glassmorphism style of the application, emphasizing a calm and premium atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_KF3uED_ZRsb7Tndfl-MzyxA2t6fTPn5YMsPZKXN9TxFd6P6sWglawmNfNNBVOwfwdZmpC124HZNvHJfD9xiRp-Ehw2y6BitySOp4oyBO5z0zS4JOanpozwe6OjBUfB3SpXzDpweUiX6sAa-PxQUfHoeL55BnxAGvmT0_Q31fIlTX_eUdRvW2iyr4hT7VxDD6-hCj3MBAsHhMvPddsFrXltOizqRZNWkb3SPdqnAjnk3EiZthfAM0il08gpj6LYRHUl7swVrk5WMg"/>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Sarah Chen</h3>
+<p class="text-on-surface-variant font-label-md text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="domain">domain</span> 
+                        Lumina Creative
+                    </p>
+</div>
+<div class="flex flex-wrap gap-xs">
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-label-sm font-label-sm">Partner</span>
+<span class="bg-surface-container-highest text-on-surface-variant px-3 py-1 rounded-full text-label-sm font-label-sm">Tech</span>
+</div>
+</div>
+<!-- Contact Card 4 -->
+<div class="glass-card rounded-xl p-md flex flex-col gap-md shadow-sm border border-surface-container-highest/20 hover:shadow-xl transition-all cursor-pointer">
+<div class="flex items-start justify-between">
+<div class="w-16 h-16 rounded-xl overflow-hidden border border-surface-container-highest">
+<img alt="Contact profile" class="w-full h-full object-cover" data-alt="A candid-style professional portrait of a business person in a high-rise office. The scene is bathed in natural light, creating a bright and airy feel. The aesthetic is clean and high-fidelity, consistent with a professional CRM interface, using a palette of soft greys and whites with sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADr2WlwnIkwc9i4jlF70wSLRihkLUti-zXsPzJTLiHF8YWIf0YwmoH1TEOg2lPufuaBAoLS1HhAZPqUhvkS6hgm-7vpqZxxysSGQWfgaIRxoQFfni0s_qhMiU3w91kVPE2D4yZFsgfR2iUocPpuqjw84Y14htpqvWmHxn9poV6g-6JxW3rnB970miYrtp5Y8hIDNIZ0bvS2wfAQQAT_VIgoIp44N9X5HE5UzQwPbsXKqhml4P10qY4Eoas29tOcW8B63Cdgl3K1uKT"/>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Julian Vane</h3>
+<p class="text-on-surface-variant font-label-md text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="domain">domain</span> 
+                        Quantum Venture Group
+                    </p>
+</div>
+<div class="flex flex-wrap gap-xs">
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-label-sm font-label-sm">Investor</span>
+</div>
+</div>
+</section>
+<!-- Pagination -->
+<nav class="mt-xl flex items-center justify-center gap-sm">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<div class="flex gap-xs">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg active-pill font-label-md text-label-md">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface-variant">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface-variant">3</button>
+<span class="w-10 h-10 flex items-center justify-center text-on-surface-variant">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface-variant">12</button>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</nav>
+</main>
+<!-- Floating Action Button (FAB) -->
+<button class="fixed bottom-24 right-6 w-16 h-16 rounded-full bg-secondary shadow-xl shadow-secondary/30 flex items-center justify-center text-white active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined text-[32px]" data-icon="document_scanner">document_scanner</span>
+<span class="absolute -top-1 -right-1 bg-error w-5 h-5 rounded-full border-2 border-background text-[10px] flex items-center justify-center font-bold">3</span>
+</button>
+<!-- Navigation Drawer (Shell for top-level) -->
+<nav class="fixed left-0 top-0 h-full w-72 rounded-r-xl bg-surface/80 backdrop-blur-2xl border-r border-surface-container-highest/20 shadow-xl hidden md:flex flex-col py-md z-[60]">
+<div class="px-margin mb-md">
+<span class="font-display text-headline-md font-bold text-secondary">CardAI</span>
+</div>
+<div class="px-margin mb-md">
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+<div id="sidebar-avatar" class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center font-bold text-secondary text-[13px] flex-shrink-0">…</div>
+<div class="min-w-0">
+<p class="font-label-md text-label-md text-on-surface font-semibold truncate" id="sidebar-username">Loading…</p>
+<p class="text-[11px] text-secondary font-semibold truncate" id="sidebar-role">—</p>
+</div>
+</div>
+</div>
+<div class="flex-1 space-y-1">
+<a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="document_scanner">document_scanner</span>
+<span class="font-label-md text-label-md">Scan Card</span>
+</a>
+<a class="bg-secondary-container/30 text-secondary rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 active:translate-x-1 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person_search" style="font-variation-settings: 'FILL' 1;">person_search</span>
+<span class="font-label-md text-label-md">Contacts</span>
+</a>
+<a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+<span class="font-label-md text-label-md">Companies</span>
+</a>
+<a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="font-label-md text-label-md">AI Reports</span>
+</a>
+<a class="hidden text-secondary mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-secondary/10 transition-all cursor-pointer rounded-lg" id="admin-panel-link">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">shield_person</span>
+<span class="font-label-md text-label-md">Admin Panel</span>
+</a>
+<a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg" href="#" id="settings-btn-sidebar">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="text-error mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-error/10 transition-all rounded-lg" href="#" id="logout-btn-sidebar">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Footer Signature -->
+<div class="hidden md:flex fixed bottom-0 left-72 right-0 h-8 z-30 items-center justify-center bg-surface/60 backdrop-blur-sm border-t border-surface-container-highest/20">
+  <p class="text-[11px] text-on-surface-variant/60 tracking-wide">Powered &amp; Developed by <span class="font-semibold text-secondary/70">Pushpendra Sachan</span> &nbsp;·&nbsp; &copy; 2026 CardAI. All rights reserved.</p>
+</div>
+<!-- Bottom Navigation Bar (Mobile only) -->
+<footer class="fixed bottom-0 left-0 right-0 h-16 bg-surface/70 backdrop-blur-xl md:hidden flex justify-around items-center border-t border-surface-container-highest/20 z-50">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-label-sm">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-secondary">
+<span class="material-symbols-outlined" data-icon="person_search" style="font-variation-settings: 'FILL' 1;">person_search</span>
+<span class="text-[10px] font-label-sm font-bold">Contacts</span>
+</button>
+<div class="w-12"></div> <!-- Spacer for FAB -->
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="text-[10px] font-label-sm">AI Reports</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant" id="settings-btn-mobile">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[10px] font-label-sm">Settings</span>
+</button>
+</footer>
+<!-- Detailed View Modal (Hidden by default, used for demonstration) -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-primary/20 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+<div class="glass-card w-full max-w-lg rounded-2xl p-xl relative overflow-hidden shadow-2xl">
+<button class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<div class="flex flex-col items-center text-center mb-lg">
+<div class="w-24 h-24 rounded-2xl overflow-hidden mb-md border-2 border-secondary/20 shadow-lg">
+<img alt="Elena Rodriguez" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHGNWXT5GcG9wMBQOLL-0SsvuLEhNdOuvsSkG8a2e-p0uK_cGrPYlfSi4GYrwV_1kylA3-97MGAT4TZ4v1Ef3SARsjXUkHWuglQpQmv4YqmqqCCiVFNPoKfH3-XX7LGTntrOnieesIe_KG9L-Pu5FoAvydf3BE2e0_gjwfQUhjMK5ojaF1j61QDpeZ0nWhkci1Z3gjWSxSmvVP_FVDkeKkuifFjduu8WtSoQ2gM8vfWOEXIymoefX8f8RrH4e6b23QJR2gjAH9a_Mw"/>
+</div>
+<h2 class="font-display text-headline-lg text-on-surface">Elena Rodriguez</h2>
+<p class="text-secondary font-label-md text-label-md">Chief Technology Officer @ Stellar Dynamics</p>
+</div>
+<div class="space-y-md">
+<div class="bg-secondary/5 rounded-xl p-md border border-secondary/10">
+<h4 class="text-secondary font-label-sm text-label-sm flex items-center gap-1 mb-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="auto_awesome">auto_awesome</span> AI INSIGHT
+                    </h4>
+<p class="text-body-md text-on-surface-variant italic">"Elena recently spoke at WebSummit regarding sustainable energy storage. Mention her keynote to build rapport during the next follow-up."</p>
+</div>
+<div class="grid grid-cols-2 gap-sm">
+<div class="p-md rounded-xl bg-surface-container-low border border-surface-container">
+<p class="text-label-sm text-on-surface-variant mb-1">Email</p>
+<p class="text-body-md font-bold text-on-surface truncate">elena.r@stellar.io</p>
+</div>
+<div class="p-md rounded-xl bg-surface-container-low border border-surface-container">
+<p class="text-label-sm text-on-surface-variant mb-1">Phone</p>
+<p class="text-body-md font-bold text-on-surface">+1 (555) 902-1243</p>
+</div>
+</div>
+<div class="flex gap-sm">
+<button class="flex-1 py-4 active-pill rounded-xl font-label-md text-label-md flex items-center justify-center gap-2 shadow-lg">
+<span class="material-symbols-outlined" data-icon="mail">mail</span> Send Email
+                    </button>
+<button class="w-14 h-14 border border-secondary/20 rounded-xl flex items-center justify-center text-secondary hover:bg-secondary/5 transition-colors">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script src="../shared/api.js"></script>
+<script>
+  if (CardAI.requireAuth()) {
+    const contactsGrid = document.querySelector("section.grid");
+    const searchInput = null; // search bar removed — filter panel handles search
+    const paginationNav = document.querySelector("nav.mt-xl");
+    let currentPage = 1;
+    let totalPages = 1;
+    let activeTag = null;
+    let activeFrom = null;
+    let activeTo = null;
+    const pageSize = 6;
+
+    // "All Contacts" pill resets filters
+    document.querySelector(".flex.gap-sm.overflow-x-auto button.active-pill")?.addEventListener("click", () => {
+      activeTag = null; activeFrom = null; activeTo = null;
+      document.getElementById("filter-search").value = "";
+      document.getElementById("filter-tag").value = "";
+      document.getElementById("filter-date-from").value = "";
+      document.getElementById("filter-date-to").value = "";
+      loadContacts("", 1);
+    });
+
+    // ── Filter Panel ──────────────────────────────────────────────────────────
+    const filterPanel = document.getElementById("filter-panel");
+    const filtersBtn = document.getElementById("filters-btn");
+    filtersBtn.addEventListener("click", () => filterPanel.classList.toggle("hidden"));
+    document.getElementById("filter-close").addEventListener("click", () => filterPanel.classList.add("hidden"));
+
+    document.getElementById("filter-apply").addEventListener("click", () => {
+      const q = document.getElementById("filter-search").value.trim();
+      const tag = document.getElementById("filter-tag").value;
+      const dateFrom = document.getElementById("filter-date-from").value;
+      const dateTo = document.getElementById("filter-date-to").value;
+      if (q && searchInput) searchInput.value = q;
+      activeTag = tag || null;
+      activeFrom = dateFrom || null;
+      activeTo = dateTo || null;
+      loadContacts(q || "", 1);
+      filterPanel.classList.add("hidden");
+    });
+
+    document.getElementById("filter-reset").addEventListener("click", () => {
+      document.getElementById("filter-search").value = "";
+      document.getElementById("filter-tag").value = "";
+      document.getElementById("filter-date-from").value = "";
+      document.getElementById("filter-date-to").value = "";
+      activeTag = null;
+      activeFrom = null;
+      activeTo = null;
+      loadContacts("", 1);
+      filterPanel.classList.add("hidden");
+    });
+
+    let currentUserRole = "User"; // updated after /me call
+
+    function contactCard(contact) {
+      const tags = (contact.tags || "AI Scan").split(",").filter(Boolean).slice(0, 2);
+      const safeName = (contact.name || "Unknown Contact").replace(/"/g, "&quot;");
+      const safeData = JSON.stringify(contact).replace(/"/g, "&quot;");
+      const imgUrl = contact.card_image_url || "";
+      const avatarHtml = imgUrl
+        ? `<img src="${imgUrl}" alt="Scanned card" class="card-thumb w-16 h-16 rounded-xl object-cover border border-surface-container-highest cursor-zoom-in hover:opacity-90 transition-opacity" data-src="${imgUrl}" data-name="${safeName}">`
+        : `<div class="w-16 h-16 rounded-xl bg-secondary/10 border border-surface-container-highest flex items-center justify-center">
+              <span class="material-symbols-outlined text-secondary text-[32px]">person</span>
+           </div>`;
+      // SuperAdmin: show owner name badge
+      const ownerBadge = currentUserRole === "SuperAdmin" && contact.owner_name
+        ? `<span class="text-[10px] bg-secondary/10 text-secondary font-semibold px-1.5 py-0.5 rounded-full flex items-center gap-0.5"><span class="material-symbols-outlined text-[11px]">person</span>${contact.owner_name}</span>`
+        : "";
+      return `
+        <div class="glass-card rounded-xl p-md flex flex-col gap-md shadow-sm border border-surface-container-highest/20 hover:shadow-xl transition-all cursor-pointer contact-card" data-id="${contact.id}" data-contact="${safeData}">
+          <div class="flex items-start justify-between">
+            ${avatarHtml}
+            <button class="contact-more p-1 rounded-full hover:bg-surface-container transition-colors" data-id="${contact.id}" aria-label="Options for ${safeName}">
+              <span class="material-symbols-outlined text-on-surface-variant pointer-events-none">more_vert</span>
+            </button>
+          </div>
+          <div>
+            <h3 class="font-headline-md text-headline-md text-on-surface">${contact.name || "Unknown Contact"}</h3>
+            <p class="text-on-surface-variant font-label-md text-label-md flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">domain</span>${contact.company_name || contact.designation || "No company"}
+            </p>
+            <p class="text-label-sm text-on-surface-variant mt-1">${contact.email || contact.mobile || ""}</p>
+          </div>
+          <div class="flex flex-wrap gap-xs">
+            ${ownerBadge}
+            ${tags.map((tag) => `<span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-label-sm font-label-sm">${tag.trim()}</span>`).join("")}
+          </div>
+        </div>`;
+    }
+
+    function renderPagination() {
+      if (!paginationNav) return;
+      paginationNav.innerHTML = `
+        <button id="contacts-prev-page" class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors ${currentPage <= 1 ? "opacity-40 pointer-events-none" : ""}">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <div class="px-3 py-2 rounded-lg bg-surface-container text-on-surface-variant text-label-md">Page ${currentPage} of ${totalPages}</div>
+        <button id="contacts-next-page" class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors ${currentPage >= totalPages ? "opacity-40 pointer-events-none" : ""}">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      `;
+      const prevBtn = document.getElementById("contacts-prev-page");
+      const nextBtn = document.getElementById("contacts-next-page");
+      if (prevBtn) prevBtn.addEventListener("click", () => loadContacts("", currentPage - 1));
+      if (nextBtn) nextBtn.addEventListener("click", () => loadContacts("", currentPage + 1));
+    }
+
+    async function loadContacts(search = "", page = 1) {
+      contactsGrid.innerHTML = '<p class="text-on-surface-variant col-span-full">Loading contacts...</p>';
+      try {
+        const params = { page, page_size: pageSize, search };
+        if (activeTag) params.tag = activeTag;
+        if (activeFrom) params.date_from = activeFrom;
+        if (activeTo) params.date_to = activeTo;
+        const response = await CardAI.contacts.list(params);
+        const items = response.data.items || [];
+        const total = response.data.total || 0;
+        currentPage = page;
+        totalPages = Math.max(1, Math.ceil(total / pageSize));
+        contactsGrid.innerHTML = items.length
+          ? items.map(contactCard).join("")
+          : '<p class="text-on-surface-variant col-span-full">No contacts found. Scan a card to create your first contact.</p>';
+        renderPagination();
+      } catch (error) {
+        contactsGrid.innerHTML = `<p class="text-error col-span-full">${error.message || "Unable to load contacts"}</p>`;
+      }
+    }
+
+
+
+    async function loadProfile() {
+      try {
+        const me = await CardAI.auth.me();
+        currentUserRole = me.data.role || "User";
+        document.querySelectorAll("p").forEach((node) => {
+          if (node.textContent.includes("Alex Sterling")) node.textContent = me.data.full_name;
+        });
+        const name = me.data.full_name || me.data.email || "User";
+        const initials = name.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
+        const av = document.getElementById("sidebar-avatar"); if (av) av.textContent = initials;
+        const un = document.getElementById("sidebar-username"); if (un) un.textContent = name;
+        const rl = document.getElementById("sidebar-role"); if (rl) rl.textContent = me.data.role || "User";
+        if (me.data.role === "SuperAdmin") {
+          const ap = document.getElementById("admin-panel-link");
+          if (ap) { ap.classList.remove("hidden"); ap.addEventListener("click", () => CardAI.page("/admin")); }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    // ── Edit/Delete Modals ────────────────────────────────────────────────────
+    const editModalHtml = `
+    <div id="edit-modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
+      <div class="glass-card w-full max-w-lg rounded-2xl p-6 relative shadow-2xl">
+        <button id="edit-close" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Edit Contact</h2>
+        <input type="hidden" id="edit-id"/>
+        <div class="grid grid-cols-1 gap-3">
+          <div><label class="text-label-sm text-on-surface-variant">Full Name</label><input id="edit-name" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary" placeholder="Full Name"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">Designation</label><input id="edit-designation" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary" placeholder="Designation"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">Company</label><input id="edit-company" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary" placeholder="Company"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">Phone</label><input id="edit-mobile" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary" placeholder="Phone"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">Email</label><input id="edit-email" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary" placeholder="Email"/></div>
+        </div>
+        <div id="edit-error" class="text-red-400 text-sm mt-2 hidden"></div>
+        <button id="edit-save" class="mt-5 w-full py-4 active-pill rounded-xl font-label-md text-label-md flex items-center justify-center gap-2 shadow-lg">Save Changes</button>
+      </div>
+    </div>`;
+
+    const deleteModalHtml = `
+    <div id="delete-modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
+      <div class="glass-card w-full max-w-sm rounded-2xl p-6 shadow-2xl text-center">
+        <span class="material-symbols-outlined text-5xl text-error mb-3">warning</span>
+        <h2 class="font-headline-md text-on-surface mb-2">Delete Contact?</h2>
+        <p id="delete-name-label" class="text-on-surface-variant mb-5">This action cannot be undone.</p>
+        <input type="hidden" id="delete-id"/>
+        <div class="flex gap-3">
+          <button id="delete-cancel" class="flex-1 py-3 rounded-xl border border-surface-container-highest text-on-surface-variant hover:bg-surface-container transition-colors">Cancel</button>
+          <button id="delete-confirm" class="flex-1 py-3 rounded-xl bg-error text-on-error font-label-md hover:opacity-90 transition-opacity">Delete</button>
+        </div>
+      </div>
+    </div>`;
+
+    const convModalHtml = `
+    <div id="conv-modal" class="fixed inset-0 z-[200] flex items-end sm:items-center justify-center sm:p-4 bg-black/40 backdrop-blur-sm hidden">
+      <div class="glass-card w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl p-5 relative shadow-2xl flex flex-col" style="max-height:85dvh">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <h2 id="conv-contact-name" class="font-headline-md text-on-surface">Contact</h2>
+            <p id="conv-contact-sub" class="text-label-sm text-on-surface-variant"></p>
+          </div>
+          <button id="conv-close" class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <!-- Timeline -->
+        <div id="conv-timeline" class="flex-1 overflow-y-auto space-y-2 pr-1 mb-3" style="min-height:80px"></div>
+        <!-- Add new entry -->
+        <div class="border-t border-surface-container-highest/30 pt-3 space-y-2">
+          <div class="flex gap-2 items-center">
+            <input id="conv-date" type="date" class="rounded-lg bg-surface-container px-2.5 py-1.5 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-[13px]"/>
+            <span class="text-label-sm text-on-surface-variant flex-shrink-0">Note:</span>
+          </div>
+          <div class="flex gap-2">
+            <textarea id="conv-text" rows="2" class="flex-1 rounded-xl bg-surface-container px-3 py-2 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-[13px] resize-none" placeholder="Type conversation note..."></textarea>
+            <button id="conv-add" class="px-3 py-2 rounded-xl active-pill text-[13px] flex-shrink-0 flex items-center gap-1 self-end">
+              <span class="material-symbols-outlined text-[15px]">add</span> Add
+            </button>
+          </div>
+          <div id="conv-error" class="text-red-400 text-[12px] hidden"></div>
+        </div>
+        <input type="hidden" id="conv-contact-id"/>
+        <input type="hidden" id="conv-notes-raw"/>
+      </div>
+    </div>`;
+
+    // Tiny dropdown menu for 3-dot
+    const dotMenuHtml = `<div id="dot-menu" class="fixed z-[300] bg-surface border border-surface-container-highest/30 rounded-xl shadow-2xl py-1 w-36 hidden">
+      <button id="dot-edit" class="w-full text-left px-4 py-2 text-label-md hover:bg-surface-container flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">edit</span>Edit</button>
+      <button id="dot-delete" class="w-full text-left px-4 py-2 text-label-md text-error hover:bg-surface-container flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">delete</span>Delete</button>
+    </div>`;
+
+    const lightboxHtml = `<div id="card-lightbox" class="fixed inset-0 z-[400] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden">
+      <div class="relative max-w-lg w-full">
+        <button id="lightbox-close" class="absolute -top-10 right-0 text-white/80 hover:text-white flex items-center gap-1 text-sm"><span class="material-symbols-outlined text-[20px]">close</span> Close</button>
+        <p id="lightbox-name" class="text-white font-semibold mb-2 text-center truncate"></p>
+        <img id="lightbox-img" src="" alt="Scanned business card" class="w-full rounded-2xl shadow-2xl object-contain max-h-[80vh]">
+      </div>
+    </div>`;
+
+    document.body.insertAdjacentHTML("beforeend", editModalHtml + deleteModalHtml + convModalHtml + dotMenuHtml + lightboxHtml);
+
+    const editModal = document.getElementById("edit-modal");
+    const deleteModal = document.getElementById("delete-modal");
+
+    function openEditModal(contact) {
+      document.getElementById("edit-id").value = contact.id;
+      document.getElementById("edit-name").value = contact.name || "";
+      document.getElementById("edit-designation").value = contact.designation || "";
+      document.getElementById("edit-company").value = contact.company_name || "";
+      document.getElementById("edit-mobile").value = contact.mobile || "";
+      document.getElementById("edit-email").value = contact.email || "";
+      document.getElementById("edit-error").classList.add("hidden");
+      document.getElementById("edit-save").disabled = false;
+      document.getElementById("edit-save").textContent = "Save Changes";
+      editModal.classList.remove("hidden");
+    }
+
+    function openDeleteModal(contact) {
+      document.getElementById("delete-id").value = contact.id;
+      document.getElementById("delete-name-label").textContent = `"${contact.name || "This contact"}" will be permanently deleted.`;
+      deleteModal.classList.remove("hidden");
+    }
+
+    document.getElementById("edit-close").addEventListener("click", () => editModal.classList.add("hidden"));
+    document.getElementById("delete-cancel").addEventListener("click", () => deleteModal.classList.add("hidden"));
+    editModal.addEventListener("click", (e) => { if (e.target === editModal) editModal.classList.add("hidden"); });
+    deleteModal.addEventListener("click", (e) => { if (e.target === deleteModal) deleteModal.classList.add("hidden"); });
+
+    // ── Conversation Modal ────────────────────────────────────────────────────
+    const convModal = document.getElementById("conv-modal");
+    const dotMenu = document.getElementById("dot-menu");
+    let dotMenuContact = null;
+
+    function closeDotMenu() { dotMenu.classList.add("hidden"); }
+    document.addEventListener("click", (e) => { if (!dotMenu.contains(e.target)) closeDotMenu(); });
+
+    document.getElementById("dot-edit").addEventListener("click", () => {
+      closeDotMenu();
+      if (dotMenuContact) openEditModal(dotMenuContact);
+    });
+    document.getElementById("dot-delete").addEventListener("click", () => {
+      closeDotMenu();
+      if (dotMenuContact) openDeleteModal(dotMenuContact);
+    });
+
+    function parseConversations(notesRaw) {
+      if (!notesRaw) return [];
+      try {
+        const parsed = JSON.parse(notesRaw);
+        if (Array.isArray(parsed)) return parsed;
+      } catch (_) {}
+      // legacy plain text — wrap as single entry
+      return [{ date: "", text: notesRaw }];
+    }
+
+    function renderTimeline(entries) {
+      const el = document.getElementById("conv-timeline");
+      if (!entries.length) {
+        el.innerHTML = '<p class="text-on-surface-variant/50 text-[13px] text-center py-4">No conversations yet. Add the first note below.</p>';
+        return;
+      }
+      el.innerHTML = entries.map((e, i) => `
+        <div class="bg-surface-container rounded-xl px-3 py-2.5 relative group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[11px] font-semibold text-secondary">${e.date || "No date"}</span>
+            <button class="conv-delete-entry opacity-0 group-hover:opacity-100 transition-opacity text-error" data-idx="${i}" title="Remove">
+              <span class="material-symbols-outlined text-[14px] pointer-events-none">close</span>
+            </button>
+          </div>
+          <p class="text-[13px] text-on-surface leading-relaxed whitespace-pre-wrap">${e.text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</p>
+        </div>`).join("");
+      el.scrollTop = el.scrollHeight;
+    }
+
+    document.getElementById("conv-timeline").addEventListener("click", async (e) => {
+      const btn = e.target.closest(".conv-delete-entry");
+      if (!btn) return;
+      const idx = parseInt(btn.dataset.idx);
+      const id = document.getElementById("conv-contact-id").value;
+      let entries = parseConversations(document.getElementById("conv-notes-raw").value);
+      entries.splice(idx, 1);
+      const newNotes = entries.length ? JSON.stringify(entries) : null;
+      try {
+        await CardAI.contacts.update(id, { notes: newNotes });
+        document.getElementById("conv-notes-raw").value = newNotes || "";
+        renderTimeline(entries);
+        loadContacts("", currentPage);
+      } catch(err) { alert(err.message || "Failed to remove entry."); }
+    });
+
+    // ── Card Image Lightbox ───────────────────────────────────────────────────
+    // Elements are injected above via insertAdjacentHTML
+    const cardLightbox = document.getElementById("card-lightbox");
+    document.getElementById("lightbox-close").addEventListener("click", () => cardLightbox.classList.add("hidden"));
+    cardLightbox.addEventListener("click", (e) => { if (e.target === cardLightbox) cardLightbox.classList.add("hidden"); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") cardLightbox.classList.add("hidden"); });
+
+    function openCardImageLightbox(src, name) {
+      document.getElementById("lightbox-img").src = src;
+      document.getElementById("lightbox-name").textContent = name || "";
+      cardLightbox.classList.remove("hidden");
+    }
+
+    function openConversationModal(contact) {
+      document.getElementById("conv-contact-id").value = contact.id;
+      document.getElementById("conv-notes-raw").value = contact.notes || "";
+      document.getElementById("conv-contact-name").textContent = contact.name || "Contact";
+      document.getElementById("conv-contact-sub").textContent = [contact.designation, contact.company_name].filter(Boolean).join(" · ") || "";
+      // default date = today
+      const today = new Date().toISOString().slice(0,10);
+      document.getElementById("conv-date").value = today;
+      document.getElementById("conv-text").value = "";
+      document.getElementById("conv-error").classList.add("hidden");
+      renderTimeline(parseConversations(contact.notes || ""));
+      convModal.classList.remove("hidden");
+    }
+
+    document.getElementById("conv-close").addEventListener("click", () => convModal.classList.add("hidden"));
+    convModal.addEventListener("click", (e) => { if (e.target === convModal) convModal.classList.add("hidden"); });
+
+    document.getElementById("conv-add").addEventListener("click", async () => {
+      const id = document.getElementById("conv-contact-id").value;
+      const date = document.getElementById("conv-date").value;
+      const text = document.getElementById("conv-text").value.trim();
+      const errEl = document.getElementById("conv-error");
+      if (!text) { errEl.textContent = "Please write a note."; errEl.classList.remove("hidden"); return; }
+      errEl.classList.add("hidden");
+      const entries = parseConversations(document.getElementById("conv-notes-raw").value);
+      entries.push({ date: date || new Date().toISOString().slice(0,10), text });
+      const newNotes = JSON.stringify(entries);
+      try {
+        await CardAI.contacts.update(id, { notes: newNotes });
+        document.getElementById("conv-notes-raw").value = newNotes;
+        document.getElementById("conv-text").value = "";
+        renderTimeline(entries);
+        loadContacts("", currentPage);
+      } catch(err) { errEl.textContent = err.message || "Failed to save."; errEl.classList.remove("hidden"); }
+    });
+
+    document.getElementById("edit-save").addEventListener("click", async () => {
+      const id = document.getElementById("edit-id").value;
+      const payload = {
+        name: document.getElementById("edit-name").value.trim() || null,
+        designation: document.getElementById("edit-designation").value.trim() || null,
+        company_name: document.getElementById("edit-company").value.trim() || null,
+        mobile: document.getElementById("edit-mobile").value.trim() || null,
+        email: document.getElementById("edit-email").value.trim() || null,
+      };
+      const errEl = document.getElementById("edit-error");
+      const saveBtn = document.getElementById("edit-save");
+      try {
+        saveBtn.disabled = true;
+        saveBtn.textContent = "Saving…";
+        await CardAI.contacts.update(id, payload);
+        editModal.classList.add("hidden");
+        loadContacts("", currentPage);
+      } catch (err) {
+        errEl.textContent = err.message || "Save failed. Try again.";
+        errEl.classList.remove("hidden");
+        saveBtn.disabled = false;
+        saveBtn.textContent = "Save Changes";
+      }
+    });
+
+    document.getElementById("delete-confirm").addEventListener("click", async () => {
+      const id = document.getElementById("delete-id").value;
+      const btn = document.getElementById("delete-confirm");
+      try {
+        btn.disabled = true;
+        btn.textContent = "Deleting…";
+        await CardAI.contacts.remove(id);
+        deleteModal.classList.add("hidden");
+        btn.disabled = false;
+        btn.textContent = "Delete";
+        loadContacts("", currentPage);
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = "Delete";
+        alert(err.message || "Delete failed.");
+      }
+    });
+
+    // Event delegation for card clicks and more_vert button
+    contactsGrid.addEventListener("click", (e) => {
+      // Card image thumbnail click → open lightbox
+      const thumb = e.target.closest(".card-thumb");
+      if (thumb) {
+        e.stopPropagation();
+        openCardImageLightbox(thumb.dataset.src, thumb.dataset.name);
+        return;
+      }
+      const moreBtn = e.target.closest(".contact-more");
+      if (moreBtn) {
+        e.stopPropagation();
+        const card = moreBtn.closest(".contact-card");
+        dotMenuContact = JSON.parse(card?.dataset.contact || "{}");
+        const rect = moreBtn.getBoundingClientRect();
+        dotMenu.style.top = (rect.bottom + window.scrollY + 4) + "px";
+        dotMenu.style.left = Math.min(rect.left + window.scrollX, window.innerWidth - 152) + "px";
+        dotMenu.classList.remove("hidden");
+        return;
+      }
+      const card = e.target.closest(".contact-card");
+      if (card) {
+        const contact = JSON.parse(card.dataset.contact || "{}");
+        openConversationModal(contact);
+      }
+    });
+
+    // ── Navigation ────────────────────────────────────────────────────────────
+    // Sidebar logo
+    const sidebarLogo = document.querySelector("nav .font-display");
+    if (sidebarLogo) { sidebarLogo.style.cursor = "pointer"; sidebarLogo.addEventListener("click", () => CardAI.page("/dashboard")); }
+
+    document.querySelectorAll("a, button").forEach((element) => {
+      const text = element.textContent.trim();
+      if (text.includes("Scan Card") || text.includes("document_scanner")) element.addEventListener("click", () => CardAI.page("/scan"));
+      if (text.includes("Dashboard") || text.includes("Home")) element.addEventListener("click", () => CardAI.page("/dashboard"));
+      if (text.includes("AI Reports") || text.includes("Reports")) element.addEventListener("click", () => CardAI.page("/reports"));
+      if (text.includes("Companies") && !text.includes("Search")) element.addEventListener("click", () => CardAI.page("/companies"));
+    });
+
+    // Settings & Logout
+    async function doLogout() { await CardAI.auth.logout(); CardAI.page("/login"); }
+    document.getElementById("settings-btn-sidebar")?.addEventListener("click", (e) => { e.preventDefault(); openSettingsModal(); });
+    document.getElementById("settings-btn-mobile")?.addEventListener("click", (e) => { e.preventDefault(); openSettingsModal(); });
+    document.getElementById("logout-btn-sidebar")?.addEventListener("click", (e) => { e.preventDefault(); doLogout(); });
+
+    // Pre-fill search if coming from companies page
+    const savedSearch = localStorage.getItem("cardai_contact_search");
+    const highlightId = localStorage.getItem("cardai_highlight_id");
+    if (highlightId) localStorage.removeItem("cardai_highlight_id");
+    loadProfile().then(() => {
+      if (savedSearch) {
+        localStorage.removeItem("cardai_contact_search");
+        loadContacts(savedSearch, 1).then(() => {
+          if (highlightId) highlightContact(highlightId);
+        });
+      } else {
+        loadContacts("", 1).then(() => {
+          if (highlightId) highlightContact(highlightId);
+        });
+      }
+    });
+
+    function highlightContact(id) {
+      const card = contactsGrid.querySelector(`.contact-card[data-id="${id}"]`);
+      if (!card) return;
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      card.classList.add("ring-2", "ring-secondary", "ring-offset-2");
+      setTimeout(() => card.classList.remove("ring-2", "ring-secondary", "ring-offset-2"), 3000);
+    }
+  }
+</script>
+<!-- SETTINGS MODAL (shared) -->
+<div id="settings-modal" class="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
+  <div class="bg-surface w-full max-w-md rounded-2xl shadow-2xl border border-surface-container-highest/30 overflow-hidden">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-surface-container-highest/20">
+      <h2 class="font-headline-md text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-secondary">settings</span> Settings</h2>
+      <button id="settings-close" class="w-9 h-9 rounded-full hover:bg-surface-container flex items-center justify-center transition-colors"><span class="material-symbols-outlined text-on-surface-variant">close</span></button>
+    </div>
+    <div class="px-6 py-5 space-y-5 max-h-[70vh] overflow-y-auto">
+      <section>
+        <p class="text-label-sm text-secondary uppercase tracking-wider mb-3">Account</p>
+        <div class="space-y-3">
+          <div><label class="text-label-sm text-on-surface-variant">Full Name</label><input id="s-name" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="Your Name"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">Email</label><input id="s-email" class="mt-1 w-full rounded-xl bg-surface-container/50 px-4 py-3 text-on-surface-variant outline outline-1 outline-surface-container-highest text-body-md cursor-not-allowed" readonly/></div>
+          <button id="s-save-profile" class="w-full py-3 rounded-xl bg-secondary text-on-secondary font-label-md hover:opacity-90 transition-opacity">Save Profile</button>
+          <p id="s-profile-msg" class="text-sm text-center hidden"></p>
+        </div>
+      </section>
+      <section>
+        <p class="text-label-sm text-secondary uppercase tracking-wider mb-3">Change Password</p>
+        <div class="space-y-3">
+          <div><label class="text-label-sm text-on-surface-variant">Current Password</label><input id="s-cur-pass" type="password" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="••••••••"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">New Password</label><input id="s-new-pass" type="password" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="Min 8 characters"/></div>
+          <div><label class="text-label-sm text-on-surface-variant">Confirm New Password</label><input id="s-conf-pass" type="password" class="mt-1 w-full rounded-xl bg-surface-container px-4 py-3 text-on-surface outline outline-1 outline-surface-container-highest focus:outline-secondary text-body-md" placeholder="Repeat new password"/></div>
+          <button id="s-save-pass" class="w-full py-3 rounded-xl bg-secondary text-on-secondary font-label-md hover:opacity-90 transition-opacity">Change Password</button>
+          <p id="s-pass-msg" class="text-sm text-center hidden"></p>
+        </div>
+      </section>
+      <section>
+        <p class="text-label-sm text-secondary uppercase tracking-wider mb-3">Application</p>
+        <div class="bg-surface-container rounded-xl px-4 py-3 space-y-2 text-body-md text-on-surface-variant">
+          <div class="flex justify-between"><span>Version</span><span class="text-on-surface font-bold">v2.1.0</span></div>
+          <div class="flex justify-between"><span>Plan</span><span class="text-secondary font-bold">Enterprise</span></div>
+          <div class="flex justify-between"><span>API</span><span class="text-on-surface font-bold text-sm truncate max-w-[180px]" id="s-api-url"></span></div>
+        </div>
+      </section>
+    </div>
+    <div class="px-6 py-4 border-t border-surface-container-highest/20">
+      <button id="s-logout-btn" class="w-full py-3 rounded-xl border border-error text-error font-label-md hover:bg-error/10 transition-colors flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined">logout</span> Logout
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+(function() {
+  function openSettingsModal() {
+    document.getElementById("settings-modal").classList.remove("hidden");
+    document.getElementById("s-api-url").textContent = CardAI.API_BASE_URL;
+    CardAI.auth.me().then((res) => {
+      document.getElementById("s-name").value = res.data.full_name || "";
+      document.getElementById("s-email").value = res.data.email || "";
+    }).catch(() => {});
+  }
+  window.openSettingsModal = openSettingsModal;
+  document.getElementById("settings-close").addEventListener("click", () => document.getElementById("settings-modal").classList.add("hidden"));
+  document.getElementById("settings-modal").addEventListener("click", (e) => { if (e.target === document.getElementById("settings-modal")) document.getElementById("settings-modal").classList.add("hidden"); });
+  document.getElementById("s-save-profile").addEventListener("click", async () => {
+    const btn = document.getElementById("s-save-profile"), msg = document.getElementById("s-profile-msg");
+    const name = document.getElementById("s-name").value.trim();
+    if (!name) { msg.textContent = "Name cannot be empty."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    try { btn.disabled = true; btn.textContent = "Saving…"; await CardAI.auth.updateProfile({ full_name: name }); msg.textContent = "Profile updated!"; msg.className = "text-sm text-center text-green-600"; msg.classList.remove("hidden"); }
+    catch (err) { msg.textContent = err.message || "Update failed."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); }
+    finally { btn.disabled = false; btn.textContent = "Save Profile"; }
+  });
+  document.getElementById("s-save-pass").addEventListener("click", async () => {
+    const btn = document.getElementById("s-save-pass"), msg = document.getElementById("s-pass-msg");
+    const cur = document.getElementById("s-cur-pass").value, nw = document.getElementById("s-new-pass").value, conf = document.getElementById("s-conf-pass").value;
+    if (!cur || !nw || !conf) { msg.textContent = "Fill all password fields."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    if (nw !== conf) { msg.textContent = "Passwords do not match."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    if (nw.length < 8) { msg.textContent = "Min 8 characters required."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); return; }
+    try { btn.disabled = true; btn.textContent = "Changing…"; await CardAI.auth.updateProfile({ current_password: cur, new_password: nw }); msg.textContent = "Password changed!"; msg.className = "text-sm text-center text-green-600"; msg.classList.remove("hidden"); ["s-cur-pass","s-new-pass","s-conf-pass"].forEach(id => document.getElementById(id).value = ""); }
+    catch (err) { msg.textContent = err.message || "Failed."; msg.className = "text-sm text-center text-error"; msg.classList.remove("hidden"); }
+    finally { btn.disabled = false; btn.textContent = "Change Password"; }
+  });
+  document.getElementById("s-logout-btn").addEventListener("click", async () => { await CardAI.auth.logout(); CardAI.page("/login"); });
+})();
+</script>
+</body></html>

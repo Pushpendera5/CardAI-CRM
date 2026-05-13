@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CardAI CRM - Admin Panel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "error-container": "#ffdad6","secondary": "#712ae2","on-primary-fixed": "#131b2e",
+          "primary-fixed-dim": "#bec6e0","on-secondary": "#ffffff","inverse-surface": "#213145",
+          "primary-container": "#131b2e","surface": "#f8f9ff","on-primary": "#ffffff",
+          "on-primary-fixed-variant": "#3f465c","primary": "#000000","on-background": "#0b1c30",
+          "on-primary-container": "#7c839b","inverse-primary": "#bec6e0","surface-container-lowest": "#ffffff",
+          "surface-tint": "#565e74","on-secondary-fixed": "#25005a","on-secondary-fixed-variant": "#5a00c6",
+          "error": "#ba1a1a","inverse-on-surface": "#eaf1ff","surface-dim": "#cbdbf5",
+          "secondary-fixed-dim": "#d2bbff","tertiary-fixed-dim": "#c4c7c9","on-secondary-container": "#fffbff",
+          "surface-bright": "#f8f9ff","surface-container-highest": "#d3e4fe","on-tertiary-container": "#818486",
+          "on-surface": "#0b1c30","secondary-container": "#8a4cfc","surface-container-low": "#eff4ff",
+          "background": "#f8f9ff","on-tertiary-fixed": "#191c1e","tertiary-fixed": "#e0e3e5",
+          "on-error-container": "#93000a","outline": "#76777d","on-tertiary": "#ffffff","on-error": "#ffffff",
+          "surface-container-high": "#dce9ff","primary-fixed": "#dae2fd","secondary-fixed": "#eaddff",
+          "on-tertiary-fixed-variant": "#444749","surface-container": "#e5eeff","tertiary": "#000000",
+          "outline-variant": "#c6c6cd","surface-variant": "#d3e4fe","on-surface-variant": "#45464d",
+          "tertiary-container": "#191c1e"
+        },
+        "spacing": { "sm": "12px","lg": "40px","md": "24px","margin": "32px","base": "8px","xs": "4px","gutter": "24px","xl": "64px" },
+        "fontFamily": {
+          "headline-lg-mobile": ["Geist"],
+          "headline-md": ["Geist"],
+          "headline-lg": ["Geist"],
+          "label-sm": ["Geist"],
+          "label-md": ["Geist"],
+          "display": ["Geist"],
+          "body-lg": ["Geist"],
+          "body-md": ["Geist"]
+        },
+        "fontSize": {
+          "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+          "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+          "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}],
+          "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  .glass-card { background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen">
+
+<!-- Desktop Sidebar Nav -->
+<nav class="fixed left-0 top-0 h-full w-72 rounded-r-xl bg-surface/80 backdrop-blur-2xl border-r border-surface-container-highest/20 shadow-xl hidden md:flex flex-col py-md z-[60]">
+  <div class="px-margin mb-md">
+    <span class="font-display text-headline-md font-bold text-secondary cursor-pointer" id="sidebar-logo">CardAI</span>
+  </div>
+  <div class="px-margin mb-md">
+    <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+      <div id="sidebar-avatar" class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center font-bold text-secondary text-[13px] flex-shrink-0">…</div>
+      <div class="min-w-0">
+        <p class="font-label-md text-label-md text-on-surface font-semibold truncate" id="sidebar-username">Loading…</p>
+        <p class="text-[11px] text-secondary font-semibold truncate" id="sidebar-role">—</p>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1 space-y-1">
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="nav-dashboard">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="font-label-md text-label-md">Dashboard</span>
+    </a>
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="nav-scan">
+      <span class="material-symbols-outlined">document_scanner</span>
+      <span class="font-label-md text-label-md">Scan Card</span>
+    </a>
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="nav-contacts">
+      <span class="material-symbols-outlined">person_search</span>
+      <span class="font-label-md text-label-md">Contacts</span>
+    </a>
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="nav-companies">
+      <span class="material-symbols-outlined">domain</span>
+      <span class="font-label-md text-label-md">Companies</span>
+    </a>
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="nav-reports">
+      <span class="material-symbols-outlined">insights</span>
+      <span class="font-label-md text-label-md">AI Reports</span>
+    </a>
+    <a class="bg-secondary-container/30 text-secondary rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-all duration-200" id="nav-admin">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">shield_person</span>
+      <span class="font-label-md text-label-md">Admin Panel</span>
+    </a>
+    <a class="text-on-surface-variant mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-container transition-all rounded-lg cursor-pointer" id="settings-btn-sidebar">
+      <span class="material-symbols-outlined">settings</span>
+      <span class="font-label-md text-label-md">Settings</span>
+    </a>
+    <a class="text-error mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-error/10 transition-all rounded-lg cursor-pointer" id="logout-btn-sidebar">
+      <span class="material-symbols-outlined">logout</span>
+      <span class="font-label-md text-label-md">Logout</span>
+    </a>
+  </div>
+</nav>
+
+<main class="md:ml-72 max-w-5xl mx-auto px-4 py-8">
+
+  <!-- Stats row -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8" id="stats-row">
+    <div class="glass-card rounded-2xl p-4 border border-surface-container-highest/20">
+      <p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Total Users</p>
+      <p class="text-[28px] font-bold text-on-surface" id="stat-total">—</p>
+    </div>
+    <div class="glass-card rounded-2xl p-4 border border-surface-container-highest/20">
+      <p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Active</p>
+      <p class="text-[28px] font-bold text-secondary" id="stat-active">—</p>
+    </div>
+    <div class="glass-card rounded-2xl p-4 border border-surface-container-highest/20">
+      <p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Admins</p>
+      <p class="text-[28px] font-bold text-on-surface" id="stat-admins">—</p>
+    </div>
+    <div class="glass-card rounded-2xl p-4 border border-surface-container-highest/20">
+      <p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Regular Users</p>
+      <p class="text-[28px] font-bold text-on-surface" id="stat-users">—</p>
+    </div>
+  </div>
+
+  <!-- Title + actions -->
+  <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+    <h1 class="text-[20px] font-semibold text-on-surface">User Management</h1>
+    <div class="flex items-center gap-2">
+      <div class="relative">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+        <input id="user-search" type="text" placeholder="Search users..." autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly')" class="pl-9 pr-3 py-2 rounded-xl bg-surface-container border border-surface-container-highest/30 text-label-md outline-none focus:ring-2 focus:ring-secondary/30 w-48"/>
+      </div>
+      <button id="add-user-btn" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary text-white font-label-md hover:opacity-90 transition-opacity">
+        <span class="material-symbols-outlined text-[18px]">person_add</span> Add User
+      </button>
+    </div>
+  </div>
+
+  <!-- Users table -->
+  <div class="glass-card rounded-2xl border border-surface-container-highest/20 overflow-hidden">
+    <div id="users-loading" class="flex items-center justify-center py-16">
+      <span class="material-symbols-outlined animate-spin text-secondary text-[40px]">progress_activity</span>
+    </div>
+    <div id="users-empty" class="flex flex-col items-center justify-center py-16 hidden">
+      <span class="material-symbols-outlined text-[64px] text-on-surface-variant/30">group_off</span>
+      <p class="text-on-surface-variant mt-2">No users found.</p>
+    </div>
+    <table id="users-table" class="w-full hidden">
+      <thead class="bg-surface-container/60 border-b border-surface-container-highest/30">
+        <tr>
+          <th class="text-left px-5 py-3 text-label-sm text-on-surface-variant uppercase tracking-wider">#</th>
+          <th class="text-left px-5 py-3 text-label-sm text-on-surface-variant uppercase tracking-wider">Name</th>
+          <th class="text-left px-5 py-3 text-label-sm text-on-surface-variant uppercase tracking-wider hidden sm:table-cell">Email</th>
+          <th class="text-left px-5 py-3 text-label-sm text-on-surface-variant uppercase tracking-wider">Role</th>
+          <th class="text-left px-5 py-3 text-label-sm text-on-surface-variant uppercase tracking-wider">Contacts</th>
+          <th class="text-left px-5 py-3 text-label-sm text-on-surface-variant uppercase tracking-wider hidden md:table-cell">Joined</th>
+          <th class="text-left px-5 py-3 text-label-sm text-on-surface-variant uppercase tracking-wider">Status</th>
+          <th class="px-5 py-3"></th>
+        </tr>
+      </thead>
+      <tbody id="users-tbody" class="divide-y divide-surface-container-highest/20"></tbody>
+    </table>
+    <nav id="users-pagination" class="flex items-center justify-center gap-2 py-4 border-t border-surface-container-highest/10"></nav>
+  </div>
+</main>
+
+<!-- Add User Modal -->
+<div id="add-user-modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
+  <div class="bg-surface w-full max-w-md rounded-2xl shadow-2xl border border-surface-container-highest/30 p-6">
+    <h2 class="font-semibold text-on-surface text-[18px] mb-4 flex items-center gap-2">
+      <span class="material-symbols-outlined text-secondary">person_add</span> Add New User
+    </h2>
+    <div class="space-y-3">
+      <input id="new-name" type="text" placeholder="Full Name" class="w-full px-4 py-2.5 rounded-xl bg-surface-container border border-surface-container-highest/40 text-label-md outline-none focus:ring-2 focus:ring-secondary/30"/>
+      <input id="new-email" type="email" placeholder="Email" class="w-full px-4 py-2.5 rounded-xl bg-surface-container border border-surface-container-highest/40 text-label-md outline-none focus:ring-2 focus:ring-secondary/30"/>
+      <input id="new-password" type="password" placeholder="Password (min 8 chars)" class="w-full px-4 py-2.5 rounded-xl bg-surface-container border border-surface-container-highest/40 text-label-md outline-none focus:ring-2 focus:ring-secondary/30"/>
+      <select id="new-role" class="w-full px-4 py-2.5 rounded-xl bg-surface-container border border-surface-container-highest/40 text-label-md outline-none focus:ring-2 focus:ring-secondary/30">
+        <option value="User">User</option>
+        <option value="Admin">Admin</option>
+        <option value="SuperAdmin">SuperAdmin</option>
+      </select>
+      <p id="add-user-error" class="text-error text-sm hidden"></p>
+    </div>
+    <div class="flex gap-3 mt-5">
+      <button id="add-user-cancel" class="flex-1 py-2.5 rounded-xl border border-surface-container-highest text-on-surface-variant hover:bg-surface-container transition-colors text-label-md">Cancel</button>
+      <button id="add-user-save" class="flex-1 py-2.5 rounded-xl bg-secondary text-white font-label-md hover:opacity-90 transition-opacity">Create User</button>
+    </div>
+  </div>
+</div>
+
+<!-- Change Role Modal -->
+<div id="role-modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
+  <div class="bg-surface w-full max-w-sm rounded-2xl shadow-2xl border border-surface-container-highest/30 p-6">
+    <h2 class="font-semibold text-on-surface text-[18px] mb-1">Change Role</h2>
+    <p class="text-label-md text-on-surface-variant mb-4">User: <strong id="role-modal-name"></strong></p>
+    <input type="hidden" id="role-user-id"/>
+    <select id="role-select" class="w-full px-4 py-2.5 rounded-xl bg-surface-container border border-surface-container-highest/40 text-label-md outline-none focus:ring-2 focus:ring-secondary/30 mb-4">
+      <option value="User">User</option>
+      <option value="Admin">Admin</option>
+      <option value="SuperAdmin">SuperAdmin</option>
+    </select>
+    <p id="role-error" class="text-error text-sm hidden mb-2"></p>
+    <div class="flex gap-3">
+      <button id="role-cancel" class="flex-1 py-2.5 rounded-xl border border-surface-container-highest text-on-surface-variant hover:bg-surface-container transition-colors text-label-md">Cancel</button>
+      <button id="role-save" class="flex-1 py-2.5 rounded-xl bg-secondary text-white font-label-md hover:opacity-90 transition-opacity">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete/Deactivate Modal -->
+<div id="action-modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
+  <div class="bg-surface w-full max-w-sm rounded-2xl shadow-2xl border border-surface-container-highest/30 p-6 text-center">
+    <div class="w-14 h-14 rounded-full bg-error/10 flex items-center justify-center mx-auto mb-3">
+      <span id="action-modal-icon" class="material-symbols-outlined text-error text-[32px]">delete_forever</span>
+    </div>
+    <h2 class="font-semibold text-on-surface text-[17px] mb-1" id="action-modal-title">Confirm Action</h2>
+    <p class="text-label-md text-on-surface-variant mb-4" id="action-modal-msg"></p>
+    <input type="hidden" id="action-user-id"/>
+    <input type="hidden" id="action-type"/>
+    <p id="action-error" class="text-error text-sm hidden mb-2"></p>
+    <div class="flex gap-3">
+      <button id="action-cancel" class="flex-1 py-2.5 rounded-xl border border-surface-container-highest text-on-surface-variant hover:bg-surface-container transition-colors text-label-md">Cancel</button>
+      <button id="action-confirm" class="flex-1 py-2.5 rounded-xl bg-error text-white font-label-md hover:opacity-90 transition-opacity">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/api.js"></script>
+<script>
+if (!CardAI.requireAuth()) {
+  // stop execution if not authenticated
+} else {
+  // Verify SuperAdmin role
+  CardAI.auth.me().then(res => {
+    const role = res.data.role;
+    if (role !== "SuperAdmin") {
+      alert("Access denied. SuperAdmin only.");
+      CardAI.page("/dashboard");
+    } else {
+      init(res.data);
+    }
+  }).catch(() => CardAI.page("/login"));
+
+  function init(me) {
+    // Navigation
+    document.getElementById("nav-dashboard").addEventListener("click", () => CardAI.page("/dashboard"));
+    document.getElementById("nav-scan").addEventListener("click", () => CardAI.page("/scan"));
+    document.getElementById("nav-contacts").addEventListener("click", () => CardAI.page("/contacts"));
+    document.getElementById("nav-companies").addEventListener("click", () => CardAI.page("/companies"));
+    document.getElementById("nav-reports").addEventListener("click", () => CardAI.page("/reports"));
+    document.getElementById("sidebar-logo").addEventListener("click", () => CardAI.page("/dashboard"));
+    document.getElementById("settings-btn-sidebar").addEventListener("click", () => {});
+    document.getElementById("logout-btn-sidebar").addEventListener("click", async () => { await CardAI.auth.logout(); CardAI.page("/login"); });
+
+    // Profile card
+    const initials = (me.full_name || "?").split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+    document.getElementById("sidebar-avatar").textContent = initials;
+    document.getElementById("sidebar-username").textContent = me.full_name || "—";
+    document.getElementById("sidebar-role").textContent = me.role || "—";
+
+    let currentPage = 1;
+    const pageSize = 15;
+    let searchTimer = null;
+
+    // Search debounce
+    document.getElementById("user-search").addEventListener("input", () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => loadUsers(1), 400);
+    });
+
+    async function loadStats() {
+      try {
+        const res = await CardAI.admin.listUsers({ page: 1, page_size: 1000 });
+        const all = res.data.items || [];
+        const total = res.data.total || 0;
+        document.getElementById("stat-total").textContent = total;
+        document.getElementById("stat-active").textContent = all.filter(u => u.is_active).length;
+        document.getElementById("stat-admins").textContent = all.filter(u => u.role === "Admin").length;
+        document.getElementById("stat-users").textContent = all.filter(u => u.role === "User").length;
+      } catch { /* non-critical */ }
+    }
+
+    async function loadUsers(page = 1) {
+      currentPage = page;
+      const search = document.getElementById("user-search").value.trim() || undefined;
+      const loading = document.getElementById("users-loading");
+      const table = document.getElementById("users-table");
+      const empty = document.getElementById("users-empty");
+      loading.classList.remove("hidden");
+      table.classList.add("hidden");
+      empty.classList.add("hidden");
+
+      try {
+        const params = { page, page_size: pageSize };
+        if (search) params.search = search;
+        const res = await CardAI.admin.listUsers(params);
+        const items = res.data.items || [];
+        const total = res.data.total || 0;
+        const totalPages = Math.max(1, Math.ceil(total / pageSize));
+
+        // Stats handled separately by loadStats()
+
+        loading.classList.add("hidden");
+        if (!items.length) { empty.classList.remove("hidden"); return; }
+
+        const offset = (page - 1) * pageSize;
+        document.getElementById("users-tbody").innerHTML = items.map((u, i) => userRow(u, offset + i + 1, me.id)).join("");
+        table.classList.remove("hidden");
+        renderPagination(page, totalPages);
+      } catch (err) {
+        loading.classList.add("hidden");
+        document.getElementById("users-tbody").innerHTML = `<tr><td colspan="8" class="text-error text-center py-8 px-4">${err.message || "Failed to load users."}</td></tr>`;
+        table.classList.remove("hidden");
+      }
+    }
+
+    function roleBadge(role) {
+      const map = {
+        SuperAdmin: "bg-secondary text-white",
+        Admin: "bg-secondary/10 text-secondary",
+        User: "bg-surface-container text-on-surface-variant",
+      };
+      return `<span class="text-[11px] font-semibold px-2 py-0.5 rounded-full ${map[role] || ''}">${role}</span>`;
+    }
+
+    function userRow(u, idx, myId) {
+      const isSelf = u.id === myId;
+      const initials = (u.full_name || "?").slice(0, 2).toUpperCase();
+      const joined = u.created_at ? new Date(u.created_at).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }) : "—";
+      const statusBadge = u.is_active
+        ? `<span class="text-[11px] font-semibold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">Active</span>`
+        : `<span class="text-[11px] font-semibold text-error bg-error-container px-2 py-0.5 rounded-full">Inactive</span>`;
+      const selfTag = isSelf ? `<span class="text-[10px] text-secondary ml-1">(you)</span>` : "";
+      return `<tr class="hover:bg-surface-container/40 transition-colors" data-id="${u.id}" data-name="${(u.full_name||"").replace(/"/g,"&quot;")}">
+        <td class="px-5 py-3 text-label-sm text-on-surface-variant">${idx}</td>
+        <td class="px-5 py-3">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-secondary/10 text-secondary flex items-center justify-center font-bold text-[11px] flex-shrink-0">${initials}</div>
+            <span class="text-label-md text-on-surface font-medium">${u.full_name || "—"}${selfTag}</span>
+          </div>
+        </td>
+        <td class="px-5 py-3 text-label-md text-on-surface-variant hidden sm:table-cell">${u.email}</td>
+        <td class="px-5 py-3">${roleBadge(u.role)}</td>
+        <td class="px-5 py-3 text-label-md text-on-surface-variant">${u.contact_count ?? 0}</td>
+        <td class="px-5 py-3 text-label-md text-on-surface-variant hidden md:table-cell">${joined}</td>
+        <td class="px-5 py-3">${statusBadge}</td>
+        <td class="px-5 py-3">
+          ${isSelf ? "" : `<div class="flex items-center gap-1">
+            <button class="action-role w-7 h-7 rounded-lg hover:bg-secondary/10 flex items-center justify-center transition-colors" title="Change Role">
+              <span class="material-symbols-outlined text-[16px] text-secondary pointer-events-none">manage_accounts</span>
+            </button>
+            <button class="action-toggle w-7 h-7 rounded-lg hover:bg-surface-container flex items-center justify-center transition-colors" data-active="${u.is_active}" title="${u.is_active ? 'Deactivate' : 'Activate'}">
+              <span class="material-symbols-outlined text-[16px] text-on-surface-variant pointer-events-none">${u.is_active ? "person_off" : "person_check"}</span>
+            </button>
+            <button class="action-delete w-7 h-7 rounded-lg hover:bg-error/10 flex items-center justify-center transition-colors" title="Delete User">
+              <span class="material-symbols-outlined text-[16px] text-error pointer-events-none">delete</span>
+            </button>
+          </div>`}
+        </td>
+      </tr>`;
+    }
+
+    function renderPagination(page, totalPages) {
+      const nav = document.getElementById("users-pagination");
+      if (totalPages <= 1) { nav.innerHTML = ""; return; }
+      nav.innerHTML = `
+        <button id="u-prev" class="w-9 h-9 flex items-center justify-center rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors ${page <= 1 ? "opacity-40 pointer-events-none" : ""}">
+          <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+        </button>
+        <span class="px-3 py-2 text-label-md text-on-surface-variant">Page ${page} of ${totalPages}</span>
+        <button id="u-next" class="w-9 h-9 flex items-center justify-center rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors ${page >= totalPages ? "opacity-40 pointer-events-none" : ""}">
+          <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+        </button>`;
+      document.getElementById("u-prev")?.addEventListener("click", () => loadUsers(page - 1));
+      document.getElementById("u-next")?.addEventListener("click", () => loadUsers(page + 1));
+    }
+
+    // ── Table action delegation ────────────────────────────────────────────
+    document.getElementById("users-tbody").addEventListener("click", (e) => {
+      const row = e.target.closest("tr[data-id]");
+      if (!row) return;
+      const userId = row.dataset.id;
+      const userName = row.dataset.name;
+
+      if (e.target.closest(".action-role")) {
+        openRoleModal(userId, userName, row.querySelector(".action-role").closest("td").previousElementSibling.textContent.trim());
+      } else if (e.target.closest(".action-toggle")) {
+        const btn = e.target.closest(".action-toggle");
+        const isActive = btn.dataset.active === "true";
+        openActionModal(userId, userName, isActive ? "deactivate" : "activate");
+      } else if (e.target.closest(".action-delete")) {
+        openActionModal(userId, userName, "delete");
+      }
+    });
+
+    // ── Add User Modal ────────────────────────────────────────────────────
+    const addModal = document.getElementById("add-user-modal");
+    document.getElementById("add-user-btn").addEventListener("click", () => {
+      document.getElementById("new-name").value = "";
+      document.getElementById("new-email").value = "";
+      document.getElementById("new-password").value = "";
+      document.getElementById("new-role").value = "User";
+      document.getElementById("add-user-error").classList.add("hidden");
+      addModal.classList.remove("hidden");
+    });
+    document.getElementById("add-user-cancel").addEventListener("click", () => addModal.classList.add("hidden"));
+    addModal.addEventListener("click", (e) => { if (e.target === addModal) addModal.classList.add("hidden"); });
+
+    document.getElementById("add-user-save").addEventListener("click", async () => {
+      const btn = document.getElementById("add-user-save");
+      const errEl = document.getElementById("add-user-error");
+      const name = document.getElementById("new-name").value.trim();
+      const email = document.getElementById("new-email").value.trim();
+      const password = document.getElementById("new-password").value;
+      const role = document.getElementById("new-role").value;
+      if (!name || !email || !password) {
+        errEl.textContent = "All fields are required."; errEl.classList.remove("hidden"); return;
+      }
+      try {
+        btn.disabled = true; btn.textContent = "Creating…";
+        await CardAI.admin.createUser({ full_name: name, email, password, role });
+        addModal.classList.add("hidden");
+        loadUsers(currentPage);
+        loadStats();
+      } catch (err) {
+        errEl.textContent = err.message || "Failed to create user.";
+        errEl.classList.remove("hidden");
+      } finally {
+        btn.disabled = false; btn.textContent = "Create User";
+      }
+    });
+
+    // ── Role Modal ────────────────────────────────────────────────────────
+    const roleModal = document.getElementById("role-modal");
+    function openRoleModal(userId, userName, currentRole) {
+      document.getElementById("role-user-id").value = userId;
+      document.getElementById("role-modal-name").textContent = userName;
+      document.getElementById("role-select").value = currentRole;
+      document.getElementById("role-error").classList.add("hidden");
+      roleModal.classList.remove("hidden");
+    }
+    document.getElementById("role-cancel").addEventListener("click", () => roleModal.classList.add("hidden"));
+    roleModal.addEventListener("click", (e) => { if (e.target === roleModal) roleModal.classList.add("hidden"); });
+
+    document.getElementById("role-save").addEventListener("click", async () => {
+      const btn = document.getElementById("role-save");
+      const errEl = document.getElementById("role-error");
+      const userId = document.getElementById("role-user-id").value;
+      const role = document.getElementById("role-select").value;
+      try {
+        btn.disabled = true; btn.textContent = "Saving…";
+        await CardAI.admin.changeRole(userId, role);
+        roleModal.classList.add("hidden");
+        loadUsers(currentPage);
+      } catch (err) {
+        errEl.textContent = err.message || "Failed to update role.";
+        errEl.classList.remove("hidden");
+      } finally {
+        btn.disabled = false; btn.textContent = "Save";
+      }
+    });
+
+    // ── Activate/Deactivate/Delete Modal ─────────────────────────────────
+    const actionModal = document.getElementById("action-modal");
+    function openActionModal(userId, userName, type) {
+      document.getElementById("action-user-id").value = userId;
+      document.getElementById("action-type").value = type;
+      document.getElementById("action-error").classList.add("hidden");
+      const msgs = {
+        deactivate: { title: "Deactivate User?", msg: `Deactivate <strong>${userName}</strong>? They won't be able to login.`, icon: "person_off" },
+        activate: { title: "Activate User?", msg: `Activate <strong>${userName}</strong>?`, icon: "person_check" },
+        delete: { title: "Delete User?", msg: `Permanently delete <strong>${userName}</strong>? This cannot be undone.`, icon: "delete_forever" },
+      };
+      const m = msgs[type];
+      document.getElementById("action-modal-title").textContent = m.title;
+      document.getElementById("action-modal-msg").innerHTML = m.msg;
+      document.getElementById("action-modal-icon").textContent = m.icon;
+      actionModal.classList.remove("hidden");
+    }
+    document.getElementById("action-cancel").addEventListener("click", () => { actionModal.classList.add("hidden"); });
+    actionModal.addEventListener("click", (e) => { if (e.target === actionModal) actionModal.classList.add("hidden"); });
+
+    document.getElementById("action-confirm").addEventListener("click", async () => {
+      const btn = document.getElementById("action-confirm");
+      const errEl = document.getElementById("action-error");
+      const userId = document.getElementById("action-user-id").value;
+      const type = document.getElementById("action-type").value;
+      try {
+        btn.disabled = true; btn.textContent = "Please wait…";
+        if (type === "delete") await CardAI.admin.deleteUser(userId);
+        else if (type === "deactivate") await CardAI.admin.toggleStatus(userId, false);
+        else if (type === "activate") await CardAI.admin.toggleStatus(userId, true);
+        actionModal.classList.add("hidden");
+        loadUsers(currentPage);
+      } catch (err) {
+        errEl.textContent = err.message || "Action failed.";
+        errEl.classList.remove("hidden");
+      } finally {
+        btn.disabled = false; btn.textContent = "Confirm";
+      }
+    });
+
+    loadUsers(1);
+    loadStats();
+  }
+}
+</script>
+</body>
+</html>
