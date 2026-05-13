@@ -2,22 +2,22 @@
 
 **AI-powered Business Card Scanner & Contact Management System**
 
-Business cards ko scan karo, contacts automatically extract karo, aur ek clean CRM dashboard mein manage karo — sab kuch ek jagah.
+Scan business cards, automatically extract contact information, and manage everything in a clean CRM dashboard — all in one place.
 
 ---
 
-## Kya karta hai yeh project?
+## What does this project do?
 
 | Feature | Description |
 |---|---|
-| **Card Scanning** | Business card ki photo upload karo — OCR (EasyOCR) aur NLP se naam, phone, email, company automatically detect hota hai |
-| **Contact Management** | Extracted contacts ko view, edit, search, aur delete karo |
-| **Company Grouping** | Contacts automatically unki company ke under group hote hain |
-| **Reports & Analytics** | Dashboard pe contact growth, scan activity, aur company-wise breakdown charts |
-| **Export** | Contacts ko CSV / Excel / PDF mein export karo |
+| **Card Scanning** | Upload a photo of a business card — name, phone, email, and company are automatically detected using OCR (EasyOCR) and NLP |
+| **Contact Management** | View, edit, search, and delete extracted contacts |
+| **Company Grouping** | Contacts are automatically grouped under their respective companies |
+| **Reports & Analytics** | Dashboard with contact growth, scan activity, and company-wise breakdown charts |
+| **Export** | Export contacts to CSV, Excel, or PDF |
 | **Authentication** | JWT-based login/logout with access + refresh tokens, role-based access (user / admin / superadmin) |
-| **Admin Panel** | User management, system stats, aur role assignment |
-| **ML Training** | Custom datasets upload karke field extractor ko fine-tune karo |
+| **Admin Panel** | User management, system statistics, and role assignment |
+| **ML Training** | Upload custom datasets to fine-tune the field extractor model |
 
 ---
 
@@ -27,7 +27,7 @@ Business cards ko scan karo, contacts automatically extract karo, aur ek clean C
 - **FastAPI** — REST API framework
 - **SQLAlchemy + Alembic** — ORM + database migrations
 - **MSSQL** (production) / **SQLite** (local dev fallback)
-- **EasyOCR + OpenCV** — image preprocessing aur text extraction
+- **EasyOCR + OpenCV** — image preprocessing and text extraction
 - **spaCy** — NLP-based field extraction (name, org, etc.)
 - **Celery + Redis** — background tasks (ML training, heavy exports)
 - **JWT (HS256)** — authentication with refresh token rotation
