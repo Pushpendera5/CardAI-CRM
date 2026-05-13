@@ -26,7 +26,7 @@ Scan business cards, automatically extract contact information, and manage every
 ### Backend
 - **FastAPI** — REST API framework
 - **SQLAlchemy + Alembic** — ORM + database migrations
-- **MSSQL** (production) / **SQLite** (local dev fallback)
+- **MSSQL** (production)
 - **EasyOCR + OpenCV** — image preprocessing and text extraction
 - **spaCy** — NLP-based field extraction (name, org, etc.)
 - **Celery + Redis** — background tasks (ML training, heavy exports)
