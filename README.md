@@ -1,4 +1,4 @@
-# CardAI CRM
+# CardAI 
 
 **AI-powered Business Card Scanner & Contact Management System**
 
