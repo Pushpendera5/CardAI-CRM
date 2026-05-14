@@ -5,6 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>CardAI CRM - Dashboard</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
@@ -149,7 +150,7 @@
 <!-- Welcome Section -->
 <section class="mb-lg">
 <h2 class="font-headline-md text-headline-md text-primary mb-xs">Dashboard</h2>
-<p class="font-body-md text-on-surface-variant">Welcome back, Alex Sterling</p>
+<p class="font-body-md text-on-surface-variant">Welcome back, <span id="welcome-name">…</span></p>
 </section>
 <!-- Key Stats Bento Grid -->
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-lg">
@@ -161,7 +162,7 @@
 </div>
 <div>
 <p class="text-label-md font-label-md text-on-surface-variant">Total Scanned</p>
-<p class="text-headline-md font-headline-md text-primary">1,284</p>
+<p id="stat-total-scanned" class="text-headline-md font-headline-md text-primary">—</p>
 </div>
 </div>
 <!-- Total Contacts -->
@@ -172,7 +173,7 @@
 </div>
 <div>
 <p class="text-label-md font-label-md text-on-surface-variant">Contacts</p>
-<p class="text-headline-md font-headline-md text-primary">892</p>
+<p id="stat-contacts" class="text-headline-md font-headline-md text-primary">—</p>
 </div>
 </div>
 <!-- Companies -->
@@ -183,7 +184,7 @@
 </div>
 <div>
 <p class="text-label-md font-label-md text-on-surface-variant">Companies</p>
-<p class="text-headline-md font-headline-md text-primary">412</p>
+<p id="stat-companies" class="text-headline-md font-headline-md text-primary">—</p>
 </div>
 </div>
 <!-- AI Accuracy -->
@@ -194,10 +195,40 @@
 </div>
 <div>
 <p class="text-label-md font-label-md text-on-surface-variant">AI Accuracy</p>
-<p class="text-headline-md font-headline-md text-primary">99.4%</p>
+<p id="stat-ai-accuracy" class="text-headline-md font-headline-md text-primary">—</p>
+</div>
+</div>
+<!-- Total Users (SuperAdmin only) -->
+<div id="stat-total-users-card" class="hidden glass-card p-4 rounded-xl flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary" data-icon="group">group</span>
+<span class="text-label-sm font-label-sm text-secondary">All Users</span>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant">Total Users</p>
+<p id="stat-total-users" class="text-headline-md font-headline-md text-primary">—</p>
 </div>
 </div>
 </div>
+<!-- Analytics Charts -->
+<section class="mb-lg grid grid-cols-1 lg:grid-cols-2 gap-4">
+  <div class="glass-card p-4 rounded-xl">
+    <h3 class="text-label-sm font-bold uppercase tracking-wider text-secondary flex items-center gap-1 mb-3">
+      <span class="material-symbols-outlined text-[16px]">trending_up</span> Scans &ndash; Last 7 Days
+    </h3>
+    <div class="relative h-44">
+      <canvas id="scan-trends-chart"></canvas>
+    </div>
+  </div>
+  <div class="glass-card p-4 rounded-xl">
+    <h3 class="text-label-sm font-bold uppercase tracking-wider text-secondary flex items-center gap-1 mb-3">
+      <span class="material-symbols-outlined text-[16px]">domain</span> Top Companies
+    </h3>
+    <div class="relative h-44">
+      <canvas id="companies-donut-chart"></canvas>
+    </div>
+  </div>
+</section>
 <!-- AI Processing Status Widget -->
 <section class="mb-lg">
 <div class="glass-card p-md rounded-xl">
@@ -422,31 +453,107 @@
       if (messageNode) messageNode.textContent = insight.message || "No insight available yet.";
     }
 
+    let _scanChart = null, _compChart = null;
+
+    function renderTrendsChart(trends) {
+      const canvas = document.getElementById("scan-trends-chart");
+      if (!canvas || !window.Chart) return;
+      const labels = (trends || []).map(t => {
+        const d = new Date(t.date + "T00:00");
+        return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
+      });
+      const data = (trends || []).map(t => t.count);
+      if (_scanChart) _scanChart.destroy();
+      _scanChart = new Chart(canvas, {
+        type: "line",
+        data: { labels, datasets: [{ label: "Scans", data, borderColor: "#712ae2", backgroundColor: "rgba(113,42,226,0.08)", tension: 0.4, fill: true, pointBackgroundColor: "#712ae2", pointRadius: 4 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0, color: "#45464d" }, grid: { color: "rgba(0,0,0,0.04)" } }, x: { grid: { display: false }, ticks: { color: "#45464d" } } } }
+      });
+    }
+
+    const DONUT_COLORS = ["#712ae2","#8a4cfc","#a97aff","#c4aaff","#d6c7ff","#e9ddff"];
+    const DONUT_CAP = 5; // max named slices; rest → "Others"
+
+    function renderCompanyDonut(companies) {
+      const canvas = document.getElementById("companies-donut-chart");
+      if (!canvas || !window.Chart) return;
+      if (!companies || !companies.length) {
+        canvas.parentElement.innerHTML = '<p class="text-label-md text-on-surface-variant/60 text-center pt-14">No company data yet.</p>';
+        return;
+      }
+      // Cap to top DONUT_CAP; merge the rest into "Others"
+      let slices = companies.slice(0, DONUT_CAP);
+      if (companies.length > DONUT_CAP) {
+        const othersCount = companies.slice(DONUT_CAP).reduce((s, c) => s + c.count, 0);
+        if (othersCount > 0) slices = [...slices, { company: "Others", count: othersCount }];
+      }
+      const labels = slices.map(c => c.company || "Unknown");
+      const data   = slices.map(c => c.count);
+      const colors = slices.map((_, i) => DONUT_COLORS[i % DONUT_COLORS.length]);
+      if (_compChart) _compChart.destroy();
+      _compChart = new Chart(canvas, {
+        type: "doughnut",
+        data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0 }] },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "right",
+              labels: { boxWidth: 10, font: { size: 11 }, color: "#45464d",
+                        generateLabels: chart => chart.data.labels.map((lbl, i) => ({
+                          text: lbl.length > 18 ? lbl.slice(0, 16) + "…" : lbl,
+                          fillStyle: chart.data.datasets[0].backgroundColor[i],
+                          index: i, hidden: false
+                        }))
+              }
+            },
+            tooltip: { callbacks: {
+              label: ctx => ` ${ctx.label}: ${ctx.parsed} contacts`
+            }}
+          },
+          cutout: "62%"
+        }
+      });
+    }
+
     async function loadDashboard() {
       try {
         const [dashboardResponse, meResponse] = await Promise.all([CardAI.reports.dashboard(), CardAI.auth.me()]);
         const dashboard = dashboardResponse.data || {};
         const overview = dashboard.overview || {};
-
-        setStat("Total Scanned", overview.total_scans ?? 0);
-        setStat("Contacts", overview.contacts ?? 0);
-        setStat("Companies", overview.companies ?? 0);
-        setStat("AI Accuracy", `${overview.ai_confidence_average ?? 0}%`);
-
         const name = meResponse.data.full_name || meResponse.data.email || "User";
         const role = meResponse.data.role || "User";
-        const initials = name.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
-        document.querySelectorAll("p").forEach((node) => {
-          if (node.textContent.includes("Alex Sterling")) node.textContent = name;
-        });
-        const av = document.getElementById("sidebar-avatar"); if (av) av.textContent = initials;
-        const un = document.getElementById("sidebar-username"); if (un) un.textContent = name;
-        const rl = document.getElementById("sidebar-role"); if (rl) rl.textContent = role;
+        const initials = name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+
+        // Stat cards (reliable ID-based)
+        const el = id => document.getElementById(id);
+        if (el("stat-total-scanned")) el("stat-total-scanned").textContent = (overview.total_scans ?? 0).toLocaleString();
+        if (el("stat-contacts"))      el("stat-contacts").textContent      = (overview.contacts ?? 0).toLocaleString();
+        if (el("stat-companies"))     el("stat-companies").textContent     = (overview.companies ?? 0).toLocaleString();
+        if (el("stat-ai-accuracy"))   el("stat-ai-accuracy").textContent   = `${overview.ai_confidence_average ?? 0}%`;
+
+        // SuperAdmin: Total Users
+        if (role === "SuperAdmin" && overview.total_users !== undefined) {
+          const card = el("stat-total-users-card"); const val = el("stat-total-users");
+          if (card) card.classList.remove("hidden");
+          if (val) val.textContent = (overview.total_users).toLocaleString();
+        }
+
+        // User identity
+        const wn = el("welcome-name"); if (wn) wn.textContent = name;
+        const av = el("sidebar-avatar"); if (av) av.textContent = initials;
+        const un = el("sidebar-username"); if (un) un.textContent = name;
+        const rl = el("sidebar-role"); if (rl) rl.textContent = role;
 
         if (role === "SuperAdmin") {
-          const ap = document.getElementById("admin-panel-link");
+          const ap = el("admin-panel-link");
           if (ap) { ap.classList.remove("hidden"); ap.addEventListener("click", () => CardAI.page("/admin")); }
         }
+
+        // Charts
+        renderTrendsChart(dashboard.scan_trends || []);
+        renderCompanyDonut(dashboard.companies || []);
 
         applyProcessingStatus(dashboard.processing_status || {});
         renderRecentScans(dashboard.recent_scans || []);

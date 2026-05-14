@@ -151,6 +151,19 @@
     window.location.href = resolvePagePath(path);
   }
 
+  function toast(message, type = "info", duration = 3500) {
+    const existing = document.getElementById("_cardai_toast");
+    if (existing) existing.remove();
+    const colors = { success: "#1a8a4a", error: "#ba1a1a", info: "#712ae2", warning: "#b45309" };
+    const el = document.createElement("div");
+    el.id = "_cardai_toast";
+    el.style.cssText = `position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(8px);z-index:9999;padding:10px 20px;border-radius:14px;color:#fff;font-size:14px;font-weight:500;background:${colors[type]||colors.info};box-shadow:0 4px 20px rgba(0,0,0,0.18);transition:all .25s;opacity:0;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;`;
+    el.textContent = message;
+    document.body.appendChild(el);
+    requestAnimationFrame(() => { el.style.opacity = "1"; el.style.transform = "translateX(-50%) translateY(0)"; });
+    setTimeout(() => { el.style.opacity = "0"; el.style.transform = "translateX(-50%) translateY(8px)"; setTimeout(() => el.remove(), 260); }, duration);
+  }
+
   window.CardAI = {
     API_BASE_URL,
     getToken,
@@ -158,6 +171,7 @@
     clearTokens,
     requireAuth,
     page,
+    toast,
     request,
     auth: {
       login: (email, password) => request("/auth/login", { method: "POST", body: JSON.stringify({ email, password }) }),
@@ -197,6 +211,7 @@
       processingStatus: () => request("/reports/processing-status"),
       insights: () => request("/reports/insights"),
       dashboard: () => request("/reports/dashboard"),
+      scanTrends: (days = 7) => request(`/reports/scan-trends?days=${days}`),
     },
     cards: {
       scan: (file) => {

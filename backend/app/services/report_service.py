@@ -1,10 +1,12 @@
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 
-from sqlalchemy import func, select
+from sqlalchemy import cast, func, select
 from sqlalchemy.orm import Session
+from sqlalchemy.types import Date as SADate
 
 from app.models.card import ScannedCard
 from app.models.contact import Contact
+from app.models.user import User
 
 
 class ReportService:
@@ -35,7 +37,7 @@ class ReportService:
         )
         avg_confidence = self.db.scalar(select(func.avg(ScannedCard.confidence_score)).where(*scan_filters)) or 0
         success_rate = round(((total_scans - failed_scans) / total_scans) * 100, 2) if total_scans else 0.0
-        return {
+        result: dict = {
             "total_scans": total_scans,
             "failed_scans": failed_scans,
             "contacts": contacts,
@@ -44,6 +46,11 @@ class ReportService:
             "ai_confidence_average": round(float(avg_confidence), 2),
             "scan_success_rate": success_rate,
         }
+        if user_id is None:
+            result["total_users"] = self.db.scalar(
+                select(func.count()).select_from(User).where(User.is_deleted == False)
+            ) or 0
+        return result
 
     def most_scanned_companies(self, user_id: str | None = None, limit: int = 10) -> list[dict]:
         filters = [Contact.company_name.is_not(None), Contact.company_name != "", Contact.is_deleted == False]
@@ -139,13 +146,39 @@ class ReportService:
             "message": f"{contact.name} from {company} has the highest extraction confidence ({score}%). Prioritize this lead for outreach.",
         }
 
+    def scan_trends(self, user_id: str | None = None, days: int = 7) -> list[dict]:
+        """Daily scan counts for the last N days."""
+        end = datetime.now(UTC).date()
+        start = end - timedelta(days=days - 1)
+        base_filters = [
+            ScannedCard.is_deleted == False,
+            cast(ScannedCard.created_at, SADate) >= start,
+        ]
+        if user_id:
+            base_filters.append(ScannedCard.user_id == user_id)
+        rows = self.db.execute(
+            select(
+                cast(ScannedCard.created_at, SADate).label("day"),
+                func.count(ScannedCard.id).label("cnt"),
+            )
+            .where(*base_filters)
+            .group_by(cast(ScannedCard.created_at, SADate))
+            .order_by(cast(ScannedCard.created_at, SADate))
+        ).all()
+        counts = {str(r.day): r.cnt for r in rows}
+        return [
+            {"date": str(start + timedelta(days=i)), "count": counts.get(str(start + timedelta(days=i)), 0)}
+            for i in range(days)
+        ]
+
     def dashboard(self, user_id: str | None = None) -> dict:
         return {
             "overview": self.overview(user_id=user_id),
-            "companies": self.most_scanned_companies(user_id=user_id, limit=5),
+            "companies": self.most_scanned_companies(user_id=user_id, limit=10),
             "recent_scans": self.recent_scans(user_id=user_id, limit=8),
             "processing_status": self.processing_status(user_id=user_id),
             "insight": self.ai_insight(user_id=user_id),
+            "scan_trends": self.scan_trends(user_id=user_id, days=7),
             "generated_at": datetime.now(UTC).isoformat(),
         }
 
